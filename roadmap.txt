@@ -1,0 +1,75 @@
+# SenpaiTV — Roadmap
+
+---
+
+## SETUP & ARCHITECTURE
+
+- Initialize Next.js project with TypeScript and Tailwind CSS
+- Scaffold file structure (components, pages, styles, utils)
+- Create shared layout components (Nav, Footer, Layout wrapper)
+- Configure Tailwind theme and global styles
+- Set up .env files and environment variable management
+
+---
+
+## 🔍 ANIME DISCOVERY
+
+- Connect to AniList API via GraphQL client
+- Display trending and seasonal anime on homepage
+- Design anime tiles with key info (title, tags, platform badges)
+- Implement search bar with autocomplete functionality
+- Create anime detail pages with full metadata
+- Add trailer modal or inline player
+
+---
+
+## ▶️ MOCK STREAMING & PLAYBACK
+
+- Build mock video player with play/pause/seek functionality
+- Structure episodes and seasons per title
+- Allow marking episodes as “watched”
+- Show next episode prompt
+
+---
+
+## MOCK PLATFORM SUBSCRIPTION SYSTEM
+
+- Simulate login for Crunchyroll, Netflix, HIDIVE accounts
+- Store subscription status in Zustand/localStorage
+- Restrict content access unless "subscribed"
+- Show mock paywall modal with call to action
+
+---
+
+## TRACKER INTEGRATION (MAL / ANILIST)
+
+- Integrate OAuth2 login for MyAnimeList and AniList
+- Fetch user watchlists (Watching, Completed, Plan to Watch)
+- Sync state between app and tracker on watch progress
+- Support adding/removing shows from lists
+
+---
+
+## WATCH QUEUE & PERSONALIZATION
+
+- Build Plan-to-Watch queue UI with drag-and-drop reordering
+- Tag anime with user-defined mood tags (hype, cozy, sad, etc.)
+- Develop “Surprise Me” button to suggest a random anime from queue
+
+---
+
+## UI POLISH & RESPONSIVENESS
+
+- Finalize typography and color palette
+- Optimize for mobile and tablet breakpoints
+- Create reusable button, badge, and card components
+- Add smooth animations and page transitions
+
+---
+
+## 🚀 DEPLOYMENT & DELIVERY
+
+- Deploy app(Vercel?)
+- Register and configure domain (e.g. senpaitv.app)
+- Write README and document project architecture
+- Set up 404 and fallback routes
