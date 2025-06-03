@@ -1,6 +1,6 @@
 .homeBanner {
-    position: absolute;
-    left: 0;
-    width: 100%;
+    position: relative;
+    width: 100vw;
     height: 50vw;
+    margin: 0 -32px
 }

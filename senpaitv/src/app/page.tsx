@@ -1,5 +1,6 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import TileCarousel from "@/components/TileCaro";
 
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
         <div className={styles.homeBanner}>
           <Image src={"/images/solo_leveling_hero3.jpeg"} alt="Solo Leveling Hero" width={1000} height={1000} style={{ width: "100%", height: "100%" }} />
         </div>
+        <TileCarousel />
         <p>
           SenpaiTV is a platform for watching anime.
         </p>
