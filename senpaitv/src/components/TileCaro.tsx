@@ -1,5 +1,5 @@
 import Tile from "./tile/Tile";
-import { getTrendingAnime } from "@/lib/aniList/public";
+import { getTrendingAnime } from "@/lib/aniList/public/public";
 
 export default async function TileCarousel() {
   const trendingAnime: any = await getTrendingAnime();

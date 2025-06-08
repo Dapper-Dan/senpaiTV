@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { exchangeMalCodeForToken } from "@/lib/mal/oauth";
+import { exchangeMalCodeForToken } from "@/lib/mal/oauth/oauth";
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);

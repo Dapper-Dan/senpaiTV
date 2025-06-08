@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { exchangeCodeForToken } from "@/lib/aniList/oauth";
+import { exchangeCodeForToken } from "@/lib/aniList/oauth/oauth";
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
