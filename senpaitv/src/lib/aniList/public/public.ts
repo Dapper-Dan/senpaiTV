@@ -7,13 +7,13 @@ export const getTrendingAnime = async () => {
   const query = gql`
     query {
       Page(perPage: 5) {
-        media(type: ANIME, sort: TRENDING_DESC) {
+        media(type: ANIME, sort: SCORE_DESC) {
           id
           title {
             romaji
           }
           coverImage {
-            large
+            extraLarge
           }
         }
       }
