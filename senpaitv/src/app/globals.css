@@ -23,6 +23,7 @@ body {
   font-family: var(--font-main);
   min-height: 100vh;
   width: 100%;
+  overscroll-behavior-x: none;
 }
 
 main {
@@ -31,4 +32,26 @@ main {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-secondary);
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #fff !important;
+
+  &::after {
+    font-size: 30px !important;
+    font-weight: bold;
+  }
+}
+
+.swiper-button-disabled {
+  display: none !important;
+}
+
+.swiper-slide-visible {
+  opacity: .5;
+
+  &.swiper-slide-fully-visible {
+      opacity: 1;
+  }
 }
