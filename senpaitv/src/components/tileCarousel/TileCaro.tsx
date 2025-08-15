@@ -6,10 +6,11 @@ import "swiper/css/navigation";
 import Tile from "../tile/Tile";
 import styles from "./tileCaro.module.css";
 
-export default function TileCarousel({ anime, title }: { anime: any, title: string }) {
+export default function TileCarousel({ anime, title, isMal }: { anime: any, title: string, isMal: boolean }) {
+  console.log(isMal, anime)
   return (
     <>
-    <h1>{title}</h1>
+    <h1 className={styles.title}>{title}</h1>
     <Swiper
       className={styles.swiper}
       slidesPerView={'auto'}
@@ -22,9 +23,9 @@ export default function TileCarousel({ anime, title }: { anime: any, title: stri
       centeredSlidesBounds={true}
       watchSlidesProgress={true}
     >
-      {anime.data.map((media: any) => (
-        <SwiperSlide className={styles.swiperSlide} key={media.node.id}>
-          <Tile image={media.node.main_picture.large} />
+      {anime?.data.map((media: any) => (
+        <SwiperSlide className={styles.swiperSlide} key={media.mal_id}>
+          <Tile image={isMal ? media.node.main_picture.large : media.images.webp.large_image_url} />
         </SwiperSlide>
         ))}
     </Swiper>
