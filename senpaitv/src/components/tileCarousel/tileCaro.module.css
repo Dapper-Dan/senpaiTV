@@ -5,3 +5,8 @@
 .swiperSlide {
     width: 280px !important;
 }
+
+.title {
+    font-size: 32px;
+    font-weight: 600;
+}
