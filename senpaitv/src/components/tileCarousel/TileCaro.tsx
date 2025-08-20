@@ -25,7 +25,7 @@ export default function TileCarousel({ anime, title, isMal }: { anime: any, titl
     >
       {anime?.data.map((media: any) => (
         <SwiperSlide className={styles.swiperSlide} key={media.mal_id}>
-          <Tile image={isMal ? media.node.main_picture.large : media.images.webp.large_image_url} />
+          <Tile image={isMal ? media.node.main_picture.large : media.coverImage.extraLarge} title={isMal ? media.node.title : media.title.english} />
         </SwiperSlide>
         ))}
     </Swiper>

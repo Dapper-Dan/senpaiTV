@@ -5,19 +5,84 @@ const client = new GraphQLClient(endpoint);
 
 export const getTrendingAnime = async () => {
   const query = gql`
-    query {
-      Page(perPage: 5) {
-        media(type: ANIME, sort: SCORE_DESC) {
+    query GetTrendingAnime($page: Int, $perPage: Int) {
+      Page(page: $page, perPage: $perPage) {
+        media(sort: TRENDING_DESC, type: ANIME, status: RELEASING) {
           id
           title {
             romaji
+            english
           }
           coverImage {
             extraLarge
+            large
+            medium
+          }
+          averageScore
+          popularity
+          episodes
+          status
+          season
+          seasonYear
+          studios {
+            nodes {
+              name
+            }
+          }
+          tags {
+            category
+            description
+            name
           }
         }
       }
     }
   `;
-  return client.request(query);
+  return client.request(query, { page: 1, perPage: 20 });
+};
+
+export const getGhibliAnime = async () => {
+  const query = gql`
+    query Studios($search: String) {
+      Page {
+        studios(search: $search) {
+          media {
+            nodes {
+              id
+              type
+              title {
+                english
+              }
+              coverImage {
+                extraLarge
+                color
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+  return client.request(query, { search: "Ghibli" });
+};
+
+export const getIsekaiAnime = async () => {
+  const query = gql`
+    query GetIsekaiAnime($tag: String, $sort: [MediaSort]) {
+      Page {
+        media(type: ANIME, tag: $tag, sort: $sort) {
+          id
+          title {
+            english
+          }
+          coverImage {
+            extraLarge
+            large
+            medium
+          }
+        }
+      }
+    }
+  `;
+  return client.request(query, { tag: "Isekai", sort: "POPULARITY_DESC" });
 };
