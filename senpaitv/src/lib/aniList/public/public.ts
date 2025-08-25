@@ -98,3 +98,42 @@ export const getIsekaiAnime = async () => {
   `;
   return client.request(query, { tag: "Isekai", sort: "POPULARITY_DESC" });
 };
+
+export const getRankedAnime = async () => {
+  const query = gql`
+    query GetRankedAnime($page: Int, $perPage: Int) {
+      Page(page: $page, perPage: $perPage) {
+        media(sort: SCORE_DESC, type: ANIME, status: FINISHED) {
+          id
+          title {
+            romaji
+            english
+          }
+          coverImage {
+            extraLarge
+            large
+            medium
+          }
+          averageScore
+          popularity
+          episodes
+          status
+          season
+          seasonYear
+          studios {
+            nodes {
+              name
+            }
+          }
+          tags {
+            category
+            description
+            name
+          }
+          genres
+        }
+      }
+    }
+  `;
+  return client.request(query, { page: 1, perPage: 20 });
+};
