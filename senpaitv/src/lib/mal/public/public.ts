@@ -7,16 +7,18 @@ dotenv.config();
 
 
 export async function getRankedAnime() {
-  const response = await fetch('https://api.myanimelist.net/v2/anime/ranking?ranking_type=all&limit=20', {
-  headers: {
-    'X-MAL-CLIENT-ID': process.env.MAL_CLIENT_ID!,
-  },
-})
+  const fields = 'id,title,genres,studios,rating,status,episodes,season,season_year,popularity,rank,score,scored_by,members,favorites';
+  
+  const response = await fetch(`https://api.myanimelist.net/v2/anime/ranking?ranking_type=all&limit=20&fields=${fields}`, {
+    headers: {
+      'X-MAL-CLIENT-ID': process.env.MAL_CLIENT_ID!,
+    },
+  });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    return response.json();
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+  return response.json();
 }
 
 export async function getTrendingAnime() {

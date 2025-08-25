@@ -10,7 +10,7 @@ export default function TileCarousel({ anime, title, isMal }: { anime: any, titl
   console.log(isMal, anime)
   return (
     <>
-    <h1 className={styles.title}>{title}</h1>
+    <h2 className={styles.title}>{title}</h2>
     <Swiper
       className={styles.swiper}
       slidesPerView={'auto'}
@@ -25,7 +25,7 @@ export default function TileCarousel({ anime, title, isMal }: { anime: any, titl
     >
       {anime?.data.map((media: any) => (
         <SwiperSlide className={styles.swiperSlide} key={media.mal_id}>
-          <Tile image={isMal ? media.node.main_picture.large : media.coverImage.extraLarge} title={isMal ? media.node.title : media.title.english} />
+          <Tile image={isMal ? media.node.main_picture.large : media.coverImage.extraLarge} title={isMal ? media.node.title : media.title.english} genres={isMal ? media.node.genres.map((genre: any) => genre.name) : media.genres} />
         </SwiperSlide>
         ))}
     </Swiper>

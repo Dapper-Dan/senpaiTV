@@ -34,6 +34,10 @@ export const getTrendingAnime = async () => {
             description
             name
           }
+          genres
+          streamingEpisodes {
+            site
+          }
         }
       }
     }
@@ -57,6 +61,10 @@ export const getGhibliAnime = async () => {
                 extraLarge
                 color
               }
+              genres
+              streamingEpisodes {
+                site
+              }
             }
           }
         }
@@ -79,6 +87,10 @@ export const getIsekaiAnime = async () => {
             extraLarge
             large
             medium
+          }
+          genres
+          streamingEpisodes {
+            site
           }
         }
       }
