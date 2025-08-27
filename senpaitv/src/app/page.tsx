@@ -9,9 +9,57 @@ export default async function Home() {
   const ghibliAnime = await getGhibliAnime();
   const isekaiAnime = await getIsekaiAnime();
 
-  const normalizedGhibliAnime = {
-    data: (ghibliAnime as any).Page.studios[0].media.nodes.filter(series => series.title?.english)
+  const filterStreamingLinks = (anime: any) => ({
+    ...anime,
+    externalLinks: anime.externalLinks?.filter((link: any) => link.type === "STREAMING") || []
+  });
+
+  const filterAnimeWithStreaming = (anime: any) => {
+    const streamingLinks = anime.externalLinks?.filter((link: any) => link.type === "STREAMING") || [];
+    return streamingLinks.length > 0;
   };
+
+  const filteredRankedAnime = {
+    ...rankedAnime,
+    Page: {
+      ...rankedAnime.Page,
+      media: rankedAnime.Page.media
+      .filter(filterAnimeWithStreaming)
+      .map(filterStreamingLinks)
+    }
+  };
+
+  const filteredTrendingAnime = {
+    ...trendingAnime,
+    Page: {
+      ...trendingAnime.Page,
+      media: trendingAnime.Page.media
+      .filter(filterAnimeWithStreaming)
+      .map(filterStreamingLinks)
+    }
+  };
+
+  const filteredIsekaiAnime = {
+    ...isekaiAnime,
+    Page: {
+      ...isekaiAnime.Page,
+      media: isekaiAnime.Page.media
+      .filter(filterAnimeWithStreaming)
+      .map(filterStreamingLinks)
+    }
+  };
+
+  const filteredGhibliAnime = {
+    ...ghibliAnime,
+    Page: {
+      ...ghibliAnime.Page,
+        media: ghibliAnime.Page.studios[0].media.nodes
+        .filter(filterAnimeWithStreaming)
+        .map(filterStreamingLinks)
+    }
+  };
+      
+  
 
   return (
     <div className="page-container">
@@ -19,10 +67,10 @@ export default async function Home() {
         <div className={styles.homeBanner}>
           <Image src={"/images/solo_leveling_hero3.jpeg"} alt="Solo Leveling Hero" width={1000} height={1000} style={{ width: "100%", height: "100%" }} />
         </div>
-        <TileCarousel anime={rankedAnime.Page.media} title="Top Ranked" />
-        <TileCarousel anime={trendingAnime.Page.media} title="Trending" />
-        <TileCarousel anime={normalizedGhibliAnime.data} title="Ghibli" />
-        <TileCarousel anime={isekaiAnime.Page.media} title="Isekai" />
+        <TileCarousel anime={filteredRankedAnime.Page.media} title="Top Ranked" />
+        <TileCarousel anime={filteredTrendingAnime.Page.media} title="Trending" />
+        <TileCarousel anime={filteredGhibliAnime.Page.media} title="Ghibli" />
+        <TileCarousel anime={filteredIsekaiAnime.Page.media} title="Isekai" />
       </main>
     </div>
   );

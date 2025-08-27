@@ -38,6 +38,10 @@ export const getTrendingAnime = async () => {
           streamingEpisodes {
             site
           }
+          externalLinks {
+            type
+            site
+          }
         }
       }
     }
@@ -65,6 +69,10 @@ export const getGhibliAnime = async () => {
               streamingEpisodes {
                 site
               }
+              externalLinks {
+                type
+                site
+              }
             }
           }
         }
@@ -90,6 +98,10 @@ export const getIsekaiAnime = async () => {
           }
           genres
           streamingEpisodes {
+            site
+          }
+          externalLinks {
+            type
             site
           }
         }
@@ -131,6 +143,10 @@ export const getRankedAnime = async () => {
             name
           }
           genres
+          externalLinks {
+            type
+            site
+          }
         }
       }
     }
