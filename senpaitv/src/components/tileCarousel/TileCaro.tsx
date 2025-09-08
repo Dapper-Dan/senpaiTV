@@ -25,7 +25,7 @@ export default function TileCarousel({ anime, title }: { anime: any, title: stri
     >
       {anime?.map((media: any) => (
         <SwiperSlide className={styles.swiperSlide} key={media.mal_id}>
-          <Tile image={media.coverImage.extraLarge} title={media.title.english} genres={media.genres} />
+          <Tile image={media.coverImage.extraLarge} title={media.title.english} genres={media.genres} score={media.averageScore} />
         </SwiperSlide>
         ))}
     </Swiper>

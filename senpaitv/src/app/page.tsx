@@ -63,9 +63,9 @@ export default async function Home() {
 
   return (
     <div className="page-container">
-      <main className="flex flex-col gap-[32px]">
+      <main className="flex flex-col">
         <div className={styles.homeBanner}>
-          <Image src={"/images/solo_leveling_hero3.jpeg"} alt="Solo Leveling Hero" width={1000} height={1000} style={{ width: "100%", height: "100%" }} />
+          <Image className="" src={"/images/bleach2.jpeg"} alt="Solo Leveling Hero" width={5000} height={1000} style={{ width: "100%", height: "100%" }} />
         </div>
         <TileCarousel anime={filteredRankedAnime.Page.media} title="Top Ranked" />
         <TileCarousel anime={filteredTrendingAnime.Page.media} title="Trending" />

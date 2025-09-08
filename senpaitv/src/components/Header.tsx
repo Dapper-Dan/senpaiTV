@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function Header() {
   return (
-    <header className="flex items-center gap-6 px-8 py-4 bg-light-black">
+    <header className="flex items-center gap-6 px-8 py-2 bg-light-black">
       <Image src={"/images/senpai_logo.png"} className="profile-icon" alt="senpaitv logo" width={50} height={50}/>
       <h1 className="text-3xl font-bold">SenpaiTV</h1>
       <ul className="flex gap-4">

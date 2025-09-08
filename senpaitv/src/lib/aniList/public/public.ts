@@ -58,6 +58,7 @@ export const getGhibliAnime = async () => {
             nodes {
               id
               type
+              averageScore
               title {
                 english
               }
@@ -91,6 +92,7 @@ export const getIsekaiAnime = async () => {
           title {
             english
           }
+          averageScore
           coverImage {
             extraLarge
             large

@@ -1,18 +1,25 @@
 import Image from "next/image";
 import styles from "./tile.module.css";
 
-export default function Tile({ image, title, genres }: { image: string, title: string, genres: any }) {
+export default function Tile({ image, title, genres, score }: { image: string, title: string, genres: any, score: number }) {
+  let digits = Math.floor(Math.log10(score)) + 1;
+  let result = score / Math.pow(10, digits - 1);
+  const formattedScore = score ? `${result}` : "N/A";
+
   return (
     <div className={styles.tile}>
       <Image className={styles.image} src={image} alt={title} width={280} height={420} />
       <h3 className={styles.title}>{title}</h3>
-      <ul className={styles.genres}>
-        {genres.slice(0, 3).map((genre: string) => (
-          <li key={genre} className={styles.genreItem}>
-            {genre}
-          </li>
-        ))}
-      </ul>
+      <div className="flex justify-between items-center">
+        <ul className={styles.genres}>
+          {genres.slice(0, 3).map((genre: string) => (
+            <li key={genre} className={styles.genreItem}>
+              {genre}
+            </li>
+          ))}
+        </ul>
+        <p className={styles.score}>{formattedScore}</p>
+      </div>
     </div>  
   );
 }
