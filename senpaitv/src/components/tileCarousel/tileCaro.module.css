@@ -9,4 +9,10 @@
 .title {
     font-size: 32px;
     font-weight: 600;
+    z-index: 9;
+    margin-top: 64px;
+
+    &:first-of-type {
+        margin-top: -9%;
+    }
 }
