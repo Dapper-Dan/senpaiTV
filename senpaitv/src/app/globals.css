@@ -50,8 +50,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .swiper-slide-visible {
   opacity: .5;
+  pointer-events: none;
 
   &.swiper-slide-fully-visible {
       opacity: 1;
+      pointer-events: auto;
   }
 }
