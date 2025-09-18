@@ -71,7 +71,7 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate }: Tile
     <div className={styles.tile} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <Image className={styles.image} src={coverImage.extraLarge} alt={title.english} width={280} height={420} />
       <h3 className={styles.title}>{title.english}</h3>
-      <div className="flex justify-between items-center">
+      <div className="lg:flex lg:justify-between lg:items-center">
         <ul className={styles.genres}>
           {genres.slice(0, 3).map((genre: string) => (
             <li key={genre} className={styles.genreItem}>

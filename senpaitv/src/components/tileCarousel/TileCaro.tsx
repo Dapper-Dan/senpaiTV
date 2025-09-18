@@ -1,6 +1,6 @@
 "use client";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Mousewheel } from "swiper/modules";
+import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import Tile from "../tile/Tile";
@@ -48,10 +48,9 @@ export default function TileCarousel({ anime, title }: { anime: any, title: stri
       allowTouchMove={true}
       spaceBetween={16}
       navigation
-      mousewheel={{ forceToAxis: true, releaseOnEdges: true }}
-      modules={[Navigation, Mousewheel]}
-      centeredSlides={true}
-      centeredSlidesBounds={true}
+      modules={[Navigation]}
+      centeredSlides={false}
+      centeredSlidesBounds={false}
       watchSlidesProgress={true}
     >
       {anime?.map((media: any) => (
