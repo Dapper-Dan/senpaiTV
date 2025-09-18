@@ -28,10 +28,10 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate }: Tile
       width: rect.width,
       height: rect.height,
       right: rect.right + scrollX,
-      bottom: rect.bottom + scrollY,
-      x: rect.x + scrollX,
-      y: rect.y + scrollY
+      bottom: rect.bottom + scrollY
     } as DOMRect;
+
+    console.log(adjustedRect);
     
     setTileRect(adjustedRect);
     
@@ -63,6 +63,9 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate }: Tile
     };
   }, [hoverTimeout]);
 
+  const modalWidth = 800
+  const modalHeight = 600;
+
   return (
     <>
     <div className={styles.tile} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
@@ -84,12 +87,12 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate }: Tile
           className={styles.expandedTile}
           style={{
             position: 'absolute',
-            top: tileRect.top,
-            left: tileRect.left,
+            top: tileRect.top + (tileRect.height / 2) - (modalHeight / 2),
+            left: tileRect.left + (tileRect.width / 2) - (modalWidth / 2),
             zIndex: 1000,
             backgroundColor: 'black',
-            width: '31vw',
-            height: '31vw',
+            width: '800px',
+            height: '600px',
           }}
           onMouseLeave={onDeactivate}
         >
