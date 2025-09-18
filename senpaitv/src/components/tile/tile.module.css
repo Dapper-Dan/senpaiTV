@@ -13,6 +13,16 @@
     color: #959393;
     display: flex;
     gap: 10px;
+
+    li:last-of-type {
+        display: none;
+    }
+
+    @media (min-width: 1024px) {
+        li:last-of-type {
+            display: block;
+        }
+    }
 }
 
 .title {

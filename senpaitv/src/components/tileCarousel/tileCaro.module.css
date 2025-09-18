@@ -3,7 +3,11 @@
 }
 
 .swiperSlide {
-    width: 280px !important;
+    width: 160px !important;
+
+    @media (min-width: 1024px) {
+        width: 280px !important;
+    }
 }
 
 .title {
