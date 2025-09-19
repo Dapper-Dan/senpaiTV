@@ -6,6 +6,14 @@
     width: 160px !important;
 
     @media (min-width: 1024px) {
+        width: 200px !important;
+    }
+
+    @media (min-width: 1440px) {
+        width: 240px !important;
+    }
+
+    @media (min-width: 1920px) {
         width: 280px !important;
     }
 }

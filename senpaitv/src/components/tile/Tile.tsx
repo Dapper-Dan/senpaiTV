@@ -10,9 +10,10 @@ interface TileProps {
   onDeactivate: () => void;
   isFirstVisible: boolean;
   isLastVisible: boolean;
+  tileWidth: number;
 }
 
-export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirstVisible, isLastVisible }: TileProps) {
+export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirstVisible, isLastVisible, tileWidth }: TileProps) {
   const { coverImage, title, genres, averageScore } = anime;
   const formattedScore = averageScore ? `${(averageScore / 10).toFixed(1)}` : "N/A";
 
@@ -63,8 +64,8 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirs
     };
   }, [hoverTimeout]);
 
-  const modalWidth = 800
-  const modalHeight = 600;
+  const modalWidth = tileWidth * 2.7;
+  const modalHeight = 520;
 
   return (
     <>
@@ -91,8 +92,8 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirs
             left: isFirstVisible ? tileRect.left : isLastVisible ? tileRect.left - (modalWidth - tileRect.width ) : tileRect.left + (tileRect.width / 2) - (modalWidth / 2),
             zIndex: 1000,
             backgroundColor: 'black',
-            width: '800px',
-            height: '600px',
+            width: modalWidth + 'px',
+            height: modalHeight + 'px',
           }}
           onMouseLeave={onDeactivate}
         >
