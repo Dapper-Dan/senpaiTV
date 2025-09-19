@@ -33,6 +33,16 @@ export default function TileCarousel({ anime, title }: { anime: any, title: stri
     setActiveTile(null);
   };
 
+  const getTileWidth = () => {
+    if (typeof window === 'undefined') return 0;
+    
+    const firstSlide = document.querySelector('.swiper-slide');
+    if (!firstSlide) return 0;
+    
+    const computedStyle = getComputedStyle(firstSlide);
+    return parseInt(computedStyle.width);
+  };
+
   const checkFullyVisibleSlides = () => {
     if (!swiperRef.current) return;
 
@@ -75,6 +85,8 @@ export default function TileCarousel({ anime, title }: { anime: any, title: stri
     };
   }, []);
 
+  const tileWidth = getTileWidth();
+
   return (
     <>
     <h2 className={styles.title}>{title}</h2>
@@ -99,6 +111,7 @@ export default function TileCarousel({ anime, title }: { anime: any, title: stri
           <SwiperSlide className={styles.swiperSlide} key={media.id}>
             <Tile 
               anime={media}
+              tileWidth={tileWidth}
               isActive={activeTile?.id === media.id}
               onActivate={handleTileHover}
               onDeactivate={handleTileLeave}
