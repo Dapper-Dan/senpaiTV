@@ -8,9 +8,11 @@ interface TileProps {
   isActive: boolean;
   onActivate: (id: string, rect: DOMRect) => void;
   onDeactivate: () => void;
+  isFirstVisible: boolean;
+  isLastVisible: boolean;
 }
 
-export default function Tile({ anime, isActive, onActivate, onDeactivate }: TileProps) {
+export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirstVisible, isLastVisible }: TileProps) {
   const { coverImage, title, genres, averageScore } = anime;
   const formattedScore = averageScore ? `${(averageScore / 10).toFixed(1)}` : "N/A";
 
@@ -30,8 +32,6 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate }: Tile
       right: rect.right + scrollX,
       bottom: rect.bottom + scrollY
     } as DOMRect;
-
-    console.log(adjustedRect);
     
     setTileRect(adjustedRect);
     
@@ -43,7 +43,7 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate }: Tile
     
     const timeout = setTimeout(() => {
       onActivate(anime.id, adjustedRect);
-    }, 400);
+    }, 300);
     
     setHoverTimeout(timeout);
   };
@@ -88,7 +88,7 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate }: Tile
           style={{
             position: 'absolute',
             top: tileRect.top + (tileRect.height / 2) - (modalHeight / 2),
-            left: tileRect.left + (tileRect.width / 2) - (modalWidth / 2),
+            left: isFirstVisible ? tileRect.left : isLastVisible ? tileRect.left - (modalWidth - tileRect.width ) : tileRect.left + (tileRect.width / 2) - (modalWidth / 2),
             zIndex: 1000,
             backgroundColor: 'black',
             width: '800px',
