@@ -58,6 +58,11 @@ export const getTrendingAnime = async () => {
               amount
             }
           }
+          trailer {
+            site
+            thumbnail
+            id
+          }
         }
       }
     }
@@ -106,6 +111,11 @@ export const getGhibliAnime = async () => {
                   amount
                 }
               }
+              trailer {
+                site
+                thumbnail
+                id
+              }
             }
           }
         }
@@ -153,6 +163,11 @@ export const getIsekaiAnime = async () => {
               score
               amount
             }
+          }
+          trailer {
+            site
+            thumbnail
+            id
           }
         }
       }
@@ -212,6 +227,11 @@ export const getRankedAnime = async () => {
           externalLinks {
             type
             site
+          }
+          trailer {
+            site
+            thumbnail
+            id
           }
         }
       }

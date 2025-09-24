@@ -14,7 +14,7 @@ interface TileProps {
 }
 
 export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirstVisible, isLastVisible, tileWidth }: TileProps) {
-  const { coverImage, title, genres, averageScore, bannerImage, stats, description } = anime;
+  const { coverImage, title, genres, averageScore, bannerImage, stats, description, trailer } = anime;
   const formattedScore = averageScore ? `${(averageScore / 10).toFixed(1)}` : "N/A";
   const usersSubmitted = stats?.scoreDistribution.reduce((acc: number, curr: { amount: number }) => acc + curr.amount, 0);
 
@@ -71,6 +71,7 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirs
   let parser = new DOMParser();
   let parsedDescription = parser.parseFromString(description, 'text/html');
 
+  let trailerLink = trailer ? `https://www.youtube-nocookie.com/embed/${trailer.id}?autoplay=1&amp;loop=1&amp;controls=0&amp;playlist=${trailer.id}` : null;
 
   return (
     <>
@@ -101,7 +102,8 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirs
           }}
           onMouseLeave={onDeactivate}
         >
-          <Image src={bannerImage} alt={title.english} width={280} height={100} />
+          {trailerLink && <iframe src={trailerLink} className={styles.tileTrailer} width={280} height={100} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" />}
+          {!trailerLink && <Image src={bannerImage} alt={title.english} width={280} height={100} />}
           <div className={styles.contentContainer}>
             <h3 className="text-2xl font-bold">{title.english}</h3>
             <ul className={styles.genres}>
