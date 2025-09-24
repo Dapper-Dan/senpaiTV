@@ -14,8 +14,9 @@ interface TileProps {
 }
 
 export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirstVisible, isLastVisible, tileWidth }: TileProps) {
-  const { coverImage, title, genres, averageScore } = anime;
+  const { coverImage, title, genres, averageScore, bannerImage, stats, description } = anime;
   const formattedScore = averageScore ? `${(averageScore / 10).toFixed(1)}` : "N/A";
+  const usersSubmitted = stats?.scoreDistribution.reduce((acc: number, curr: { amount: number }) => acc + curr.amount, 0);
 
   const [tileRect, setTileRect] = useState<DOMRect | null>(null);
   const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
@@ -67,6 +68,10 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirs
   const modalWidth = tileWidth * 2.7;
   const modalHeight = 520;
 
+  let parser = new DOMParser();
+  let parsedDescription = parser.parseFromString(description, 'text/html');
+
+
   return (
     <>
     <div className={styles.tile} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
@@ -91,13 +96,29 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirs
             top: tileRect.top + (tileRect.height / 2) - (modalHeight / 2),
             left: isFirstVisible ? tileRect.left : isLastVisible ? tileRect.left - (modalWidth - tileRect.width ) : tileRect.left + (tileRect.width / 2) - (modalWidth / 2),
             zIndex: 1000,
-            backgroundColor: 'black',
             width: modalWidth + 'px',
             height: modalHeight + 'px',
           }}
           onMouseLeave={onDeactivate}
         >
-          todo: add modal content here
+          <Image src={bannerImage} alt={title.english} width={280} height={100} />
+          <div className={styles.contentContainer}>
+            <h3 className="text-2xl font-bold">{title.english}</h3>
+            <ul className={styles.genres}>
+              {genres.slice(0, 3).map((genre: string) => (
+                <li key={genre} className={styles.genreItem}>
+                  {genre}
+                </li>
+              ))}
+            </ul>
+            <p className={styles.score}>{formattedScore} ★ ({usersSubmitted})</p>
+            <p className={styles.description} title={parsedDescription.body.textContent || ''}>{parsedDescription.body.textContent || 'Description not available'}</p>
+          </div>
+          <div className={styles.buttonContainer}>
+            <button className={styles.playButton + ' ' + styles.tileButton}><img src={"/images/icons/play.svg"} alt="Play" /></button>
+            <button className={styles.wishlistButton + ' ' + styles.tileButton}><img src={"/images/icons/add.svg"} alt="Wishlist" /></button>
+            <button className={styles.expandButton + ' ' + styles.tileButton}><img src={"/images/icons/chevron-down.svg"} alt="Expand" /></button>
+          </div>
         </div>,
         document.body
       )}

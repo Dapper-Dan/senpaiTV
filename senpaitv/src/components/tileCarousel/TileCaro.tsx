@@ -13,6 +13,8 @@ export default function TileCarousel({ anime, title }: { anime: any, title: stri
   const activeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const swiperRef = useRef<any>(null);
 
+  console.log(anime);
+
   const handleTileHover = (tileId: string, rect: DOMRect) => {
     if (activeTimeoutRef.current) {
       clearTimeout(activeTimeoutRef.current);
