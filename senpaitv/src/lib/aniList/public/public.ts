@@ -18,6 +18,7 @@ export const getTrendingAnime = async () => {
             large
             medium
           }
+          bannerImage
           averageScore
           popularity
           episodes
@@ -41,6 +42,21 @@ export const getTrendingAnime = async () => {
           externalLinks {
             type
             site
+          }
+          reviews {
+            nodes {
+              summary
+            }
+            pageInfo {
+              total
+            }
+          }
+          description
+          stats {
+            scoreDistribution {
+              score
+              amount
+            }
           }
         }
       }
@@ -66,6 +82,7 @@ export const getGhibliAnime = async () => {
                 extraLarge
                 color
               }
+              bannerImage
               genres
               streamingEpisodes {
                 site
@@ -73,6 +90,21 @@ export const getGhibliAnime = async () => {
               externalLinks {
                 type
                 site
+              }
+              reviews {
+                nodes {
+                  summary
+                }
+                pageInfo {
+                  total
+                }
+              }
+              description
+              stats {
+                scoreDistribution {
+                  score
+                  amount
+                }
               }
             }
           }
@@ -93,6 +125,7 @@ export const getIsekaiAnime = async () => {
             english
           }
           averageScore
+          bannerImage
           coverImage {
             extraLarge
             large
@@ -105,6 +138,21 @@ export const getIsekaiAnime = async () => {
           externalLinks {
             type
             site
+          }
+          reviews {
+            nodes {
+              summary
+            }
+            pageInfo {
+              total
+            }
+          }
+          description
+          stats {
+            scoreDistribution {
+              score
+              amount
+            }
           }
         }
       }
@@ -128,6 +176,7 @@ export const getRankedAnime = async () => {
             large
             medium
           }
+          bannerImage
           averageScore
           popularity
           episodes
@@ -137,6 +186,21 @@ export const getRankedAnime = async () => {
           studios {
             nodes {
               name
+            }
+          }
+          reviews {
+            nodes {
+              summary
+            }
+            pageInfo {
+              total
+            }
+          }
+          description
+          stats {
+            scoreDistribution {
+              score
+              amount
             }
           }
           tags {
