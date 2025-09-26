@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./tile.module.css";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
@@ -75,7 +76,9 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirs
   return (
     <>
     <div className={styles.tile} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <Image className={styles.image} src={coverImage.extraLarge} alt={title.english || 'anime image'} width={280} height={420} />
+      <Link href={`/series/${anime.id}`}>
+        <Image className={styles.image} src={coverImage.extraLarge} alt={title.english || 'anime image'} width={280} height={420} />
+      </Link>
       <h3 className={styles.title}>{title.english}</h3>
       <div className="lg:flex lg:justify-between lg:items-center">
         <ul className={styles.genres}>
@@ -117,7 +120,12 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirs
           <div className={styles.buttonContainer}>
             <button className={styles.playButton + ' ' + styles.tileButton}><img src={"/images/icons/play.svg"} alt="Play" /></button>
             <button className={styles.wishlistButton + ' ' + styles.tileButton}><img src={"/images/icons/add.svg"} alt="Wishlist" /></button>
-            <button className={styles.expandButton + ' ' + styles.tileButton}><img src={"/images/icons/chevron-down.svg"} alt="Expand" /></button>
+            <Link 
+              href={`/series/${anime.id}`}
+              className={styles.expandButton + ' ' + styles.tileButton}
+            >
+              <img src={"/images/icons/chevron-down.svg"} alt="Expand" />
+            </Link>
           </div>
         </div>,
         document.body

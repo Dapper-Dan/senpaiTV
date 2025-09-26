@@ -239,3 +239,68 @@ export const getRankedAnime = async () => {
   `;
   return client.request(query, { page: 1, perPage: 20 });
 };
+
+export const getAnimeById = async (id: number) => {
+  const query = gql`
+    query GetAnimeById($id: Int) {
+      Media(id: $id, type: ANIME) {
+        id
+        title {
+          romaji
+          english
+        }
+        coverImage {
+          extraLarge
+          large
+          medium
+        }
+        bannerImage
+        averageScore
+        popularity
+        episodes
+        duration
+        status
+        season
+        seasonYear
+        studios {
+          nodes {
+            name
+          }
+        }
+        tags {
+          category
+          description
+          name
+        }
+        genres
+        externalLinks {
+          type
+          site
+          url
+        }
+        reviews {
+          nodes {
+            summary
+          }
+          pageInfo {
+            total
+          }
+        }
+        description
+        stats {
+          scoreDistribution {
+            score
+            amount
+          }
+        }
+        trailer {
+          site
+          thumbnail
+          id
+        }
+      }
+    }
+  `;
+  const result = await client.request(query, { id }) as any;
+  return result.Media;
+};
