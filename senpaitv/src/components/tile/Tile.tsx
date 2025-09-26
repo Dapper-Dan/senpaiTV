@@ -75,7 +75,7 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirs
   return (
     <>
     <div className={styles.tile} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <Image className={styles.image} src={coverImage.extraLarge} alt={title.english} width={280} height={420} />
+      <Image className={styles.image} src={coverImage.extraLarge} alt={title.english || 'anime image'} width={280} height={420} />
       <h3 className={styles.title}>{title.english}</h3>
       <div className="lg:flex lg:justify-between lg:items-center">
         <ul className={styles.genres}>
@@ -101,7 +101,7 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirs
           onMouseLeave={onDeactivate}
         >
           {trailerLink && <iframe src={trailerLink} className={styles.tileTrailer} width={280} height={100} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" />}
-          {!trailerLink && <Image src={bannerImage} alt={title.english} width={280} height={100} />}
+          {!trailerLink && <Image src={bannerImage} className={styles.tileTrailer} alt={title.english} width={280} height={100} />}
           <div className={styles.contentContainer}>
             <h3 className="text-2xl font-bold">{title.english}</h3>
             <ul className={styles.genres}>

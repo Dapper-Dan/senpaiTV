@@ -99,3 +99,7 @@
     height: 42px;
     margin-left: auto;
 }
+
+.tileTrailer {
+    border-radius: 16px 16px 0 0;
+}
