@@ -33,15 +33,19 @@
 .expandedTile {
     background-color: #171717;
     display: flex;
+    height: auto;
+    top: 50%;
+    transform: translatey(-50%);
     flex-direction: column;
     border-radius: 16px;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 
     .tileTrailer,
     img {
-        min-height: 60%;
         width: 100%;
-        pointer-events: none
+        pointer-events: none;
+        height: auto;
+        aspect-ratio: 16/9;
     }
 }
 
@@ -51,8 +55,9 @@
     -webkit-box-orient: vertical;
     line-height: 1.4;
     flex: 1;
-    line-clamp: 2;
-    -webkit-line-clamp: 2;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    max-height: 200px;
     text-overflow: ellipsis;
 }
 
