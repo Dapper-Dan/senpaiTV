@@ -66,12 +66,11 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirs
   }, [hoverTimeout]);
 
   const modalWidth = tileWidth * 2.7;
-  const modalHeight = 520;
 
   let parser = new DOMParser();
   let parsedDescription = parser.parseFromString(description, 'text/html');
 
-  let trailerLink = trailer ? `https://www.youtube-nocookie.com/embed/${trailer.id}?autoplay=1&amp;loop=1&amp;controls=0&amp;playlist=${trailer.id}` : null;
+  let trailerLink = trailer ? `https://www.youtube-nocookie.com/embed/${trailer.id}?autoplay=1&mute=0&loop=1&controls=0&playlist=${trailer.id}&enablejsapi=1&rel=0` : null;
 
   return (
     <>
@@ -94,11 +93,10 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirs
           className={styles.expandedTile}
           style={{
             position: 'absolute',
-            top: tileRect.top + (tileRect.height / 2) - (modalHeight / 2),
+            top: tileRect.top + (tileRect.height / 2),
             left: isFirstVisible ? tileRect.left : isLastVisible ? tileRect.left - (modalWidth - tileRect.width ) : tileRect.left + (tileRect.width / 2) - (modalWidth / 2),
             zIndex: 1000,
             width: modalWidth + 'px',
-            height: modalHeight + 'px',
           }}
           onMouseLeave={onDeactivate}
         >
