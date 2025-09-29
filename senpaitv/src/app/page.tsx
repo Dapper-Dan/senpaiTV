@@ -58,8 +58,6 @@ export default async function Home() {
         .map(filterStreamingLinks)
     }
   };
-      
-  
 
   return (
     <div className="page-container">

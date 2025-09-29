@@ -1,0 +1,43 @@
+@keyframes slideUp {
+    0% { bottom: 60px; }
+    100% { bottom: 0px; }
+}
+
+.seriesTrailer {
+    height: auto;
+    width: 100%;
+    margin: auto;
+    aspect-ratio: 16/9;
+    max-width: 80%;
+    will-change: transform;
+    pointer-events: none;
+    bottom: 60px;
+    position: relative;
+    animation: slideUp 1s ease-out 4s forwards;
+    animation-fill-mode: forwards;
+}
+
+.seriesBanner {
+    height: auto;
+    width: 100%;
+}
+
+.seriesBannerOverlay {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 20%, #120e0e2e 46%, #120e0e8c 69%, #120e0ef5 95%, #120e0e 100%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 101%;
+    z-index: 1;
+}
+
+.seriesContent {
+    z-index: 9;
+    position: relative;
+    top: -93px;
+}
+
+.seriesDetails {
+    grid-template-rows: repeat(2, 24px);
+}
