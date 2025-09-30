@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { getAnimeById } from '@/lib/aniList/public/public';
 import styles from './series.module.css';
+import { getAnimeEpisodes } from '@/lib/mal/public/public';
 
 interface SeriesPageProps {
   params: {
@@ -20,6 +21,7 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
 
   const {
     coverImage,
+    idMal,
     title,
     genres,
     averageScore,
@@ -33,13 +35,16 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
     season,
     seasonYear,
     studios,
-    externalLinks
+    externalLinks,
+    streamingEpisodes
   } = anime;
 
   const formattedScore = averageScore ? `${(averageScore / 10).toFixed(1)}` : "N/A";
   const usersSubmitted = stats?.scoreDistribution.reduce((acc: number, curr: { amount: number }) => acc + curr.amount, 0);
   const cleanDescription = description?.replace(/<[^>]*>/g, '') || 'Description not available';
   const streamingLinks = externalLinks?.filter((link: any) => link.type === "STREAMING") || [];
+  // const episodeDetails = await getAnimeEpisodes(idMal);
+  console.log(anime);
 
   let trailerLink = trailer ? `https://www.youtube-nocookie.com/embed/${trailer.id}?autoplay=1&mute=1&loop=1&controls=0&playlist=${trailer.id}&enablejsapi=1&rel=0` : null;
 
@@ -50,9 +55,9 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
         {!trailerLink && <Image src={bannerImage} className={styles.seriesBanner} alt={title.english} width={280} height={100} />}
         <div className={styles.seriesBannerOverlay}></div>
       </div>
-      <div className={styles.seriesContent}>
-        <div className="flex gap-8 items-end px-8">
-          <div className="flex-1">
+      <div className={styles.seriesContent + ' px-8'}>
+        <div className="flex items-end">
+          <div className="flex-1 mb-12">
             <h1 className="text-5xl font-bold mb-4">
               {title.english || title.romaji}
             </h1>
@@ -86,7 +91,7 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
                 </span>
               )}
               <button><img src={"/images/icons/add.svg"} alt="Watchhlist" title="Add to My List" width={40} height={40} /></button>
-              <div className="flex gap-2">
+              <div className="flex gap-3">
                 <Image src={"/images/icons/netflix-logo.png"} alt="Netflix" title="Netflix" width={40} height={40} />
                 <Image src={"/images/icons/hulu-logo.png"} alt="Hulu" title="Hulu" width={40} height={40} />
                 <Image src={"/images/icons/cr-logo.png"} alt="Crunchyroll" title="Crunchyroll" width={40} height={40} />
@@ -124,6 +129,19 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
               </div>
             </div>
           </div>
+        </div>
+        <div className="flex flex-col">
+          <h2 className="text-3xl font-bold mb-8">Episodes</h2>
+          {streamingEpisodes.map((episode: any, index: number) => (
+            <div className={styles.episodeCard} key={episode.mal_id}>
+              <span className="text-3xl text-gray-400 font-bold content-center">{index + 1}</span>
+              <Image src={episode.thumbnail} alt={episode.title} width={200} height={100} />
+              <div className="flex flex-col gap-2">
+                <h2 className="text-2xl font-bold">{episode.title.replace(/^Episode \d+ - /, '')}</h2>
+                <p>{episode.description}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

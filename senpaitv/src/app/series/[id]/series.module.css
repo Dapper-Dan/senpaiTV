@@ -41,3 +41,14 @@
 .seriesDetails {
     grid-template-rows: repeat(2, 24px);
 }
+
+.episodeCard {
+    border-bottom: 2px solid #ffffff4f;
+    padding: 42px 0;
+    display: flex;
+    gap: 40px;
+
+    &:first-of-type {
+        padding-top: 0;
+    }
+}
