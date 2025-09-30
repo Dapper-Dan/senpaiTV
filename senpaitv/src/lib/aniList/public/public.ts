@@ -245,6 +245,7 @@ export const getAnimeById = async (id: number) => {
     query GetAnimeById($id: Int) {
       Media(id: $id, type: ANIME) {
         id
+        idMal
         title {
           romaji
           english
@@ -297,6 +298,12 @@ export const getAnimeById = async (id: number) => {
           site
           thumbnail
           id
+        }
+        streamingEpisodes {
+          site
+          thumbnail
+          title
+          url
         }
       }
     }
