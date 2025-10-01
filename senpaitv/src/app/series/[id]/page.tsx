@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { getAnimeById } from '@/lib/aniList/public/public';
 import styles from './series.module.css';
-import { getAnimeEpisodes } from '@/lib/mal/public/public';
+import EpisodesList from '@/components/episodes/EpisodeList';
 
 interface SeriesPageProps {
   params: {
@@ -42,9 +42,6 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
   const formattedScore = averageScore ? `${(averageScore / 10).toFixed(1)}` : "N/A";
   const usersSubmitted = stats?.scoreDistribution.reduce((acc: number, curr: { amount: number }) => acc + curr.amount, 0);
   const cleanDescription = description?.replace(/<[^>]*>/g, '') || 'Description not available';
-  const streamingLinks = externalLinks?.filter((link: any) => link.type === "STREAMING") || [];
-  // const episodeDetails = await getAnimeEpisodes(idMal);
-  console.log(anime);
 
   let trailerLink = trailer ? `https://www.youtube-nocookie.com/embed/${trailer.id}?autoplay=1&mute=1&loop=1&controls=0&playlist=${trailer.id}&enablejsapi=1&rel=0` : null;
 
@@ -130,19 +127,7 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
             </div>
           </div>
         </div>
-        <div className="flex flex-col">
-          <h2 className="text-3xl font-bold mb-8">Episodes</h2>
-          {streamingEpisodes.map((episode: any, index: number) => (
-            <div className={styles.episodeCard} key={episode.mal_id}>
-              <span className="text-3xl text-gray-400 font-bold content-center">{index + 1}</span>
-              <Image src={episode.thumbnail} alt={episode.title} width={200} height={100} />
-              <div className="flex flex-col gap-2">
-                <h2 className="text-2xl font-bold">{episode.title.replace(/^Episode \d+ - /, '')}</h2>
-                <p>{episode.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+        <EpisodesList episodes={streamingEpisodes} animeId={anime.idMal} />
       </div>
     </div>
   );

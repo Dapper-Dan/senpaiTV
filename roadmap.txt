@@ -64,6 +64,12 @@
 - Optimize for mobile and tablet breakpoints
 - Create reusable button, badge, and card components
 - Add smooth animations and page transitions
+- Add custom spinner in place of "loading" text
+- Add custom error pages
+
+## FAST FOLLOWS
+- Add JSDoc type notation
+- Add event tracking
 
 ---
 
