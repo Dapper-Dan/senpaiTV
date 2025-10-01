@@ -42,8 +42,14 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
   const formattedScore = averageScore ? `${(averageScore / 10).toFixed(1)}` : "N/A";
   const usersSubmitted = stats?.scoreDistribution.reduce((acc: number, curr: { amount: number }) => acc + curr.amount, 0);
   const cleanDescription = description?.replace(/<[^>]*>/g, '') || 'Description not available';
-
+  const streamingAppImages: any = {
+    "Crunchyroll": "/images/icons/cr-logo.png",
+    "Hulu": "/images/icons/hulu-logo.png",
+    "Netflix": "/images/icons/netflix-logo.png",
+  }
+  
   let trailerLink = trailer ? `https://www.youtube-nocookie.com/embed/${trailer.id}?autoplay=1&mute=1&loop=1&controls=0&playlist=${trailer.id}&enablejsapi=1&rel=0` : null;
+  const seenSites = new Set();
 
   return (
     <div className="">
@@ -89,9 +95,14 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
               )}
               <button><img src={"/images/icons/add.svg"} alt="Watchhlist" title="Add to My List" width={40} height={40} /></button>
               <div className="flex gap-3">
-                <Image src={"/images/icons/netflix-logo.png"} alt="Netflix" title="Netflix" width={40} height={40} />
-                <Image src={"/images/icons/hulu-logo.png"} alt="Hulu" title="Hulu" width={40} height={40} />
-                <Image src={"/images/icons/cr-logo.png"} alt="Crunchyroll" title="Crunchyroll" width={40} height={40} />
+                {externalLinks.map((link: any) => {
+                  if (streamingAppImages[link.site] && !seenSites.has(link.site)) {
+                    seenSites.add(link.site);
+                    return (
+                      <Image key={link.site} src={streamingAppImages[link.site]} alt={link.site} width={40} height={40} />
+                    )
+                  }
+                })}
               </div>
             </div>
             <div className="flex justify-between">
