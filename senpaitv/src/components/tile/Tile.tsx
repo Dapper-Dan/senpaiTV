@@ -14,8 +14,14 @@ interface TileProps {
   tileWidth: number;
 }
 
+const streamingAppImages: any = {
+  "Crunchyroll": "/images/icons/cr-logo.png",
+  "Hulu": "/images/icons/hulu-logo.png",
+  "Netflix": "/images/icons/netflix-logo.png",
+}
+
 export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirstVisible, isLastVisible, tileWidth }: TileProps) {
-  const { coverImage, title, genres, averageScore, bannerImage, stats, description, trailer } = anime;
+  const { coverImage, title, genres, averageScore, bannerImage, stats, description, trailer, externalLinks } = anime;
   const formattedScore = averageScore ? `${(averageScore / 10).toFixed(1)}` : "N/A";
   const usersSubmitted = stats?.scoreDistribution.reduce((acc: number, curr: { amount: number }) => acc + curr.amount, 0);
 
@@ -26,7 +32,7 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirs
     const rect = e.currentTarget.getBoundingClientRect();
     const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
     const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-    
+
     const adjustedRect = {
       top: rect.top + scrollY,
       left: rect.left + scrollX,
@@ -35,19 +41,19 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirs
       right: rect.right + scrollX,
       bottom: rect.bottom + scrollY
     } as DOMRect;
-    
+
     setTileRect(adjustedRect);
-    
+
     onDeactivate();
-    
+
     if (hoverTimeout) {
       clearTimeout(hoverTimeout);
     }
-    
+
     const timeout = setTimeout(() => {
       onActivate(anime.id, adjustedRect);
     }, 300);
-    
+
     setHoverTimeout(timeout);
   };
 
@@ -72,32 +78,33 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirs
   let parsedDescription = parser.parseFromString(description, 'text/html');
 
   let trailerLink = trailer ? `https://www.youtube-nocookie.com/embed/${trailer.id}?autoplay=1&mute=0&loop=1&controls=0&playlist=${trailer.id}&enablejsapi=1&rel=0` : null;
+  const seenSites = new Set();
 
   return (
     <>
-    <div className={styles.tile} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <Link href={`/series/${anime.id}`}>
-        <Image className={styles.image} src={coverImage.extraLarge} alt={title.english || 'anime image'} width={280} height={420} />
-      </Link>
-      <h3 className={styles.title}>{title.english}</h3>
-      <div className="lg:flex lg:justify-between lg:items-center">
-        <ul className={styles.genres}>
-          {genres.slice(0, 3).map((genre: string) => (
-            <li key={genre} className={styles.genreItem}>
-              {genre}
-            </li>
-          ))}
-        </ul>
-        <p className={styles.score}>{formattedScore} ★</p>
+      <div className={styles.tile} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <Link href={`/series/${anime.id}`}>
+          <Image className={styles.image} src={coverImage.extraLarge} alt={title.english || 'anime image'} width={280} height={420} />
+        </Link>
+        <h3 className={styles.title}>{title.english}</h3>
+        <div className="lg:flex lg:justify-between lg:items-center">
+          <ul className={styles.genres}>
+            {genres.slice(0, 3).map((genre: string) => (
+              <li key={genre} className={styles.genreItem}>
+                {genre}
+              </li>
+            ))}
+          </ul>
+          <p className={styles.score}>{formattedScore} ★</p>
+        </div>
       </div>
-    </div>
-    {isActive && tileRect && createPortal(
-        <div 
+      {isActive && tileRect && createPortal(
+        <div
           className={styles.expandedTile}
           style={{
             position: 'absolute',
             top: tileRect.top + (tileRect.height / 2),
-            left: isFirstVisible ? tileRect.left : isLastVisible ? tileRect.left - (modalWidth - tileRect.width ) : tileRect.left + (tileRect.width / 2) - (modalWidth / 2),
+            left: isFirstVisible ? tileRect.left : isLastVisible ? tileRect.left - (modalWidth - tileRect.width) : tileRect.left + (tileRect.width / 2) - (modalWidth / 2),
             zIndex: 1000,
             width: modalWidth + 'px',
           }}
@@ -114,13 +121,23 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirs
                 </li>
               ))}
             </ul>
-            <p className={styles.score}>{formattedScore} ★ ({usersSubmitted})</p>
+            <div className="flex items-center gap-2">
+              <p className={styles.score + ' mr-2'}>{formattedScore} ★ ({usersSubmitted})</p>
+              {externalLinks.map((link: any) => {
+                if (streamingAppImages[link.site] && !seenSites.has(link.site)) {
+                  seenSites.add(link.site);
+                  return (
+                    <Image key={link.site} src={streamingAppImages[link.site]} alt={link.site} width={25} height={25} />
+                  )
+                }
+              })}
+            </div>
             <p className={styles.description} title={parsedDescription.body.textContent || ''}>{parsedDescription.body.textContent || 'Description not available'}</p>
           </div>
           <div className={styles.buttonContainer}>
             <button className={styles.playButton + ' ' + styles.tileButton}><img src={"/images/icons/play.svg"} alt="Play" /></button>
             <button className={styles.watchListButton + ' ' + styles.tileButton}><img src={"/images/icons/add.svg"} alt="Watch List" /></button>
-            <Link 
+            <Link
               href={`/series/${anime.id}`}
               className={styles.expandButton + ' ' + styles.tileButton}
             >
