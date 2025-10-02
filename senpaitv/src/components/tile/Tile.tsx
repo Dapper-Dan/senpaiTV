@@ -132,7 +132,7 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirs
                 }
               })}
             </div>
-            <p className={styles.description} title={parsedDescription.body.textContent || ''}>{parsedDescription.body.textContent || 'Description not available'}</p>
+            <p className={styles.description} title={parsedDescription.body.textContent || ''}>{parsedDescription.body.textContent?.replace(/\s*\(Source:.*?\)$/i, '') || 'Description not available'}</p>
           </div>
           <div className={styles.buttonContainer}>
             <button className={styles.playButton + ' ' + styles.tileButton}><img src={"/images/icons/play.svg"} alt="Play" /></button>

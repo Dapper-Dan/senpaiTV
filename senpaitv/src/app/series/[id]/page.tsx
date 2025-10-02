@@ -107,7 +107,7 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
             </div>
             <div className="flex justify-between">
               <p className="leading-relaxed max-w-4/7">
-                {cleanDescription}
+                {cleanDescription.replace(/\s*\(Source:.*?\)$/i, '')}
               </p>
               <div className={"grid grid-cols-2 gap-4 " + styles.seriesDetails}>
                 {status && (

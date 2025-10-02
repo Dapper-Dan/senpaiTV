@@ -33,7 +33,7 @@ export default function EpisodesList({ episodes, animeId }: EpisodesListProps) {
             )}
             {episodeDetails.get(index)?.synopsis && (
               <p className="text-gray-200 mt-2">
-                {episodeDetails.get(index)?.synopsis}
+                {episodeDetails.get(index)?.synopsis.replace(/\s*\(Source:.*?\)$/i, '')}
               </p>
             )}
           </div>
