@@ -13,7 +13,7 @@
     pointer-events: none;
     bottom: 60px;
     position: relative;
-    animation: slideUp 1s ease-out 4s forwards;
+    animation: slideUp 1s ease-out 3.6s forwards;
     animation-fill-mode: forwards;
 }
 
