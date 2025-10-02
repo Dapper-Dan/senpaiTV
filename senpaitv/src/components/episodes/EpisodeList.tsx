@@ -25,7 +25,7 @@ export default function EpisodesList({ episodes, animeId }: EpisodesListProps) {
           }}
         >
           <span className="text-3xl text-gray-400 font-bold content-center">{index + 1}</span>
-          <Image src={episode.thumbnail} alt={episode.title} width={200} height={100} />
+          <Image src={episode.thumbnail} className={styles.episodeThumbnail} alt={episode.title} width={200} height={150} />
           <div className="flex flex-col gap-2">
             <h2 className="text-2xl font-bold">{episode.title.replace(/^Episode \d+ - /, '')}</h2>
             {loadingEpisodes.has(index) && (
