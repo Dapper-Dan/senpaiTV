@@ -76,7 +76,7 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
             </div>
             <div className="flex items-center gap-6 mb-6">
               <div className="flex items-center gap-2">
-                <span className="text-2xl font-bold">
+                <span className="text-xl font-bold">
                   {formattedScore} ★
                 </span>
                 <span className="">

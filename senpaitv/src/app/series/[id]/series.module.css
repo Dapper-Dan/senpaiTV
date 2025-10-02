@@ -58,3 +58,29 @@
     height: unset;
     min-width: 250px;
 }
+
+.playButton {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background-color: #1717175e;
+    border: none;
+    display: flex;
+    position: absolute;
+    top: 0;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+
+    img {
+        width: 33px;
+        margin-left: 6px;
+    }
+}
+
+.episodeThumbnailContainer {
+    position: relative;
+}
