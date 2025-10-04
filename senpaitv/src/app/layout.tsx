@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
 import Footer from "@/components/Footer";
 import QueryProvider from "@/components/providers/QueryProvider";
+import AuthSessionProvider from "@/components/providers/SessionProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,11 +41,13 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         <QueryProvider>
-          <Header />
-          <div className="mx-auto px-8">
-            {children}
-          </div>
-          <Footer />
+          <AuthSessionProvider>
+            <Header />
+            <div className="mx-auto px-8">
+              {children}
+            </div>
+            <Footer />
+          </AuthSessionProvider>
         </QueryProvider>
       </body>
     </html>
