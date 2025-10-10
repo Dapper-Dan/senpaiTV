@@ -11,3 +11,8 @@
 .logoutIcon {
     padding-left: 5px;
 }
+
+.loginIcon {
+    margin-left: -4px;
+    margin-right: 4px;
+}
