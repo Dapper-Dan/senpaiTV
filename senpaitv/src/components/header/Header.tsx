@@ -24,7 +24,7 @@ export default function Header() {
 
   return (
     <header className="flex items-center gap-6 px-8 py-2 bg-light-black">
-      <Image src={"/images/senpai_logo.png"} className="profile-icon" alt="senpaitv logo" width={50} height={50}/>
+      <Image src={"/images/senpai_logo.png"} className="profile-icon" alt="senpaitv logo" width={50} height={50} />
       <h1 className="text-3xl font-bold">SenpaiTV</h1>
       <ul className="flex gap-4">
         <li className="hover:text-gray-400">
@@ -40,20 +40,20 @@ export default function Header() {
       <Searchbar />
 
       <div className="rounded-full bg-gray w-10 h-10 overflow-hidden">
-        <button 
+        <button
           onClick={() => setIsOpen(!isOpen)}
           className="hover:bg-gray-100 cursor-pointer"
         >
-          <Image src={user?.image || "/images/senpai_logo.png"} className="profile-icon" alt="profile icon" width={50} height={50}/>
+          <Image src={user?.image || "/images/senpai_logo.png"} className="profile-icon" alt="profile icon" width={50} height={50} />
         </button>
-        <div 
+        <div
           className={`dropdown ${styles.dropdown} ${isOpen ? "flex flex-col" : "hidden"}`}
-          ref={dropdownRef} 
+          ref={dropdownRef}
         >
           {isAuthenticated ? (
             <>
               <button className="text-3xl flex items-center gap-3 cursor-pointer">
-                <Image src={user?.image || "/images/senpai_logo.png"} className="profile-icon rounded-full" alt="profile icon" width={50} height={50}/>
+                <Image src={user?.image || "/images/senpai_logo.png"} className="profile-icon rounded-full" alt="profile icon" width={50} height={50} />
                 {user?.name || user?.email}
                 <img src={"/images/icons/edit.svg"} alt="Edit" width={25} height={25} />
               </button>
@@ -61,7 +61,7 @@ export default function Header() {
                 <img src={"/images/icons/favorite.svg"} alt="Watchlist" width={40} height={40} />
                 Watchlist
               </button>
-              <button 
+              <button
                 onClick={() => signOut()}
                 className="hover:bg-gray-600 text-xl flex items-center gap-3 cursor-pointer"
               >
@@ -71,13 +71,21 @@ export default function Header() {
             </>
           ) : (
             <>
-              <Link href="/">Profile</Link>
-              <Link href="/">Settings</Link>
-              <button onClick={() => signIn()}>Sign In</button>
+              <Link href="/" className="hover:bg-gray-600 text-xl flex items-center gap-3 cursor-pointer">
+                <img src={"/images/icons/create-account.svg"} alt="Create Account" width={40} height={40} />
+                Create Account
+              </Link>
+              <button
+                onClick={() => signIn()}
+                className="hover:bg-gray-600 text-xl flex items-center gap-3 cursor-pointer"
+              >
+                <img src={"/images/icons/login.svg"} alt="Sign In" className={styles.loginIcon} width={40} height={40} />
+                Sign In
+              </button>
             </>
           )}
         </div>
       </div>
     </header>
-  );  
+  );
 }
