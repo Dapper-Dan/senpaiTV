@@ -136,7 +136,7 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirs
           </div>
           <div className={styles.buttonContainer}>
             <button className={styles.playButton + ' ' + styles.tileButton}><img src={"/images/icons/play.svg"} alt="Play" /></button>
-            <button className={styles.watchListButton + ' ' + styles.tileButton}><img src={"/images/icons/add.svg"} alt="Watch List" /></button>
+            <button className={styles.watchListButton + ' ' + styles.tileButton}><img src={"/images/icons/add.svg"} alt="Watchlist" /></button>
             <Link
               href={`/series/${anime.id}`}
               className={styles.expandButton + ' ' + styles.tileButton}
