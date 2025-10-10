@@ -138,7 +138,12 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
             </div>
           </div>
         </div>
-        <EpisodesList episodes={streamingEpisodes} animeId={anime.idMal} />
+        {streamingEpisodes.length > 0 && (
+          <EpisodesList episodes={streamingEpisodes} animeId={anime.idMal} />
+        )}
+        {streamingEpisodes.length < 1 && (
+          <div className="text-2xl font-bold">No streaming episodes found</div>
+        )}
       </div>
     </div>
   );
