@@ -9,7 +9,7 @@ import { useState, useEffect, useRef } from "react";
 
 export default function TileCarousel({ anime, title }: { anime: any, title: string }) {
   const [activeTile, setActiveTile] = useState<{id: string, rect: DOMRect} | null>(null);
-  const [fullyVisibleIndexes, setFullyVisibleIndexes] = useState<number[]>([]);
+  const [tileWidth, setTileWidth] = useState(0);
   const activeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const swiperRef = useRef<any>(null);
 
@@ -33,59 +33,31 @@ export default function TileCarousel({ anime, title }: { anime: any, title: stri
     setActiveTile(null);
   };
 
-  const getTileWidth = () => {
-    if (typeof window === 'undefined') return 0;
+  const updateTileWidth = () => {
+    if (typeof window === 'undefined') return;
     
     const firstSlide = document.querySelector('.swiper-slide');
-    if (!firstSlide) return 0;
+    if (!firstSlide) return;
     
     const computedStyle = getComputedStyle(firstSlide);
-    return parseInt(computedStyle.width);
-  };
-
-  const checkFullyVisibleSlides = () => {
-    if (!swiperRef.current) return;
-
-    const swiper = swiperRef.current;
-    const swiperContainer = swiper.el;
-    const slides = swiper.slides;
-    
-    const newFullyVisibleIndexes:any = [];
-    const containerRect = swiperContainer.getBoundingClientRect();
-
-    slides.forEach((slide: HTMLElement, index: number) => {
-      const slideRect = slide.getBoundingClientRect();
-      const isFullyVisible =
-        slideRect.left >= containerRect.left &&
-        slideRect.right <= containerRect.right &&
-        slideRect.top >= containerRect.top &&
-        slideRect.bottom <= containerRect.bottom;
-
-      if (isFullyVisible) {
-        newFullyVisibleIndexes.push(index);
-      }
-    });
-
-    setFullyVisibleIndexes(newFullyVisibleIndexes);
+    setTileWidth(parseInt(computedStyle.width));
   };
 
   const handleSwiperInit = (swiper: any) => {
     swiperRef.current = swiper;
-    checkFullyVisibleSlides();
-
-    swiper.on('transitionEnd', checkFullyVisibleSlides);
-    swiper.on('progress', checkFullyVisibleSlides);
+    updateTileWidth();
   };
 
   useEffect(() => {
+    window.addEventListener('resize', updateTileWidth);
+    
     return () => {
       if (activeTimeoutRef.current) {
         clearTimeout(activeTimeoutRef.current);
       }
+      window.removeEventListener('resize', updateTileWidth);
     };
   }, []);
-
-  const tileWidth = getTileWidth();
 
   return (
     <>
@@ -103,23 +75,17 @@ export default function TileCarousel({ anime, title }: { anime: any, title: stri
       watchSlidesProgress={true}
       initialSlide={0}
     >
-      {anime?.map((media: any, index: number) => {
-        const isFirstVisible = fullyVisibleIndexes.length > 0 && index === fullyVisibleIndexes[0];
-        const isLastVisible = fullyVisibleIndexes.length > 0 && index === fullyVisibleIndexes[fullyVisibleIndexes.length - 1];
-        
-        return (
-          <SwiperSlide className={styles.swiperSlide} key={media.id}>
-            <Tile 
-              anime={media}
-              tileWidth={tileWidth}
-              isActive={activeTile?.id === media.id}
-              onActivate={handleTileHover}
-              onDeactivate={handleTileLeave}
-              isFirstVisible={isFirstVisible}
-              isLastVisible={isLastVisible} />
-          </SwiperSlide>
-        );
-      })}
+      {anime?.map((media: any) => (
+        <SwiperSlide className={styles.swiperSlide} key={media.id}>
+          <Tile 
+            anime={media}
+            tileWidth={tileWidth}
+            isActive={activeTile?.id === media.id}
+            onActivate={handleTileHover}
+            onDeactivate={handleTileLeave}
+          />
+        </SwiperSlide>
+      ))}
     </Swiper>
     </>
   );

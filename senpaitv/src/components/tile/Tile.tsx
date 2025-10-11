@@ -9,8 +9,6 @@ interface TileProps {
   isActive: boolean;
   onActivate: (id: string, rect: DOMRect) => void;
   onDeactivate: () => void;
-  isFirstVisible: boolean;
-  isLastVisible: boolean;
   tileWidth: number;
 }
 
@@ -20,7 +18,7 @@ const streamingAppImages: any = {
   "Netflix": "/images/icons/netflix-logo.png",
 }
 
-export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirstVisible, isLastVisible, tileWidth }: TileProps) {
+export default function Tile({ anime, isActive, onActivate, onDeactivate, tileWidth }: TileProps) {
   const { coverImage, title, genres, averageScore, bannerImage, stats, description, trailer, externalLinks } = anime;
   const formattedScore = averageScore ? `${(averageScore / 10).toFixed(1)}` : "N/A";
   const usersSubmitted = stats?.scoreDistribution.reduce((acc: number, curr: { amount: number }) => acc + curr.amount, 0);
@@ -74,6 +72,24 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirs
 
   const modalWidth = tileWidth * 2.7;
 
+  const calculateModalLeft = () => {
+    if (!tileRect) return 0;
+    
+    const centeredLeft = tileRect.left + (tileRect.width / 2) - (modalWidth / 2);
+    const centeredRight = centeredLeft + modalWidth;
+    
+    const wouldOverflowLeft = centeredLeft < 0;
+    const wouldOverflowRight = centeredRight > window.innerWidth;
+    
+    if (wouldOverflowLeft) {
+      return Math.max(0, tileRect.left);
+    } else if (wouldOverflowRight) {
+      return tileRect.left - (modalWidth - tileRect.width);
+    } else {
+      return centeredLeft;
+    }
+  };
+
   let parser = new DOMParser();
   let parsedDescription = parser.parseFromString(description, 'text/html');
 
@@ -104,7 +120,7 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, isFirs
           style={{
             position: 'absolute',
             top: tileRect.top + (tileRect.height / 2),
-            left: isFirstVisible ? tileRect.left : isLastVisible ? tileRect.left - (modalWidth - tileRect.width) : tileRect.left + (tileRect.width / 2) - (modalWidth / 2),
+            left: calculateModalLeft(),
             zIndex: 1000,
             width: modalWidth + 'px',
           }}
