@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { getAnimeById } from '@/lib/aniList/public/public';
 import styles from './series.module.css';
 import EpisodesList from '@/components/episodes/EpisodeList';
+import WatchlistButton from '@/components/watchlist/WatchlistButton';
 
 interface SeriesPageProps {
   params: {
@@ -93,7 +94,7 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
                   {duration} min/ep
                 </span>
               )}
-              <button><img src={"/images/icons/add.svg"} alt="Watchhlist" title="Add to My List" width={40} height={40} /></button>
+              <WatchlistButton animeId={id} />
               <div className="flex gap-3">
                 {externalLinks.map((link: any) => {
                   if (streamingAppImages[link.site] && !seenSites.has(link.site)) {
