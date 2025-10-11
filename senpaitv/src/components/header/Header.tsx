@@ -34,7 +34,7 @@ export default function Header() {
           <Link href="/">Browse</Link>
         </li>
         <li className="hover:text-gray-400">
-          <Link href="/">My List</Link>
+          <Link href="/watchlist">My List</Link>
         </li>
       </ul>
       <Searchbar />
@@ -57,10 +57,10 @@ export default function Header() {
                 {user?.name || user?.email}
                 <img src={"/images/icons/edit.svg"} alt="Edit" width={25} height={25} />
               </button>
-              <button className="hover:bg-gray-600 text-xl flex items-center gap-3 cursor-pointer">
+              <Link href="/watchlist" className="hover:bg-gray-600 text-xl flex items-center gap-3 cursor-pointer">
                 <img src={"/images/icons/favorite.svg"} alt="Watchlist" width={40} height={40} />
                 Watchlist
-              </button>
+              </Link>
               <button
                 onClick={() => signOut()}
                 className="hover:bg-gray-600 text-xl flex items-center gap-3 cursor-pointer"
