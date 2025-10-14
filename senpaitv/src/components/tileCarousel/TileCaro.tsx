@@ -9,7 +9,7 @@ import { useState, useEffect, useRef } from "react";
 
 export default function TileCarousel({ anime, title }: { anime: any, title: string }) {
   const [activeTile, setActiveTile] = useState<{id: string, rect: DOMRect} | null>(null);
-  const [tileWidth, setTileWidth] = useState(0);
+  const [tileWidth, setTileWidth] = useState(160);
   const activeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const swiperRef = useRef<any>(null);
 
