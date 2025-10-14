@@ -30,7 +30,7 @@ export default async function WatchlistPage() {
 
   return (
     <div className="page-container py-8">
-      <h1 className="text-4xl font-bold mb-8">My Watchlist</h1>
+      <h1 className="text-3xl font-bold mb-12 mt-4">My Watchlist</h1>
       <WatchlistGrid anime={validAnime} />
     </div>
   );
