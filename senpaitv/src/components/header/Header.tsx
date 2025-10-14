@@ -1,6 +1,5 @@
 'use client';
 import Link from "next/link"
-import Searchbar from "../Searchbar";
 import Image from "next/image";
 import { useAuth } from "@/hooks/useAuth";
 import { useState, useRef, useEffect } from "react";
@@ -34,8 +33,9 @@ export default function Header() {
           <Link href="/watchlist">My List</Link>
         </li>
       </ul>
-      <Searchbar />
-
+      <Link href="/search" className="ml-auto">
+        <img src={"/images/icons/search.svg"} className="cursor-pointer" alt="Search" width={25} height={25} />
+      </Link>
       <div className="rounded-full bg-gray w-10 h-10 overflow-hidden">
         <button
           onClick={() => setIsOpen(!isOpen)}
