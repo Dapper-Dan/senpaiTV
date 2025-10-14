@@ -1,0 +1,18 @@
+.searchInput {
+    border-bottom: 1px solid white;
+    margin: auto;
+    height: 50px;
+    font-size: 40px;
+    outline: none;
+
+    &:focus-within {
+        border-color: purple;
+    }
+}
+
+.searchBarContainer {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    padding: 34px 16px;
+}
