@@ -2,13 +2,14 @@
 
 import { useWatchlist } from '@/hooks/useWatchlist';
 import { WatchlistStatus } from '@/generated/prisma';
+import styles from '@/components/tile/tile.module.css';
 
 interface WatchlistButtonProps {
   animeId: string;
-  className?: string;
+  variant?: 'default' | 'tile';
 }
 
-export default function WatchlistButton({ animeId, className = '' }: WatchlistButtonProps) {
+export default function WatchlistButton({ animeId, variant = 'default' }: WatchlistButtonProps) {
   const {
     isInWatchlist,
     isLoadingItem,
@@ -19,7 +20,20 @@ export default function WatchlistButton({ animeId, className = '' }: WatchlistBu
   } = useWatchlist(animeId);
 
   if (isLoadingItem) {
-    return <div className={className}>Loading...</div>;
+    return <div>Loading...</div>;
+  }
+
+  if (variant === 'tile') {
+    return (
+      <button 
+        onClick={() => isInWatchlist ? removeFromWatchlist() : addToWatchlist('WANT_TO_WATCH')}
+        disabled={isAdding || isRemoving}
+        className={`${styles.watchListButton} ${styles.tileButton}`}
+        aria-label={isInWatchlist ? "Remove from watchlist" : "Add to watchlist"}
+      >
+        {isInWatchlist ? <img src={"/images/icons/checkmark.svg"} alt="" /> : <img src={"/images/icons/add.svg"} alt="" />}
+      </button>
+    );
   }
 
   if (isInWatchlist) {
@@ -27,9 +41,10 @@ export default function WatchlistButton({ animeId, className = '' }: WatchlistBu
       <button 
         onClick={() => removeFromWatchlist()} 
         disabled={isRemoving}
-        className={className}
+        aria-label="Remove from watchlist"
+        title="Remove from watchlist"
       >
-        {isRemoving ? 'Removing...' : 'Remove'}
+        <img src={"/images/icons/checkmark.svg"} alt="" width={40} height={40} />
       </button>
     );
   }
@@ -38,9 +53,10 @@ export default function WatchlistButton({ animeId, className = '' }: WatchlistBu
     <button 
       onClick={() => addToWatchlist('WANT_TO_WATCH')} 
       disabled={isAdding}
-      className={className}
+      aria-label="Add to watchlist"
+      title="Add to watchlist"
     >
-      {isAdding ? 'Adding...' : 'Add to Watchlist'}
+      <img src={"/images/icons/add.svg"} alt="" width={40} height={40} />
     </button>
   );
 }

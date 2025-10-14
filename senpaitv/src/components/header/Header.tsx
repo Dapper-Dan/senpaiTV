@@ -28,9 +28,6 @@ export default function Header() {
       <h1 className="text-3xl font-bold">SenpaiTV</h1>
       <ul className="flex gap-4">
         <li className="hover:text-gray-400">
-          <Link href="/">Home</Link>
-        </li>
-        <li className="hover:text-gray-400">
           <Link href="/">Browse</Link>
         </li>
         <li className="hover:text-gray-400">

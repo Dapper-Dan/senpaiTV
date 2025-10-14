@@ -3,6 +3,7 @@ import Link from "next/link";
 import styles from "./tile.module.css";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import WatchlistButton from "../watchlist/WatchlistButton";
 
 interface TileProps {
   anime: any;
@@ -152,7 +153,7 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, tileWi
           </div>
           <div className={styles.buttonContainer}>
             <button className={styles.playButton + ' ' + styles.tileButton}><img src={"/images/icons/play.svg"} alt="Play" /></button>
-            <button className={styles.watchListButton + ' ' + styles.tileButton}><img src={"/images/icons/add.svg"} alt="Watchlist" /></button>
+            <WatchlistButton animeId={anime.id.toString()} variant="tile" />
             <Link
               href={`/series/${anime.id}`}
               className={styles.expandButton + ' ' + styles.tileButton}
