@@ -31,7 +31,7 @@ export default function WatchlistButton({ animeId, variant = 'default' }: Watchl
         className={`${styles.watchListButton} ${styles.tileButton}`}
         aria-label={isInWatchlist ? "Remove from watchlist" : "Add to watchlist"}
       >
-        {isInWatchlist ? <img src={"/images/icons/checkmark.svg"} alt="" /> : <img src={"/images/icons/add.svg"} alt="" />}
+        {isInWatchlist ? <img src={"/images/icons/checkmark.svg"} alt="" width={41} height={41} /> : <img src={"/images/icons/add.svg"} alt="" width={41} height={41} />}
       </button>
     );
   }
@@ -44,7 +44,7 @@ export default function WatchlistButton({ animeId, variant = 'default' }: Watchl
         aria-label="Remove from watchlist"
         title="Remove from watchlist"
       >
-        <img src={"/images/icons/checkmark.svg"} alt="" width={40} height={40} />
+        <img src={"/images/icons/checkmark.svg"} className="cursor-pointer" alt="" width={41} height={41} />
       </button>
     );
   }
@@ -56,7 +56,7 @@ export default function WatchlistButton({ animeId, variant = 'default' }: Watchl
       aria-label="Add to watchlist"
       title="Add to watchlist"
     >
-      <img src={"/images/icons/add.svg"} alt="" width={40} height={40} />
+      <img src={"/images/icons/add.svg"} className="cursor-pointer" alt="" width={41} height={41} />
     </button>
   );
 }
