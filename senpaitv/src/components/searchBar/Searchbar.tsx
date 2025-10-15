@@ -12,7 +12,6 @@ export default function Searchbar({ defaultValue = '' }: SearchbarProps) {
   const [debouncedQuery, setDebouncedQuery] = useState(defaultValue);
   const router = useRouter();
 
-  // Debounce the query to prevent excessive URL updates
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedQuery(query);
@@ -20,14 +19,12 @@ export default function Searchbar({ defaultValue = '' }: SearchbarProps) {
     return () => clearTimeout(timer);
   }, [query]);
 
-  // Update URL when debounced query changes
   useEffect(() => {
     if (debouncedQuery) {
       router.push(`/search?q=${encodeURIComponent(debouncedQuery)}`);
     }
   }, [debouncedQuery, router]);
 
-  // Sync with URL changes (browser back/forward)
   useEffect(() => {
     setQuery(defaultValue);
   }, [defaultValue]);
@@ -44,9 +41,10 @@ export default function Searchbar({ defaultValue = '' }: SearchbarProps) {
 
   return (
     <form onSubmit={handleSubmit} className={styles.searchBarContainer}>
+      <img src={"/images/icons/search.svg"} className="mr-3" alt="Search" width={25} height={25} />
       <input 
         type="text" 
-        placeholder="Search" 
+        placeholder="Titles, Genres, Platforms" 
         className={styles.searchInput} 
         name="search" 
         value={query}
