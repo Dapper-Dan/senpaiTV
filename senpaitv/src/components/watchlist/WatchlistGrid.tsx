@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Tile from '@/components/tile/Tile';
+import styles from './watchlistGrid.module.css';
 
 interface WatchlistGridProps {
   anime: any[];
@@ -59,10 +60,7 @@ export default function WatchlistGrid({ anime }: WatchlistGridProps) {
   return (
     <div
       ref={gridRef}
-      className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-8 
-                 lg:grid-cols-[repeat(auto-fill,minmax(200px,1fr))]
-                 xl:grid-cols-[repeat(auto-fill,minmax(240px,1fr))]
-                 2xl:grid-cols-[repeat(auto-fill,minmax(280px,1fr))]"
+      className={styles.watchlistGrid}
     >
       {anime.map((item) => (
         <Tile

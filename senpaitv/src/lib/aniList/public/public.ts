@@ -311,3 +311,79 @@ export const getAnimeById = async (id: number) => {
   const result = await client.request(query, { id }) as any;
   return result.Media;
 };
+
+export const searchAnime = async (query: string) => {
+  const searchQuery = gql`
+    query SearchAnime($search: String, $page: Int, $perPage: Int) {
+      Page(page: $page, perPage: $perPage) {
+        media(search: $search, type: ANIME, sort: POPULARITY_DESC) {
+          id
+          title {
+            romaji
+            english
+          }
+          coverImage {
+            extraLarge
+            large
+            medium
+          }
+          bannerImage
+          averageScore
+          popularity
+          episodes
+          status
+          season
+          seasonYear
+          studios {
+            nodes {
+              name
+            }
+          }
+          tags {
+            category
+            description
+            name
+          }
+          genres
+          externalLinks {
+            type
+            site
+            url
+          }
+          reviews {
+            nodes {
+              summary
+            }
+            pageInfo {
+              total
+            }
+          }
+          description
+          stats {
+            scoreDistribution {
+              score
+              amount
+            }
+          }
+          trailer {
+            site
+            thumbnail
+            id
+          }
+          streamingEpisodes {
+            site
+            thumbnail
+            title
+            url
+          }
+        }
+      }
+    }
+  `;
+  const result = await client.request(searchQuery, { 
+    search: query, 
+    page: 1, 
+    perPage: 50 
+  }) as any;
+  return result.Page.media;
+};
