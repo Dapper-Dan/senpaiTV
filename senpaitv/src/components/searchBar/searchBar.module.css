@@ -1,18 +1,31 @@
 .searchInput {
-    border-bottom: 1px solid white;
     margin: auto;
     height: 50px;
     font-size: 40px;
     outline: none;
+    width: 100%;
+    padding-bottom: 8px;
+}
+
+.searchBarContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 50%;
+    margin: auto;
+    border-bottom: 1px solid white;
 
     &:focus-within {
         border-color: purple;
     }
 }
 
-.searchBarContainer {
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-    padding: 34px 16px;
+.clearButton {
+    cursor: pointer;
+    padding-bottom: 8px;
+    font-size: 40px;
+    color: rgb(155, 149, 149);
+    position: absolute;
+    right: 0;
 }
