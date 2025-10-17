@@ -103,7 +103,8 @@
     margin-left: auto;
 }
 
-.tileTrailer {
+.tileTrailer,
+.tileBanner {
     border-radius: 16px 16px 0 0;
     bottom: 60px;
     position: relative;
@@ -114,4 +115,9 @@
     pointer-events: none;
     height: auto;
     aspect-ratio: 16/9;
+}
+
+.tileBanner {
+    animation: none;
+    bottom: 0;
 }
