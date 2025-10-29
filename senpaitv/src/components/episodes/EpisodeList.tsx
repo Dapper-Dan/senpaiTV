@@ -56,10 +56,12 @@ export default function EpisodesList({ episodes, animeId, externalLinks}: Episod
             {loadingEpisodes.has(index) && (
               <div className="">Loading synopsis...</div>
             )}
-            {episodeDetails.get(index)?.synopsis && (
+            {episodeDetails.get(index)?.synopsis ? (
               <p className="text-gray-200 mt-2">
                 {episodeDetails.get(index)?.synopsis.replace(/\s*\(Source:.*?\)$/i, '')}
               </p>
+            ) : !loadingEpisodes.has(index) && (
+              <p className="text-gray-400 italic mt-2">Synopsis not available</p>
             )}
           </div>
         </div>
