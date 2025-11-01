@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Provider, useProviderAuth } from '@/hooks/useProviderAuth';
 import LoginModal from '../loginModal/LoginModal';
 import styles from './episodeProviderModal.module.css';
@@ -18,17 +19,21 @@ export default function EpisodeProviderModal({
   onClose,
   episodeTitle,
   episodeNumber,
-  externalLinks
+  externalLinks,
 }: EpisodeProviderModalProps) {
   const { isProviderLinked, linkProvider } = useProviderAuth();
   const [loginModalProvider, setLoginModalProvider] = useState<Provider | null>(null);
+  const router = useRouter();
 
-  const availableProviders = externalLinks
-    .filter(link => ['Netflix', 'Hulu', 'Crunchyroll'].includes(link.site))
-    .map(link => link.site);
+  const availableProviders = useMemo(() => (
+    externalLinks
+      .filter(link => ['Netflix', 'Hulu', 'Crunchyroll'].includes(link.site))
+      .map(link => link.site)
+  ), [externalLinks]);
 
   const handleProviderClick = (provider: Provider) => {
     if (isProviderLinked(provider)) {
+      router.push(`/player?title=${encodeURIComponent(episodeTitle)}&src=${encodeURIComponent('/videos/rick-kun.mp4')}`);
       onClose();
     } else {
       setLoginModalProvider(provider);
@@ -39,6 +44,8 @@ export default function EpisodeProviderModal({
     if (loginModalProvider) {
       linkProvider(loginModalProvider);
       setLoginModalProvider(null);
+      router.push(`/player?title=${encodeURIComponent(episodeTitle)}&src=${encodeURIComponent('/videos/rick-kun.mp4')}`);
+      onClose();
     }
   };
 
@@ -111,7 +118,6 @@ export default function EpisodeProviderModal({
                         <div className="text-sm">{isLinked ? 'Subscribed' : providerInfo.subscription}</div>
                       </div>
                     </div>
-                    
                     <div className="">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
