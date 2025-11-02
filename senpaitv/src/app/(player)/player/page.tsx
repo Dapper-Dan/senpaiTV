@@ -12,7 +12,7 @@ export default function PlayerPage() {
 
   if (!src) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center">
         <div className="text-center">
           <p className="mb-4">No video source provided.</p>
           <button onClick={() => router.back()} className="px-3 py-2 bg-zinc-700 rounded">
@@ -24,7 +24,7 @@ export default function PlayerPage() {
   }
 
   return (
-    <div className={`bg-black min-h-screen ${styles.playerPage}`}>
+    <div className="fixed inset-0 bg-black overflow-hidden">
       <VideoPlayer title={title} src={src} />
     </div>
   );

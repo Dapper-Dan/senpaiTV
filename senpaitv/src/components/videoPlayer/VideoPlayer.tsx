@@ -16,11 +16,8 @@ export default function VideoPlayer({ title, src, introSkipToSeconds = 90 }: Vid
   const [isPlaying, setIsPlaying] = useState(false);
 
   return (
-    <div className="w-full">
-      {title && (
-        <div className="text-center text-lg font-semibold">{title}</div>
-      )}
-      <div className="relative bg-black">
+    <div className="h-full w-full flex flex-col">
+      <div className="relative bg-black min-h-0">
         <video
           ref={videoRef}
           className="w-full"
@@ -41,7 +38,7 @@ export default function VideoPlayer({ title, src, introSkipToSeconds = 90 }: Vid
             console.error('Error message:', video.error?.message);
           }}
         />
-        <div className="">
+        <div className="absolute bottom-0 left-0 right-0 p-4">
           <div
             ref={progressRef}
             className="w-full cursor-pointer"
@@ -59,7 +56,7 @@ export default function VideoPlayer({ title, src, introSkipToSeconds = 90 }: Vid
               style={{ width: duration ? `${(currentTime / duration) * 100}%` : '0%' }}
             />
           </div>
-          <div className="mt-3 flex items-center justify-between gap-3">
+          <div className="flex items-center justify-center gap-3">
             <div className="flex items-center gap-2 text-sm">
               <button
                 className="px-3 py-1 bg-white/10 rounded hover:bg-white/20"
@@ -84,6 +81,9 @@ export default function VideoPlayer({ title, src, introSkipToSeconds = 90 }: Vid
               <button className="px-3 py-1 bg-white/10 rounded hover:bg-white/20" onClick={() => { const v = videoRef.current; if (v) v.currentTime = Math.max(0, v.currentTime - 10); }}>-10s</button>
               <button className="px-3 py-1 bg-white/10 rounded hover:bg-white/20" onClick={() => { const v = videoRef.current; if (v) v.currentTime = Math.min(duration, v.currentTime + 10); }}>+10s</button>
               <button className="px-3 py-1 bg-white/10 rounded hover:bg-white/20" onClick={() => { const v = videoRef.current; if (v) v.currentTime = Math.min(duration, introSkipToSeconds); }}>Skip Intro</button>
+              {title && (
+                <div className="text-center text-lg font-semibold">{title}</div>
+              )}
             </div>
           </div>
         </div>

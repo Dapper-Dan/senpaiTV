@@ -18,7 +18,6 @@ export default function EpisodesList({ episodes, animeId, externalLinks}: Episod
   const handlePlayClick = (episodeNumber: number, episodeTitle: string) => {
     setSelectedEpisode({ number: episodeNumber, title: episodeTitle });
     const body = document.body;
-    const prevOverflow = body.style.overflow;
     body.style.overflow = 'hidden';
   };
 
