@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useEpisodeDescription } from '@/hooks/useEpisodeDescription';
-import styles from '../../app/series/[id]/series.module.css';
+import styles from '../../app/(main)/series/[id]/series.module.css';
 import Image from 'next/image';
 import EpisodeProviderModal from '../episodeProviderModal/EpisodeProviderModal';
 

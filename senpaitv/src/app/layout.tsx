@@ -42,11 +42,9 @@ export default function RootLayout({
       >
         <QueryProvider>
           <AuthSessionProvider>
-            <Header />
-            <div className="mx-auto px-8">
+            <div className="mx-auto">
               {children}
             </div>
-            <Footer />
           </AuthSessionProvider>
         </QueryProvider>
       </body>
