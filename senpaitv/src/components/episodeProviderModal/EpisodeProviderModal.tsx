@@ -12,6 +12,7 @@ interface EpisodeProviderModalProps {
   episodeTitle: string;
   episodeNumber: number;
   externalLinks: any[];
+  animeId: number;
 }
 
 export default function EpisodeProviderModal({
@@ -20,6 +21,7 @@ export default function EpisodeProviderModal({
   episodeTitle,
   episodeNumber,
   externalLinks,
+  animeId,
 }: EpisodeProviderModalProps) {
   const { isProviderLinked, linkProvider } = useProviderAuth();
   const [loginModalProvider, setLoginModalProvider] = useState<Provider | null>(null);
@@ -31,9 +33,19 @@ export default function EpisodeProviderModal({
       .map(link => link.site)
   ), [externalLinks]);
 
+  const buildPlayerUrl = () => {
+    const params = new URLSearchParams({
+      title: episodeTitle,
+      src: '/videos/rick-kun.mp4',
+      animeId: animeId.toString(),
+      episodeNumber: episodeNumber.toString(),
+    });
+    return `/player?${params.toString()}`;
+  };
+
   const handleProviderClick = (provider: Provider) => {
     if (isProviderLinked(provider)) {
-      router.push(`/player?title=${encodeURIComponent(episodeTitle)}&src=${encodeURIComponent('/videos/rick-kun.mp4')}`);
+      router.push(buildPlayerUrl());
       onClose();
     } else {
       setLoginModalProvider(provider);
@@ -44,7 +56,7 @@ export default function EpisodeProviderModal({
     if (loginModalProvider) {
       linkProvider(loginModalProvider);
       setLoginModalProvider(null);
-      router.push(`/player?title=${encodeURIComponent(episodeTitle)}&src=${encodeURIComponent('/videos/rick-kun.mp4')}`);
+      router.push(buildPlayerUrl());
       onClose();
     }
   };

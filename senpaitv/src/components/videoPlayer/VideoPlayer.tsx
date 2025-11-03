@@ -6,9 +6,11 @@ interface VideoPlayerProps {
   title?: string;
   src: string;
   introSkipToSeconds?: number;
+  onNextEpisode?: () => void;
+  hasNextEpisode?: boolean;
 }
 
-export default function VideoPlayer({ title, src, introSkipToSeconds = 90 }: VideoPlayerProps) {
+export default function VideoPlayer({ title, src, introSkipToSeconds = 90, onNextEpisode, hasNextEpisode = false }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
   const [duration, setDuration] = useState(0);
@@ -81,8 +83,18 @@ export default function VideoPlayer({ title, src, introSkipToSeconds = 90 }: Vid
               <button className="px-3 py-1 bg-white/10 rounded hover:bg-white/20" onClick={() => { const v = videoRef.current; if (v) v.currentTime = Math.max(0, v.currentTime - 10); }}>-10s</button>
               <button className="px-3 py-1 bg-white/10 rounded hover:bg-white/20" onClick={() => { const v = videoRef.current; if (v) v.currentTime = Math.min(duration, v.currentTime + 10); }}>+10s</button>
               <button className="px-3 py-1 bg-white/10 rounded hover:bg-white/20" onClick={() => { const v = videoRef.current; if (v) v.currentTime = Math.min(duration, introSkipToSeconds); }}>Skip Intro</button>
+            </div>
+            <div className="flex items-center gap-3">
               {title && (
                 <div className="text-center text-lg font-semibold">{title}</div>
+              )}
+              {hasNextEpisode && onNextEpisode && (
+                <button 
+                  className="px-4 py-2 bg-blue-600 rounded hover:bg-blue-700 font-medium"
+                  onClick={onNextEpisode}
+                >
+                  Next Episode
+                </button>
               )}
             </div>
           </div>

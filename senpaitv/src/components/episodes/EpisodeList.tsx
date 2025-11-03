@@ -73,6 +73,7 @@ export default function EpisodesList({ episodes, animeId, externalLinks}: Episod
           episodeTitle={selectedEpisode.title}
           episodeNumber={selectedEpisode.number}
           externalLinks={externalLinks}
+          animeId={animeId}
         />
       )}
     </div>
