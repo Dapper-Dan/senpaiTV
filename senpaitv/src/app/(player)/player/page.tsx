@@ -1,6 +1,7 @@
 'use client';
 
 import { useSearchParams, useRouter } from 'next/navigation';
+import { useMemo, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getAnimeById } from '@/lib/aniList/public/public';
 import VideoPlayer from '@/components/videoPlayer/VideoPlayer';
@@ -14,29 +15,55 @@ export default function PlayerPage() {
   const animeId = params.get('animeId');
   const episodeNumber = params.get('episodeNumber');
 
+  const cachedEpisodes = useMemo(() => {
+    if (!animeId || typeof window === 'undefined') return null;
+    try {
+      const episodesJson = sessionStorage.getItem(`episodes-${animeId}`);
+      if (episodesJson) {
+        return JSON.parse(episodesJson);
+      }
+    } catch {
+      return;
+    }
+    return null;
+  }, [animeId]);
+
   const { data: anime } = useQuery({
     queryKey: ['anime', animeId],
     queryFn: () => getAnimeById(parseInt(animeId || '0')),
-    enabled: !!animeId,
+    enabled: !!animeId && !cachedEpisodes,
     staleTime: 5 * 60 * 1000,
   });
 
-  const episodes = anime?.streamingEpisodes || [];
-  const currentEpisodeIndex = episodeNumber ? parseInt(episodeNumber) - 1 : -1; // Convert 1-based to 0-based
+  const episodes = cachedEpisodes || anime?.streamingEpisodes || [];
+
+  useEffect(() => {
+    if (anime?.streamingEpisodes && animeId && typeof window !== 'undefined') {
+      try {
+        sessionStorage.setItem(`episodes-${animeId}`, JSON.stringify(anime.streamingEpisodes));
+      } catch {
+        return;
+      }
+    }
+  }, [anime?.streamingEpisodes, animeId]);
+
+  const currentEpisodeNum = episodeNumber ? parseInt(episodeNumber) : 0;
+  const currentEpisodeIndex = currentEpisodeNum - 1;
   const nextEpisodeIndex = currentEpisodeIndex + 1;
   const hasNextEpisode = nextEpisodeIndex < episodes.length;
   const nextEpisode = hasNextEpisode ? episodes[nextEpisodeIndex] : null;
 
   const handleNextEpisode = () => {
     if (hasNextEpisode && nextEpisode && animeId) {
+      const nextEpisodeNum = nextEpisodeIndex + 1;
       const nextEpisodeTitle = nextEpisode.title.replace(/^Episode \d+ - /, '');
       const params = new URLSearchParams({
         title: nextEpisodeTitle,
         src: src,
         animeId: animeId,
-        episodeNumber: (nextEpisodeIndex + 1).toString(),
+        episodeNumber: nextEpisodeNum.toString(),
       });
-      router.push(`/player?${params.toString()}`);
+      router.replace(`/player?${params.toString()}`);
     }
   };
 

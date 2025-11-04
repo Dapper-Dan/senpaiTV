@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import Image from 'next/image';
 
 interface VideoPlayerProps {
   title?: string;
@@ -61,7 +62,7 @@ export default function VideoPlayer({ title, src, introSkipToSeconds = 90, onNex
           <div className="flex items-center justify-center gap-3">
             <div className="flex items-center gap-2 text-sm">
               <button
-                className="px-3 py-1 bg-white/10 rounded hover:bg-white/20"
+                className="px-3 py-1"
                 onClick={async () => { 
                   const v = videoRef.current; 
                   if (!v) return; 
@@ -78,25 +79,20 @@ export default function VideoPlayer({ title, src, introSkipToSeconds = 90, onNex
                   }
                 }}
               >
-                {isPlaying ? 'Pause' : 'Play'}
+                {isPlaying ? <Image src="/images/icons/pause.svg" alt="Pause" width={35} height={35} /> : <Image src="/images/icons/play-2.svg" alt="Play" width={35} height={35} />}
               </button>
               <button className="px-3 py-1 bg-white/10 rounded hover:bg-white/20" onClick={() => { const v = videoRef.current; if (v) v.currentTime = Math.max(0, v.currentTime - 10); }}>-10s</button>
               <button className="px-3 py-1 bg-white/10 rounded hover:bg-white/20" onClick={() => { const v = videoRef.current; if (v) v.currentTime = Math.min(duration, v.currentTime + 10); }}>+10s</button>
-              <button className="px-3 py-1 bg-white/10 rounded hover:bg-white/20" onClick={() => { const v = videoRef.current; if (v) v.currentTime = Math.min(duration, introSkipToSeconds); }}>Skip Intro</button>
+              {/* <button className="px-3 py-1 bg-white/10 rounded hover:bg-white/20" onClick={() => { const v = videoRef.current; if (v) v.currentTime = Math.min(duration, introSkipToSeconds); }}>Skip Intro</button> */}
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex">
               {title && (
                 <div className="text-center text-lg font-semibold">{title}</div>
               )}
-              {hasNextEpisode && onNextEpisode && (
-                <button 
-                  className="px-4 py-2 bg-blue-600 rounded hover:bg-blue-700 font-medium"
-                  onClick={onNextEpisode}
-                >
-                  Next Episode
-                </button>
-              )}
             </div>
+            <button className="px-4 py-2" onClick={onNextEpisode}>
+              <Image src="/images/icons/next.svg" alt="Next Episode" width={35} height={35} />
+            </button>
           </div>
         </div>
       </div>

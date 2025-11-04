@@ -13,6 +13,7 @@ interface EpisodeProviderModalProps {
   episodeNumber: number;
   externalLinks: any[];
   animeId: number;
+  episodes: any[];
 }
 
 export default function EpisodeProviderModal({
@@ -22,6 +23,7 @@ export default function EpisodeProviderModal({
   episodeNumber,
   externalLinks,
   animeId,
+  episodes,
 }: EpisodeProviderModalProps) {
   const { isProviderLinked, linkProvider } = useProviderAuth();
   const [loginModalProvider, setLoginModalProvider] = useState<Provider | null>(null);
@@ -34,6 +36,10 @@ export default function EpisodeProviderModal({
   ), [externalLinks]);
 
   const buildPlayerUrl = () => {
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem(`episodes-${animeId}`, JSON.stringify(episodes));
+    }
+
     const params = new URLSearchParams({
       title: episodeTitle,
       src: '/videos/rick-kun.mp4',
