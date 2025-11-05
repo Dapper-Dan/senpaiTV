@@ -41,3 +41,10 @@ yarn-error.log*
 next-env.d.ts
 
 /src/generated/prisma
+
+# video files
+*.mp4
+*.mov
+*.avi
+*.mkv
+/public/videos/
