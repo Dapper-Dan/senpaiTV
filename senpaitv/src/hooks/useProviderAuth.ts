@@ -22,8 +22,6 @@ export function useProviderAuth() {
     }
   }, []);
 
-  console.log('linked', linkedProviders);
-
   useEffect(() => {
     if (!isLoading) {
       try {

@@ -92,7 +92,6 @@ export default function EpisodeProviderModal({
               {availableProviders.map(provider => {
                 const isLinked = isProviderLinked(provider.toLowerCase() as Provider);
                 const providerName = provider;
-                console.log(providerName, isLinked);
                 
                 const getProviderInfo = (provider: string) => {
                   switch (provider) {
