@@ -56,7 +56,7 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
     <div className="">
       <div className="relative overflow-hidden">
         {trailerLink && <iframe src={trailerLink} className={styles.seriesTrailer} width={280} height={100} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" />}
-        {!trailerLink && <Image src={bannerImage} className={styles.seriesBanner} alt={title.english} width={280} height={100} />}
+        {!trailerLink && <div className={styles.seriesBanner} style={{ backgroundImage: `url(${bannerImage})` }}></div>}
         <div className={styles.seriesBannerOverlay}></div>
       </div>
       <div className={styles.seriesContent + ' px-8'}>
