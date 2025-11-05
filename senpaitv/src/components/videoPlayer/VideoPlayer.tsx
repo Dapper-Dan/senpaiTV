@@ -6,17 +6,17 @@ import Image from 'next/image';
 interface VideoPlayerProps {
   title?: string;
   src: string;
-  introSkipToSeconds?: number;
   onNextEpisode?: () => void;
   hasNextEpisode?: boolean;
 }
 
-export default function VideoPlayer({ title, src, introSkipToSeconds = 90, onNextEpisode, hasNextEpisode = false }: VideoPlayerProps) {
+export default function VideoPlayer({ title, src, onNextEpisode, hasNextEpisode = false }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
 
   return (
     <div className="h-full w-full flex flex-col">
@@ -41,7 +41,7 @@ export default function VideoPlayer({ title, src, introSkipToSeconds = 90, onNex
             console.error('Error message:', video.error?.message);
           }}
         />
-        <div className="absolute bottom-0 left-0 right-0 p-4">
+        <div className="absolute bottom-0 left-0 right-0 opacity-0 hover:opacity-100 transition-opacity duration-300">
           <div
             ref={progressRef}
             className="w-full cursor-pointer"
@@ -59,7 +59,7 @@ export default function VideoPlayer({ title, src, introSkipToSeconds = 90, onNex
               style={{ width: duration ? `${(currentTime / duration) * 100}%` : '0%' }}
             />
           </div>
-          <div className="flex items-center justify-center gap-3">
+          <div className="flex items-center justify-center gap-3 p-4 bg-black/5">
             <div className="flex items-center gap-2 text-sm">
               <button
                 className="px-3 py-1"
@@ -81,18 +81,41 @@ export default function VideoPlayer({ title, src, introSkipToSeconds = 90, onNex
               >
                 {isPlaying ? <Image src="/images/icons/pause.svg" alt="Pause" width={35} height={35} /> : <Image src="/images/icons/play-2.svg" alt="Play" width={35} height={35} />}
               </button>
-              <button className="px-3 py-1 bg-white/10 rounded hover:bg-white/20" onClick={() => { const v = videoRef.current; if (v) v.currentTime = Math.max(0, v.currentTime - 10); }}>-10s</button>
-              <button className="px-3 py-1 bg-white/10 rounded hover:bg-white/20" onClick={() => { const v = videoRef.current; if (v) v.currentTime = Math.min(duration, v.currentTime + 10); }}>+10s</button>
-              {/* <button className="px-3 py-1 bg-white/10 rounded hover:bg-white/20" onClick={() => { const v = videoRef.current; if (v) v.currentTime = Math.min(duration, introSkipToSeconds); }}>Skip Intro</button> */}
+              <button className="px-3 py-1" onClick={() => { const v = videoRef.current; if (v) v.currentTime = Math.max(0, v.currentTime - 10); }}>
+                <Image src="/images/icons/rewind.svg" alt="Rewind" width={50} height={50} />
+              </button>
+              <button className="px-3 py-1" onClick={() => { const v = videoRef.current; if (v) v.currentTime = Math.min(duration, v.currentTime + 10); }}>
+                <Image src="/images/icons/forward.svg" alt="Forward" width={50} height={50} />
+              </button>
+              <button
+                className="px-3 py-1"
+                onClick={() => {
+                  const v = videoRef.current;
+                  if (v) {
+                    v.muted = !v.muted;
+                    setIsMuted(v.muted);
+                  }
+                }}
+              >
+                {isMuted ? (
+                  <Image src="/images/icons/unmuted.svg" alt="Unmuted" width={40} height={40} />
+                ) : (
+                  <Image src="/images/icons/muted.svg" alt="Muted" width={40} height={40} />
+                )}
+              </button>
             </div>
-            <div className="flex">
-              {title && (
-                <div className="text-center text-lg font-semibold">{title}</div>
-              )}
-            </div>
-            <button className="px-4 py-2" onClick={onNextEpisode}>
-              <Image src="/images/icons/next.svg" alt="Next Episode" width={35} height={35} />
-            </button>
+            {title && (
+              <div className="absolute left-1/2 -translate-x-1/2 text-2xl font-bold whitespace-nowrap">
+                {title}
+              </div>
+            )}
+            {hasNextEpisode && (
+              <div className="ml-auto">
+                <button className="px-4 py-2" onClick={onNextEpisode}>
+                  <Image src="/images/icons/next.svg" alt="Next Episode" width={45} height={45} />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
