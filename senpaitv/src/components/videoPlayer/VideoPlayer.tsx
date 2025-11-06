@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 
 interface VideoPlayerProps {
@@ -17,6 +17,29 @@ export default function VideoPlayer({ title, src, onNextEpisode, hasNextEpisode 
   const [currentTime, setCurrentTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const hideTimer = useRef<NodeJS.Timeout | null>(null);
+
+  const startHideTimer = () => {
+    clearTimeout(hideTimer.current!);
+    hideTimer.current = setTimeout(() => {
+      setVisible(false);
+    }, 3000);
+  };
+
+  useEffect(() => {
+    startHideTimer();
+    return () => clearTimeout(hideTimer.current!);
+  }, []);
+
+  const handleMouseEnter = () => {
+    clearTimeout(hideTimer.current!);
+    setVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    startHideTimer();
+  };
 
   return (
     <div className="h-full w-full flex flex-col">
@@ -41,7 +64,7 @@ export default function VideoPlayer({ title, src, onNextEpisode, hasNextEpisode 
             console.error('Error message:', video.error?.message);
           }}
         />
-        <div className="absolute bottom-0 left-0 right-0 opacity-0 hover:opacity-100 transition-opacity duration-300">
+        <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className={`absolute bottom-0 left-0 right-0 transition-opacity duration-300 ${visible ? 'opacity-100' : 'opacity-0'}`}>
           <div
             ref={progressRef}
             className="w-full cursor-pointer"
