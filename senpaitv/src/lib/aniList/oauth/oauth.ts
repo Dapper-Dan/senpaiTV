@@ -5,9 +5,9 @@ dotenv.config();
 const ANILIST_AUTH_URL = 'https://anilist.co/api/v2/oauth/authorize';
 const ANILIST_TOKEN_URL = 'https://anilist.co/api/v2/oauth/token';
 
-const CLIENT_ID = process.env.ANI_CLIENT_ID!;
+const CLIENT_ID = process.env.NEXT_PUBLIC_ANI_CLIENT_ID!;
 const CLIENT_SECRET = process.env.ANI_CLIENT_SECRET!;
-const REDIRECT_URI = process.env.ANI_REDIRECT_URI!;
+const REDIRECT_URI = process.env.NEXT_PUBLIC_ANI_REDIRECT_URI!;
 
 export function getAniListAuthUrl() {
   const params = new URLSearchParams({

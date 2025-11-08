@@ -3,12 +3,26 @@ import Link from "next/link"
 import Image from "next/image";
 import { useAuth } from "@/hooks/useAuth";
 import { useState, useRef, useEffect } from "react";
+import { getAniListAuthUrl } from "@/lib/aniList/oauth/oauth";
 import styles from "./header.module.css";
 
 export default function Header() {
   const { user, isAuthenticated, isLoading, signIn, signOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const [anilistConnected, setAnilistConnected] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('anilist_access_token');
+      setAnilistConnected(!!token);
+      
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('anilist_connected')) {
+        setAnilistConnected(true);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -64,6 +78,17 @@ export default function Header() {
               >
                 <img src={"/images/icons/logout.svg"} alt="Sign Out" className={styles.logoutIcon} width={40} height={40} />
                 Sign Out
+              </button>
+              <button
+                onClick={() => {
+                  if (!anilistConnected) {
+                    window.location.href = getAniListAuthUrl();
+                  }
+                }}
+                className="hover:bg-gray-600 text-xl flex items-center gap-3 cursor-pointer"
+              >
+               
+                {anilistConnected ? 'AniList Connected ✓' : 'Connect AniList'}
               </button>
             </>
           ) : (
