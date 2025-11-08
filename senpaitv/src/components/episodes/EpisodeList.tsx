@@ -9,9 +9,10 @@ interface EpisodesListProps {
   episodes: any[];
   animeId: number;
   externalLinks: any[];
+  aniListId: number;
 }
 
-export default function EpisodesList({ episodes, animeId, externalLinks}: EpisodesListProps) {
+export default function EpisodesList({ episodes, animeId, externalLinks, aniListId}: EpisodesListProps) {
   const { episodeDetails, loadingEpisodes, loadedCount, episodeRef } = useEpisodeDescription(episodes, animeId);
   const [selectedEpisode, setSelectedEpisode] = useState<{number: number, title: string} | null>(null);
 
@@ -74,6 +75,7 @@ export default function EpisodesList({ episodes, animeId, externalLinks}: Episod
           episodeNumber={selectedEpisode.number}
           externalLinks={externalLinks}
           animeId={animeId}
+          aniListId={aniListId}
           episodes={episodes}
         />
       )}

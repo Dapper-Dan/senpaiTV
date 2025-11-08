@@ -1,6 +1,7 @@
 'use server';
 
 import { saveEpisodeProgress } from '@/lib/aniList/mutations/saveProgress';
+import { setMediaListStatus } from '@/lib/aniList/mutations/saveStatus';
 
 export async function updateAniListProgress(
   accessToken: string,
@@ -28,5 +29,25 @@ export async function updateAniListProgress(
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',
     };
+  }
+}
+
+export async function setAniListStatus(
+  accessToken: string,
+  mediaId: number,
+  status: "PLANNING" | "COMPLETED" | "WATCHING"
+) {
+  try {
+    if (!accessToken) {
+      return { success: false, error: 'AniList not connected' };
+    }
+    if (!mediaId) {
+      return { success: false, error: 'Invalid media ID' };
+    }
+    const result = await setMediaListStatus(accessToken, mediaId, status);
+    return { success: true, data: result };
+  } catch (error) {
+    console.error('AniList status update failed:', error);
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
   }
 }

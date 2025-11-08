@@ -14,6 +14,7 @@ export default function PlayerPage() {
   const title = params.get('title') || '';
   const src = params.get('src') || '';
   const animeId = params.get('animeId');
+  const aniListId = params.get('aniListId');
   const episodeNumber = params.get('episodeNumber');
 
   const cachedEpisodes = useMemo(() => {
@@ -60,7 +61,7 @@ export default function PlayerPage() {
         try {
           const anilistToken = localStorage.getItem('anilist_access_token');
           if (anilistToken) {
-            await updateAniListProgress(anilistToken, parseInt(animeId), currentEpisodeNum);
+            await updateAniListProgress(anilistToken, parseInt(aniListId), currentEpisodeNum);
           }
         } catch (error) {
           console.error('Failed to sync AniList progress:', error);
@@ -84,7 +85,7 @@ export default function PlayerPage() {
       try {
         const anilistToken = localStorage.getItem('anilist_access_token');
         if (anilistToken) {
-          await updateAniListProgress(anilistToken, parseInt(animeId), episodeNum);
+          await updateAniListProgress(anilistToken, parseInt(aniListId), episodeNum);
         }
       } catch (error) {
         console.error('Failed to sync AniList progress:', error);

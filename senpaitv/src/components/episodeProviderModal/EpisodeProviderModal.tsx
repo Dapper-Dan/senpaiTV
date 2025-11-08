@@ -13,6 +13,7 @@ interface EpisodeProviderModalProps {
   episodeNumber: number;
   externalLinks: any[];
   animeId: number;
+  aniListId: number;
   episodes: any[];
 }
 
@@ -23,6 +24,7 @@ export default function EpisodeProviderModal({
   episodeNumber,
   externalLinks,
   animeId,
+  aniListId,
   episodes,
 }: EpisodeProviderModalProps) {
   const { isProviderLinked, linkProvider } = useProviderAuth();
@@ -44,6 +46,7 @@ export default function EpisodeProviderModal({
       title: episodeTitle,
       src: '/videos/rick-kun.mp4',
       animeId: animeId.toString(),
+      aniListId: aniListId.toString(),
       episodeNumber: episodeNumber.toString(),
     });
     return `/player?${params.toString()}`;

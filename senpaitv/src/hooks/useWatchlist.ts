@@ -2,6 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { addToWatchlist, removeFromWatchlist, getWatchlistItem } from '@/app/actions/watchlist';
+import { setAniListStatus } from '@/app/actions/anilist';
 import { WatchlistStatus } from '@/generated/prisma';
 
 export function useWatchlist(animeId?: string) {
@@ -15,10 +16,23 @@ export function useWatchlist(animeId?: string) {
   });
 
   const addMutation = useMutation({
-    mutationFn: ({ status, onSuccess }: { status: WatchlistStatus; onSuccess?: () => void }) => 
-      addToWatchlist(animeId!, status).then(() => onSuccess?.()),
+    mutationFn: async ({ status, onSuccess }: { status: WatchlistStatus; onSuccess?: () => void }) => {
+      await addToWatchlist(animeId!, status);
+
+      if (typeof window !== 'undefined') {
+        const token = localStorage.getItem('anilist_access_token');
+        if (token && animeId) {
+          try {
+            await setAniListStatus(token, parseInt(animeId), 'PLANNING');
+          } catch (e) {
+            console.warn('AniList set status failed');
+          }
+        }
+      }
+      onSuccess?.();
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries(['watchlist']);
+      queryClient.invalidateQueries({ queryKey: ['watchlist'] });
     },
   });
 
@@ -26,7 +40,7 @@ export function useWatchlist(animeId?: string) {
     mutationFn: (onSuccess?: () => void) => 
       removeFromWatchlist(animeId!).then(() => onSuccess?.()),
     onSuccess: () => {
-      queryClient.invalidateQueries(['watchlist']);
+      queryClient.invalidateQueries({ queryKey: ['watchlist'] });
     },
   });
 

@@ -51,7 +51,7 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
   
   let trailerLink = trailer ? `https://www.youtube-nocookie.com/embed/${trailer.id}?autoplay=1&mute=1&loop=1&controls=0&playlist=${trailer.id}&enablejsapi=1&rel=0` : null;
   const seenSites = new Set();
-
+  
   return (
     <div className="">
       <div className="relative overflow-hidden">
@@ -140,7 +140,7 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
           </div>
         </div>
         {streamingEpisodes.length > 0 && (
-          <EpisodesList episodes={streamingEpisodes} animeId={anime.idMal} externalLinks={externalLinks} />
+          <EpisodesList episodes={streamingEpisodes} animeId={anime.idMal} aniListId={anime.id} externalLinks={externalLinks} />
         )}
         {streamingEpisodes.length < 1 && (
           <div className="text-2xl font-bold">No streaming episodes found</div>
