@@ -4,6 +4,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { useMemo, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getAnimeById } from '@/lib/aniList/public/public';
+import { updateAniListProgress } from '@/app/actions/anilist';
 import VideoPlayer from '@/components/videoPlayer/VideoPlayer';
 import styles from './player.module.css';
 
@@ -53,8 +54,19 @@ export default function PlayerPage() {
   const hasNextEpisode = nextEpisodeIndex < episodes.length;
   const nextEpisode = hasNextEpisode ? episodes[nextEpisodeIndex] : null;
 
-  const handleNextEpisode = () => {
+  const handleNextEpisode = async () => {
     if (hasNextEpisode && nextEpisode && animeId) {
+      if (currentEpisodeNum > 0 && typeof window !== 'undefined') {
+        try {
+          const anilistToken = localStorage.getItem('anilist_access_token');
+          if (anilistToken) {
+            await updateAniListProgress(anilistToken, parseInt(animeId), currentEpisodeNum);
+          }
+        } catch (error) {
+          console.error('Failed to sync AniList progress:', error);
+        }
+      }
+
       const nextEpisodeNum = nextEpisodeIndex + 1;
       const nextEpisodeTitle = nextEpisode.title.replace(/^Episode \d+ - /, '');
       const params = new URLSearchParams({
@@ -64,6 +76,19 @@ export default function PlayerPage() {
         episodeNumber: nextEpisodeNum.toString(),
       });
       router.replace(`/player?${params.toString()}`);
+    }
+  };
+
+  const handleEpisodeProgress = async (episodeNum: number) => {
+    if (animeId && episodeNum > 0 && typeof window !== 'undefined') {
+      try {
+        const anilistToken = localStorage.getItem('anilist_access_token');
+        if (anilistToken) {
+          await updateAniListProgress(anilistToken, parseInt(animeId), episodeNum);
+        }
+      } catch (error) {
+        console.error('Failed to sync AniList progress:', error);
+      }
     }
   };
 
@@ -88,6 +113,9 @@ export default function PlayerPage() {
         src={src} 
         onNextEpisode={handleNextEpisode}
         hasNextEpisode={hasNextEpisode}
+        animeId={animeId ? parseInt(animeId) : undefined}
+        episodeNumber={currentEpisodeNum}
+        onProgressSync={handleEpisodeProgress}
       />
     </div>
   );

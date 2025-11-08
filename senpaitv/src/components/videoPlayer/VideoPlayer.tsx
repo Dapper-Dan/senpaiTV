@@ -8,9 +8,20 @@ interface VideoPlayerProps {
   src: string;
   onNextEpisode?: () => void;
   hasNextEpisode?: boolean;
+  animeId?: number;
+  episodeNumber?: number;
+  onProgressSync?: (episodeNumber: number) => void;
 }
 
-export default function VideoPlayer({ title, src, onNextEpisode, hasNextEpisode = false }: VideoPlayerProps) {
+export default function VideoPlayer({ 
+  title, 
+  src, 
+  onNextEpisode, 
+  hasNextEpisode = false,
+  animeId,
+  episodeNumber,
+  onProgressSync
+}: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
   const [duration, setDuration] = useState(0);
@@ -19,6 +30,7 @@ export default function VideoPlayer({ title, src, onNextEpisode, hasNextEpisode 
   const [isMuted, setIsMuted] = useState(false);
   const [visible, setVisible] = useState(true);
   const hideTimer = useRef<NodeJS.Timeout | null>(null);
+  const [hasSyncedProgress, setHasSyncedProgress] = useState(false);
 
   const startHideTimer = () => {
     clearTimeout(hideTimer.current!);
@@ -31,6 +43,42 @@ export default function VideoPlayer({ title, src, onNextEpisode, hasNextEpisode 
     startHideTimer();
     return () => clearTimeout(hideTimer.current!);
   }, []);
+
+  useEffect(() => {
+    if (!videoRef.current || !duration || !episodeNumber || !onProgressSync || hasSyncedProgress) {
+      return;
+    }
+
+    const video = videoRef.current;
+    const progressThreshold = 0.8; // 80% watched
+    const thresholdTime = duration * progressThreshold;
+
+    const handleTimeUpdate = () => {
+      if (video.currentTime >= thresholdTime && !hasSyncedProgress) {
+        onProgressSync(episodeNumber);
+        setHasSyncedProgress(true);
+      }
+    };
+
+    const handleEnded = () => {
+      if (!hasSyncedProgress) {
+        onProgressSync(episodeNumber);
+        setHasSyncedProgress(true);
+      }
+    };
+
+    video.addEventListener('timeupdate', handleTimeUpdate);
+    video.addEventListener('ended', handleEnded);
+
+    return () => {
+      video.removeEventListener('timeupdate', handleTimeUpdate);
+      video.removeEventListener('ended', handleEnded);
+    };
+  }, [duration, episodeNumber, onProgressSync, hasSyncedProgress]);
+
+  useEffect(() => {
+    setHasSyncedProgress(false);
+  }, [episodeNumber]);
 
   const handleMouseEnter = () => {
     clearTimeout(hideTimer.current!);
