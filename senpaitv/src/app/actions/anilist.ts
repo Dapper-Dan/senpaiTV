@@ -35,7 +35,7 @@ export async function updateAniListProgress(
 export async function setAniListStatus(
   accessToken: string,
   mediaId: number,
-  status: "PLANNING" | "COMPLETED" | "WATCHING"
+  status: "PLANNING" | "CURRENT" | "COMPLETED"
 ) {
   try {
     if (!accessToken) {

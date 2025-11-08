@@ -14,7 +14,7 @@ const SAVE_MEDIA_LIST_STATUS_MUTATION = gql`
 export async function setMediaListStatus(
   accessToken: string,
   mediaId: number,
-  status: "PLANNING" | "COMPLETED" | "WATCHING"
+  status: "PLANNING" | "CURRENT" | "COMPLETED"
 ) {
   const client = createAuthenticatedClient(accessToken);
   return client.request(SAVE_MEDIA_LIST_STATUS_MUTATION, {
@@ -22,5 +22,3 @@ export async function setMediaListStatus(
     status,
   });
 }
-
-

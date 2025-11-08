@@ -11,6 +11,7 @@ interface VideoPlayerProps {
   animeId?: number;
   episodeNumber?: number;
   onProgressSync?: (episodeNumber: number) => void;
+  onEpisodeStart?: () => void;
 }
 
 export default function VideoPlayer({ 
@@ -20,7 +21,8 @@ export default function VideoPlayer({
   hasNextEpisode = false,
   animeId,
   episodeNumber,
-  onProgressSync
+  onProgressSync,
+  onEpisodeStart
 }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
@@ -31,6 +33,7 @@ export default function VideoPlayer({
   const [visible, setVisible] = useState(true);
   const hideTimer = useRef<NodeJS.Timeout | null>(null);
   const [hasSyncedProgress, setHasSyncedProgress] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
 
   const startHideTimer = () => {
     clearTimeout(hideTimer.current!);
@@ -50,7 +53,7 @@ export default function VideoPlayer({
     }
 
     const video = videoRef.current;
-    const progressThreshold = 0.8; // 80% watched
+    const progressThreshold = 0.8;
     const thresholdTime = duration * progressThreshold;
 
     const handleTimeUpdate = () => {
@@ -103,7 +106,13 @@ export default function VideoPlayer({
             setDuration(video.duration || 0);
           }}
           onTimeUpdate={(e) => setCurrentTime((e.target as HTMLVideoElement).currentTime)}
-          onPlay={() => setIsPlaying(true)}
+          onPlay={() => {
+            setIsPlaying(true);
+            if (!hasStarted) {
+              setHasStarted(true);
+              onEpisodeStart?.();
+            }
+          }}
           onPause={() => setIsPlaying(false)}
           onError={(e) => {
             console.error('Video error:', e);

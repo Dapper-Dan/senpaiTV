@@ -4,7 +4,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { useMemo, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getAnimeById } from '@/lib/aniList/public/public';
-import { updateAniListProgress } from '@/app/actions/anilist';
+import { updateAniListProgress, setAniListStatus } from '@/app/actions/anilist';
 import VideoPlayer from '@/components/videoPlayer/VideoPlayer';
 import styles from './player.module.css';
 
@@ -60,7 +60,7 @@ export default function PlayerPage() {
       if (currentEpisodeNum > 0 && typeof window !== 'undefined') {
         try {
           const anilistToken = localStorage.getItem('anilist_access_token');
-          if (anilistToken) {
+          if (anilistToken && aniListId) {
             await updateAniListProgress(anilistToken, parseInt(aniListId), currentEpisodeNum);
           }
         } catch (error) {
@@ -84,12 +84,23 @@ export default function PlayerPage() {
     if (animeId && episodeNum > 0 && typeof window !== 'undefined') {
       try {
         const anilistToken = localStorage.getItem('anilist_access_token');
-        if (anilistToken) {
+        if (anilistToken && aniListId) {
           await updateAniListProgress(anilistToken, parseInt(aniListId), episodeNum);
         }
       } catch (error) {
         console.error('Failed to sync AniList progress:', error);
       }
+    }
+  };
+
+  const handleEpisodeStart = async () => {
+    try {
+      const token = localStorage.getItem('anilist_access_token');
+      if (token && aniListId) {
+        await setAniListStatus(token, parseInt(aniListId), 'CURRENT');
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -117,6 +128,7 @@ export default function PlayerPage() {
         animeId={animeId ? parseInt(animeId) : undefined}
         episodeNumber={currentEpisodeNum}
         onProgressSync={handleEpisodeProgress}
+        onEpisodeStart={handleEpisodeStart}
       />
     </div>
   );
