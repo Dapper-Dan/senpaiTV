@@ -1,5 +1,5 @@
 import { getUserWatchlist } from '@/app/actions/watchlist';
-import { getAnimeById } from '@/lib/aniList/public/public';
+import { getAnimeByIds } from '@/lib/aniList/public/public';
 import WatchlistGrid from '@/components/watchlist/WatchlistGrid';
 import { notFound } from 'next/navigation';
 
@@ -16,13 +16,8 @@ export default async function WatchlistPage() {
       </div>
     );
   }
-
-  const animeDetailsPromises = watchlistItems.map((item) =>
-    getAnimeById(parseInt(item.animeId))
-  );
-
-  const animeDetails = await Promise.all(animeDetailsPromises);
-  const validAnime = animeDetails.filter((anime) => anime !== null);
+  const ids = watchlistItems.map((item) => parseInt(item.animeId)).filter((n) => !isNaN(n));
+  const validAnime = await getAnimeByIds(ids);
 
   if (validAnime.length === 0) {
     notFound();

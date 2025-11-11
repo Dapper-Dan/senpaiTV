@@ -312,6 +312,84 @@ export const getAnimeById = async (id: number) => {
   return result.Media;
 };
 
+export const getAnimeByIds = async (ids: number[]) => {
+  if (!ids || ids.length === 0) return [];
+
+  const query = gql`
+    query GetAnimeByIds($ids: [Int], $page: Int, $perPage: Int) {
+      Page(page: $page, perPage: $perPage) {
+        media(id_in: $ids, type: ANIME) {
+          id
+          idMal
+          title {
+            romaji
+            english
+          }
+          coverImage {
+            extraLarge
+            large
+            medium
+          }
+          bannerImage
+          averageScore
+          popularity
+          episodes
+          duration
+          status
+          season
+          seasonYear
+          studios {
+            nodes {
+              name
+            }
+          }
+          tags {
+            category
+            description
+            name
+          }
+          genres
+          externalLinks {
+            type
+            site
+            url
+          }
+          reviews {
+            nodes {
+              summary
+            }
+            pageInfo {
+              total
+            }
+          }
+          description
+          stats {
+            scoreDistribution {
+              score
+              amount
+            }
+          }
+          trailer {
+            site
+            thumbnail
+            id
+          }
+          streamingEpisodes {
+            site
+            thumbnail
+            title
+            url
+          }
+        }
+      }
+    }
+  `;
+
+  const results = await client.request(query, { ids: ids, page: 1, perPage: ids.length }) as any;
+  const media = results?.Page?.media ?? [];
+  return media;
+};
+
 export const searchAnime = async (query: string) => {
   const searchQuery = gql`
     query SearchAnime($search: String, $page: Int, $perPage: Int) {
