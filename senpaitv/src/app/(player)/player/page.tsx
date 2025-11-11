@@ -4,7 +4,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { useMemo, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getAnimeById } from '@/lib/aniList/public/public';
-import { updateAniListProgress, setAniListStatus } from '@/app/actions/anilist';
+import { updateAniListProgress, setAniListStatus } from '@/app/actions/aniList';
 import VideoPlayer from '@/components/videoPlayer/VideoPlayer';
 import styles from './player.module.css';
 

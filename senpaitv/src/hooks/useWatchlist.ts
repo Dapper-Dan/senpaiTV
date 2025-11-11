@@ -2,7 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { addToWatchlist, removeFromWatchlist, getWatchlistItem } from '@/app/actions/watchlist';
-import { setAniListStatus } from '@/app/actions/anilist';
+import { setAniListStatus } from '@/app/actions/aniList';
 import { WatchlistStatus } from '@/generated/prisma';
 
 export function useWatchlist(animeId?: string) {

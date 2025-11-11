@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useAuth } from "@/hooks/useAuth";
 import { useState, useRef, useEffect } from "react";
 import { getAniListAuthUrl } from "@/lib/aniList/oauth/oauth";
+import { syncAniListWithWatchlist } from "@/app/actions/aniList";
 import styles from "./header.module.css";
 
 export default function Header() {
@@ -80,15 +81,23 @@ export default function Header() {
                 Sign Out
               </button>
               <button
-                onClick={() => {
-                  if (!anilistConnected) {
+                onClick={async () => {
+                  const token = typeof window !== 'undefined' ? localStorage.getItem('anilist_access_token') : null;
+                  if (!token) {
                     window.location.href = getAniListAuthUrl();
+                    return;
+                  }
+                  try {
+                    await syncAniListWithWatchlist(token);
+                    setAnilistConnected(true);
+                  } catch (e) {
+                    console.error('Sync failed', e);
                   }
                 }}
                 className="hover:bg-gray-600 text-xl flex items-center gap-3 cursor-pointer"
               >
                
-                {anilistConnected ? 'AniList Connected ✓' : 'Connect AniList'}
+                {anilistConnected ? 'AniList Connected ✓ Sync Now?' : 'Connect AniList'}
               </button>
             </>
           ) : (

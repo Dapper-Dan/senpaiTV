@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
 
   try {
     const tokenData = await exchangeCodeForToken(code);
-    const redirectUrl = new URL('/anilist/callback', req.url);
+    const redirectUrl = new URL('/aniList/callback', req.url);
     redirectUrl.hash = `#token=${tokenData.access_token}`;
     
     return NextResponse.redirect(redirectUrl);
