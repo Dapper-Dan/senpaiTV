@@ -2,6 +2,7 @@ import { getUserWatchlist } from '@/app/actions/watchlist';
 import { getAnimeByIds } from '@/lib/aniList/public/public';
 import WatchlistGrid from '@/components/watchlist/WatchlistGrid';
 import { notFound } from 'next/navigation';
+import AutoSyncWatchlist from '@/components/watchlist/AutoSyncWatchlist';
 
 export default async function WatchlistPage() {
   const watchlistItems = await getUserWatchlist();
@@ -25,6 +26,7 @@ export default async function WatchlistPage() {
 
   return (
     <div className="page-container py-8">
+      <AutoSyncWatchlist />
       <h1 className="text-3xl font-bold mb-12 mt-4 px-10">My Watchlist</h1>
       <WatchlistGrid anime={validAnime} />
     </div>
