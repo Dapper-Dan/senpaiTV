@@ -5,9 +5,9 @@ const client = new GraphQLClient(endpoint);
 
 export const getTrendingAnime = async () => {
   const query = gql`
-    query GetTrendingAnime($page: Int, $perPage: Int) {
+    query GetTrendingAnime($page: Int, $perPage: Int, $excludedGenres: [String]) {
       Page(page: $page, perPage: $perPage) {
-        media(sort: TRENDING_DESC, type: ANIME, status: RELEASING) {
+        media(sort: TRENDING_DESC, type: ANIME, status: RELEASING, genre_not_in: $excludedGenres) {
           id
           title {
             romaji
@@ -67,7 +67,7 @@ export const getTrendingAnime = async () => {
       }
     }
   `;
-  return client.request(query, { page: 1, perPage: 20 });
+  return client.request(query, { page: 1, perPage: 20, excludedGenres: ["Hentai"] });
 };
 
 export const getGhibliAnime = async () => {
@@ -127,9 +127,9 @@ export const getGhibliAnime = async () => {
 
 export const getIsekaiAnime = async () => {
   const query = gql`
-    query GetIsekaiAnime($tag: String, $sort: [MediaSort]) {
+    query GetIsekaiAnime($tag: String, $sort: [MediaSort], $excludedGenres: [String]) {
       Page {
-        media(type: ANIME, tag: $tag, sort: $sort) {
+        media(type: ANIME, tag: $tag, sort: $sort, genre_not_in: $excludedGenres) {
           id
           title {
             english
@@ -173,14 +173,14 @@ export const getIsekaiAnime = async () => {
       }
     }
   `;
-  return client.request(query, { tag: "Isekai", sort: "POPULARITY_DESC" });
+  return client.request(query, { tag: "Isekai", sort: "POPULARITY_DESC", excludedGenres: ["Hentai"] });
 };
 
 export const getRankedAnime = async () => {
   const query = gql`
-    query GetRankedAnime($page: Int, $perPage: Int) {
+    query GetRankedAnime($page: Int, $perPage: Int, $excludedGenres: [String]) {
       Page(page: $page, perPage: $perPage) {
-        media(sort: SCORE_DESC, type: ANIME, status: FINISHED) {
+        media(sort: SCORE_DESC, type: ANIME, status: FINISHED, genre_not_in: $excludedGenres) {
           id
           title {
             romaji
@@ -237,7 +237,7 @@ export const getRankedAnime = async () => {
       }
     }
   `;
-  return client.request(query, { page: 1, perPage: 20 });
+  return client.request(query, { page: 1, perPage: 20, excludedGenres: ["Hentai"] });
 };
 
 export const getAnimeById = async (id: number) => {
@@ -387,14 +387,14 @@ export const getAnimeByIds = async (ids: number[]) => {
 
   const results = await client.request(query, { ids: ids, page: 1, perPage: ids.length }) as any;
   const media = results?.Page?.media ?? [];
-  return media;
+  return excludeHentai(media);
 };
 
 export const searchAnime = async (query: string) => {
   const searchQuery = gql`
-    query SearchAnime($search: String, $page: Int, $perPage: Int) {
+    query SearchAnime($search: String, $page: Int, $perPage: Int, $excludedGenres: [String]) {
       Page(page: $page, perPage: $perPage) {
-        media(search: $search, type: ANIME, sort: POPULARITY_DESC) {
+        media(search: $search, type: ANIME, sort: POPULARITY_DESC, genre_not_in: $excludedGenres) {
           id
           title {
             romaji
@@ -461,7 +461,12 @@ export const searchAnime = async (query: string) => {
   const result = await client.request(searchQuery, { 
     search: query, 
     page: 1, 
-    perPage: 50 
+    perPage: 50,
+    excludedGenres: ["Hentai"]
   }) as any;
   return result.Page.media;
 };
+
+function excludeHentai<T extends { genres?: string[] }>(items: T[]): T[] {
+  return items.filter((m) => !(m.genres || []).includes('Hentai'));
+}
