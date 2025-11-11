@@ -387,7 +387,7 @@ export const getAnimeByIds = async (ids: number[]) => {
 
   const results = await client.request(query, { ids: ids, page: 1, perPage: ids.length }) as any;
   const media = results?.Page?.media ?? [];
-  return excludeHentai(media);
+  return excludeNoPromo(excludeHentai(media));
 };
 
 export const searchAnime = async (query: string) => {
@@ -464,9 +464,13 @@ export const searchAnime = async (query: string) => {
     perPage: 50,
     excludedGenres: ["Hentai"]
   }) as any;
-  return result.Page.media;
+  return excludeNoPromo(excludeHentai(result.Page.media));
 };
 
-function excludeHentai<T extends { genres?: string[] }>(items: T[]): T[] {
-  return items.filter((m) => !(m.genres || []).includes('Hentai'));
+function excludeHentai(items: any[]): any[] {
+  return items.filter((m: any) => !(m.genres || []).includes('Hentai'));
+}
+
+function excludeNoPromo(items: any[]): any[] {
+  return items.filter((m: any) => Boolean(m?.bannerImage) || Boolean(m?.trailer?.id));
 }
