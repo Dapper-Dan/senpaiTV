@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useEpisodeDescription } from '@/hooks/useEpisodeDescription';
 import styles from '../../app/(main)/series/[id]/series.module.css';
 import Image from 'next/image';
@@ -15,6 +15,18 @@ interface EpisodesListProps {
 export default function EpisodesList({ episodes, animeId, externalLinks, aniListId}: EpisodesListProps) {
   const { episodeDetails, loadingEpisodes, loadedCount, episodeRef } = useEpisodeDescription(episodes, animeId);
   const [selectedEpisode, setSelectedEpisode] = useState<{number: number, title: string} | null>(null);
+  const [watchedMap, setWatchedMap] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const key = `watched-${aniListId || animeId}`;
+      const existing = localStorage.getItem(key);
+      setWatchedMap(existing ? JSON.parse(existing) : {});
+    } catch {
+      setWatchedMap({});
+    }
+  }, [animeId, aniListId]);
 
   const handlePlayClick = (episodeNumber: number, episodeTitle: string) => {
     setSelectedEpisode({ number: episodeNumber, title: episodeTitle });
@@ -52,7 +64,14 @@ export default function EpisodesList({ episodes, animeId, externalLinks, aniList
             </button>
           </div>
           <div className="flex flex-col gap-2">
-            <h2 className="text-2xl font-bold">{episode.title.replace(/^Episode \d+ - /, '')}</h2>
+            <div className="flex items-center gap-3">
+              <h2 className="text-2xl font-bold">{episode.title.replace(/^Episode \d+ - /, '')}</h2>
+              {watchedMap[String(index + 1)] && (
+                <span className="px-2 py-0.5 text-xs font-semibold rounded bg-green-600/20 text-green-400">
+                  Watched
+                </span>
+              )}
+            </div>
             {loadingEpisodes.has(index) && (
               <div className="">Loading synopsis...</div>
             )}

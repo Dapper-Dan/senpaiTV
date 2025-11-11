@@ -63,6 +63,16 @@ export default function PlayerPage() {
           if (anilistToken && aniListId) {
             await updateAniListProgress(anilistToken, parseInt(aniListId), currentEpisodeNum);
           }
+
+          try {
+            const key = `watched-${aniListId || animeId}`;
+            const existing = localStorage.getItem(key);
+            const map = existing ? JSON.parse(existing) : {};
+            map[String(currentEpisodeNum)] = true;
+            localStorage.setItem(key, JSON.stringify(map));
+          } catch {
+            // ignore
+          }
         } catch (error) {
           console.error('Failed to sync AniList progress:', error);
         }
@@ -74,6 +84,7 @@ export default function PlayerPage() {
         title: nextEpisodeTitle,
         src: src,
         animeId: animeId,
+        aniListId: aniListId || '',
         episodeNumber: nextEpisodeNum.toString(),
       });
       router.replace(`/player?${params.toString()}`);
@@ -86,6 +97,16 @@ export default function PlayerPage() {
         const anilistToken = localStorage.getItem('anilist_access_token');
         if (anilistToken && aniListId) {
           await updateAniListProgress(anilistToken, parseInt(aniListId), episodeNum);
+        }
+
+        try {
+          const key = `watched-${aniListId || animeId}`;
+          const existing = localStorage.getItem(key);
+          const map = existing ? JSON.parse(existing) : {};
+          map[String(episodeNum)] = true;
+          localStorage.setItem(key, JSON.stringify(map));
+        } catch {
+          // ignore
         }
       } catch (error) {
         console.error('Failed to sync AniList progress:', error);
