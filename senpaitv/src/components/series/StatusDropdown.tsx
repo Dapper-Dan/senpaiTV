@@ -95,11 +95,12 @@ export default function StatusDropdown({
         />
       </button>
       {open && (
-        <ul className="absolute z-10 mt-2 min-w-[120px] rounded border border-[#171717] bg-white/80 backdrop-blur-sm">
+        <ul className="absolute z-10 mt-2 min-w-[120px] rounded border border-[#171717] bg-white backdrop-blur-sm py-[11px]">
+          <span className="absolute -top-[7px] right-[10px] w-3 h-3 bg-white border border-[#171717] rotate-45 border-b-0 border-r-0" />
           {options.map((opt) => (
             <li
               key={opt}
-              className="px-3 py-2 hover:bg-white/10 cursor-pointer text-[#171717]"
+              className="px-3 py-2 hover:bg-black/10 cursor-pointer text-[#171717]"
               onClick={() => handleSelect(opt)}
             >
               {toLabel(opt)}
