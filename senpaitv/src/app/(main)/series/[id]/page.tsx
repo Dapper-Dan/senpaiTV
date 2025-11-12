@@ -3,7 +3,8 @@ import Image from 'next/image';
 import { getAnimeById } from '@/lib/aniList/public/public';
 import styles from './series.module.css';
 import EpisodesList from '@/components/episodes/EpisodeList';
-import WatchlistButton from '@/components/watchlist/WatchlistButton';
+import { getWatchlistItem } from '@/app/actions/watchlist';
+import StatusDropdown from '@/components/series/StatusDropdown';
 
 interface SeriesPageProps {
   params: {
@@ -39,6 +40,8 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
     externalLinks,
     streamingEpisodes
   } = anime;
+
+  const watchlistItem = await getWatchlistItem(id);
 
   const formattedScore = averageScore ? `${(averageScore / 10).toFixed(1)}` : "N/A";
   const usersSubmitted = stats?.scoreDistribution.reduce((acc: number, curr: { amount: number }) => acc + curr.amount, 0);
@@ -94,7 +97,6 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
                   {duration} min/ep
                 </span>
               )}
-              <WatchlistButton animeId={id} />
               <div className="flex gap-3">
                 {externalLinks.map((link: any) => {
                   if (streamingAppImages[link.site] && !seenSites.has(link.site)) {
@@ -105,6 +107,11 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
                   }
                 })}
               </div>
+              <StatusDropdown
+                aniListId={anime.id}
+                localAnimeId={id}
+                initialLocalStatus={watchlistItem?.status as any}
+              />
             </div>
             <div className="flex justify-between">
               <p className="leading-relaxed max-w-4/7">
