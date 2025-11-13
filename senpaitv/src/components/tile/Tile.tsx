@@ -128,7 +128,7 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, tileWi
           onMouseLeave={onDeactivate}
         >
           {trailerLink && <iframe src={trailerLink} className={styles.tileTrailer} width={280} height={100} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" />}
-          {!trailerLink && <Image src={bannerImage} className={styles.tileBanner} alt={title.english} width={280} height={100} />}
+          {!trailerLink && <div className={styles.tileBanner} style={{ backgroundImage: `url(${bannerImage})` }}></div>}
           <div className={styles.contentContainer}>
             <h3 className="text-2xl font-bold">{title.english}</h3>
             <ul className={styles.genres}>
