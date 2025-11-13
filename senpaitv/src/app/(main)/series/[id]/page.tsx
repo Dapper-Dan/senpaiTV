@@ -5,6 +5,7 @@ import styles from './series.module.css';
 import EpisodesList from '@/components/episodes/EpisodeList';
 import { getWatchlistItem } from '@/app/actions/watchlist';
 import StatusDropdown from '@/components/series/StatusDropdown';
+import ScoreInput from '@/components/series/ScoreInput';
 
 interface SeriesPageProps {
   params: {
@@ -86,6 +87,7 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
                 <span className="">
                   ({usersSubmitted?.toLocaleString()} users)
                 </span>
+                <ScoreInput aniListId={anime.id} />
               </div>
               {episodes && (
                 <span className="text-lg">

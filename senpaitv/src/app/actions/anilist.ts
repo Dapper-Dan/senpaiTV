@@ -2,6 +2,7 @@
 
 import { saveEpisodeProgress } from '@/lib/aniList/mutations/saveProgress';
 import { setMediaListStatus } from '@/lib/aniList/mutations/saveStatus';
+import { setMediaListScore } from '@/lib/aniList/mutations/saveScore';
 import { getUserPlanningMediaIds } from '@/lib/aniList/queries/getUserPlanning';
 import { addToWatchlist, getUserWatchlist } from './watchlist';
 
@@ -50,6 +51,28 @@ export async function setAniListStatus(
     return { success: true, data: result };
   } catch (error) {
     console.error('AniList status update failed:', error);
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
+  }
+}
+
+export async function setAniListScore(
+  accessToken: string,
+  mediaId: number,
+  score: number
+) {
+  try {
+    if (!accessToken) {
+      return { success: false, error: 'AniList not connected' };
+    }
+    if (!mediaId) {
+      return { success: false, error: 'Invalid media ID' };
+    }
+
+    const clamped = Math.max(0, Math.min(10, score));
+    const result = await setMediaListScore(accessToken, mediaId, clamped);
+    return { success: true, data: result };
+  } catch (error) {
+    console.error('AniList score update failed:', error);
     return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
   }
 }
