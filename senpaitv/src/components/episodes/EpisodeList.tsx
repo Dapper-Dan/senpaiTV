@@ -73,7 +73,11 @@ export default function EpisodesList({ episodes, animeId, externalLinks, aniList
               )}
             </div>
             {loadingEpisodes.has(index) && (
-              <div className="">Loading synopsis...</div>
+              <div className="mt-2 space-y-2 animate-pulse">
+                <div className="h-4 bg-gray-700/60 rounded w-3/4" />
+                <div className="h-4 bg-gray-700/60 rounded w-full" />
+                <div className="h-4 bg-gray-700/60 rounded w-5/6" />
+              </div>
             )}
             {episodeDetails.get(index)?.synopsis ? (
               <p className="text-gray-200 mt-2">
