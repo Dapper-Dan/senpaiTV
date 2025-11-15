@@ -9,6 +9,8 @@ import styles from "./header.module.css";
 import { useSession } from "next-auth/react";
 import { buildUserKey, clearTokensForUser } from "@/lib/aniList/client/userToken";
 import { useAniListToken } from "@/lib/aniList/client/useAniListToken";
+import AniListConnectModal from "@/components/aniList/AniListConnectModal";
+import { emitAniListOk, emitAniListError } from "@/lib/aniList/client/events";
 
 export default function Header() {
   const { user, isAuthenticated, isLoading, signIn, signOut } = useAuth();
@@ -16,6 +18,7 @@ export default function Header() {
   const { token, userKey, isConnected } = useAniListToken();
   const [isOpen, setIsOpen] = useState(false);
   const [anilistConnected, setAnilistConnected] = useState(false);
+  const [showAniListModal, setShowAniListModal] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -92,7 +95,20 @@ export default function Header() {
                 Sign Out
               </button>
               <button
-                onClick={async () => {
+                onClick={() => setShowAniListModal(true)}
+                className="hover:bg-gray-600 text-xl flex items-center gap-3 cursor-pointer"
+              >
+                <Image src={"/images/icons/antenna.svg"} alt="AniList" width={40} height={45} />
+                {anilistConnected ? 'Anilist: Connected' : 'Anilist: Not Connected'}
+              </button>
+              <AniListConnectModal
+                open={showAniListModal}
+                isConnected={anilistConnected}
+                onClose={() => setShowAniListModal(false)}
+                onConnect={() => {
+                  window.location.href = getAniListAuthUrl();
+                }}
+                onSync={async () => {
                   if (!token) {
                     window.location.href = getAniListAuthUrl();
                     return;
@@ -100,17 +116,14 @@ export default function Header() {
                   try {
                     await syncAniListWithWatchlist(token);
                     setAnilistConnected(true);
-                    try { window.dispatchEvent(new Event('anilist-ok')); } catch {}
+                    emitAniListOk();
+                    setShowAniListModal(false);
                   } catch (e) {
                     console.error('Sync failed', e);
-                    try { window.dispatchEvent(new Event('anilist-error')); } catch {}
+                    emitAniListError();
                   }
                 }}
-                className="hover:bg-gray-600 text-xl flex items-center gap-3 cursor-pointer"
-              >
-                <Image src={"/images/icons/antenna.svg"} alt="AniList" className="pl-[3px]" width={40} height={45} />
-                {anilistConnected ? 'Anilist: Connected ✓ Sync Now?' : 'Anilist: Not Connected'}
-              </button>
+              />
             </>
           ) : (
             <>
