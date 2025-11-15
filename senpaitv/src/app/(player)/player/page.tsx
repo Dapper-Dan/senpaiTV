@@ -1,14 +1,14 @@
 'use client';
 
+import { Suspense, useMemo, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { useMemo, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getAnimeById } from '@/lib/aniList/public/public';
 import { updateAniListProgress, setAniListStatus } from '@/app/actions/aniList';
 import VideoPlayer from '@/components/videoPlayer/VideoPlayer';
 import styles from './player.module.css';
 
-export default function PlayerPage() {
+function PlayerClient() {
   const params = useSearchParams();
   const router = useRouter();
   const title = params.get('title') || '';
@@ -62,6 +62,7 @@ export default function PlayerPage() {
           const anilistToken = localStorage.getItem('anilist_access_token');
           if (anilistToken && aniListId) {
             await updateAniListProgress(anilistToken, parseInt(aniListId), currentEpisodeNum);
+            try { window.dispatchEvent(new Event('anilist-ok')); } catch {}
           }
 
           try {
@@ -97,6 +98,7 @@ export default function PlayerPage() {
         const anilistToken = localStorage.getItem('anilist_access_token');
         if (anilistToken && aniListId) {
           await updateAniListProgress(anilistToken, parseInt(aniListId), episodeNum);
+          try { window.dispatchEvent(new Event('anilist-ok')); } catch {}
         }
 
         try {
@@ -110,6 +112,7 @@ export default function PlayerPage() {
         }
       } catch (error) {
         console.error('Failed to sync AniList progress:', error);
+        try { window.dispatchEvent(new Event('anilist-error')); } catch {}
       }
     }
   };
@@ -119,9 +122,11 @@ export default function PlayerPage() {
       const token = localStorage.getItem('anilist_access_token');
       if (token && aniListId) {
         await setAniListStatus(token, parseInt(aniListId), 'CURRENT');
+        try { window.dispatchEvent(new Event('anilist-ok')); } catch {}
       }
     } catch (e) {
       console.log(e);
+      try { window.dispatchEvent(new Event('anilist-error')); } catch {}
     }
   };
 
@@ -154,3 +159,13 @@ export default function PlayerPage() {
     </div>
   );
 }
+
+export default function PlayerPage() {
+  return (
+    <Suspense fallback={<div />}>
+      <PlayerClient />
+    </Suspense>
+  );
+}
+
+export const dynamic = 'force-dynamic';

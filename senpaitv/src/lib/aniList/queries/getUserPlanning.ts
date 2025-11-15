@@ -25,10 +25,10 @@ const VIEWER_QUERY = gql`
 
 export async function getUserPlanningMediaIds(accessToken: string): Promise<number[]> {
   const client = createAuthenticatedClient(accessToken);
-  const viewer = await client.request(VIEWER_QUERY);
-  const userId: number | undefined = viewer?.Viewer?.id;
-  const data = await client.request(MEDIA_LIST_COLLECTION, { userId });
-  const lists = data?.MediaListCollection?.lists ?? [];
+  const viewerRes: any = await client.request(VIEWER_QUERY);
+  const userId: number | undefined = viewerRes?.Viewer?.id;
+  const dataRes: any = await client.request(MEDIA_LIST_COLLECTION, { userId });
+  const lists = dataRes?.MediaListCollection?.lists ?? [];
 
   const ids: number[] = [];
   for (const list of lists) {

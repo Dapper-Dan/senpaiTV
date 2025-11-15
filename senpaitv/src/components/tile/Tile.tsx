@@ -91,8 +91,7 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, tileWi
     }
   };
 
-  let parser = new DOMParser();
-  let parsedDescription = parser.parseFromString(description, 'text/html');
+  const plainDescription = (description || '').replace(/<[^>]*>/g, '');
 
   let trailerLink = trailer ? `https://www.youtube-nocookie.com/embed/${trailer.id}?autoplay=1&mute=0&loop=1&controls=0&playlist=${trailer.id}&enablejsapi=1&rel=0` : null;
   const seenSites = new Set();
@@ -149,7 +148,9 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, tileWi
                 }
               })}
             </div>
-            <p className={styles.description} title={parsedDescription.body.textContent || ''}>{parsedDescription.body.textContent?.replace(/\s*\(Source:.*?\)$/i, '') || 'Description not available'}</p>
+            <p className={styles.description} title={plainDescription || ''}>
+              {plainDescription.replace(/\s*\(Source:.*?\)$/i, '') || 'Description not available'}
+            </p>
           </div>
           <div className={styles.buttonContainer}>
             <button className={styles.playButton + ' ' + styles.tileButton}><img src={"/images/icons/play.svg"} alt="Play" /></button>

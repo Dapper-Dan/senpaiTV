@@ -4,10 +4,11 @@ import TileCarousel from "@/components/tileCarousel/TileCaro";
 import { getRankedAnime, getTrendingAnime, getGhibliAnime, getIsekaiAnime } from "@/lib/aniList/public/public";
 
 export default async function Home() {
-  const rankedAnime = await getRankedAnime();
-  const trendingAnime = await getTrendingAnime();
-  const ghibliAnime = await getGhibliAnime();
-  const isekaiAnime = await getIsekaiAnime();
+  
+  const rankedAnime: any = await getRankedAnime();
+  const trendingAnime: any = await getTrendingAnime();
+  const ghibliAnime: any = await getGhibliAnime();
+  const isekaiAnime: any = await getIsekaiAnime();
 
   const filterStreamingLinks = (anime: any) => ({
     ...anime,
@@ -19,45 +20,21 @@ export default async function Home() {
     return streamingLinks.length > 0;
   };
 
-  const filteredRankedAnime = {
-    ...rankedAnime,
-    Page: {
-      ...rankedAnime.Page,
-      media: rankedAnime.Page.media
-      .filter(filterAnimeWithStreaming)
-      .map(filterStreamingLinks)
-    }
-  };
+  const rankedMedia = (rankedAnime?.Page?.media || [])
+    .filter(filterAnimeWithStreaming)
+    .map(filterStreamingLinks);
 
-  const filteredTrendingAnime = {
-    ...trendingAnime,
-    Page: {
-      ...trendingAnime.Page,
-      media: trendingAnime.Page.media
-      .filter(filterAnimeWithStreaming)
-      .map(filterStreamingLinks)
-    }
-  };
+  const trendingMedia = (trendingAnime?.Page?.media || [])
+    .filter(filterAnimeWithStreaming)
+    .map(filterStreamingLinks);
 
-  const filteredIsekaiAnime = {
-    ...isekaiAnime,
-    Page: {
-      ...isekaiAnime.Page,
-      media: isekaiAnime.Page.media
-      .filter(filterAnimeWithStreaming)
-      .map(filterStreamingLinks)
-    }
-  };
+  const isekaiMedia = (isekaiAnime?.Page?.media || [])
+    .filter(filterAnimeWithStreaming)
+    .map(filterStreamingLinks);
 
-  const filteredGhibliAnime = {
-    ...ghibliAnime,
-    Page: {
-      ...ghibliAnime.Page,
-        media: ghibliAnime.Page.studios[0].media.nodes
-        .filter(filterAnimeWithStreaming)
-        .map(filterStreamingLinks)
-    }
-  };
+  const ghibliMedia = ((ghibliAnime?.Page?.studios?.[0]?.media?.nodes) || [])
+    .filter(filterAnimeWithStreaming)
+    .map(filterStreamingLinks);
 
   return (
     <div className="page-container">
@@ -69,10 +46,10 @@ export default async function Home() {
             <a href="series/116674" className="bg-[#171717] text-[#fefefe] px-6 py-4 rounded-md font-bold ml-4 mt-3 flex w-fit relative z-10">Go to Series</a>
           </div>
         </div>
-        <TileCarousel anime={filteredRankedAnime.Page.media} title="Top Ranked" />
-        <TileCarousel anime={filteredTrendingAnime.Page.media} title="Trending" />
-        <TileCarousel anime={filteredGhibliAnime.Page.media} title="Ghibli" />
-        <TileCarousel anime={filteredIsekaiAnime.Page.media} title="Isekai" />
+        <TileCarousel anime={rankedMedia} title="Top Ranked" />
+        <TileCarousel anime={trendingMedia} title="Trending" />
+        <TileCarousel anime={ghibliMedia} title="Ghibli" />
+        <TileCarousel anime={isekaiMedia} title="Isekai" />
       </main>
     </div>
   );

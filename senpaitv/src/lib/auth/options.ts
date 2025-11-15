@@ -1,0 +1,32 @@
+import GoogleProvider from "next-auth/providers/google";
+import type { NextAuthOptions } from "next-auth";
+
+export const authOptions: NextAuthOptions = {
+  providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+  ],
+  callbacks: {
+    session: async ({ session, token }) => {
+      if (session?.user && token?.sub) {
+        (session.user as any).id = token.sub;
+        (session.user as any).role = (token as any).role as string || 'authenticated';
+      }
+      return session;
+    },
+    jwt: async ({ user, token }) => {
+      if (user) {
+        (token as any).role = (user as any).role || 'authenticated';
+      }
+      return token;
+    },
+  },
+  pages: {
+    signIn: '/login',
+    signOut: '/logout',
+  },
+};
+
+

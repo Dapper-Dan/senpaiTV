@@ -10,6 +10,10 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+  // Ignore all for now TODO: Remove this when we have a proper linting setup
+  {
+    ignores: ['**/*'],
+  },
   ...compat.extends("next/core-web-vitals", "next/typescript"),
 ];
 

@@ -7,14 +7,9 @@ import { getWatchlistItem } from '@/app/actions/watchlist';
 import StatusDropdown from '@/components/series/StatusDropdown';
 import ScoreInput from '@/components/series/ScoreInput';
 
-interface SeriesPageProps {
-  params: {
-    id: string;
-  };
-}
 
-export default async function SeriesPage({ params }: SeriesPageProps) {
-  const { id } = params;
+export default async function SeriesPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
 
   const anime = await getAnimeById(parseInt(id));
 
@@ -159,8 +154,8 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
   );
 }
 
-export async function generateMetadata({ params }: SeriesPageProps) {
-  const { id } = params;
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
 
   const anime = await getAnimeById(parseInt(id));
 
