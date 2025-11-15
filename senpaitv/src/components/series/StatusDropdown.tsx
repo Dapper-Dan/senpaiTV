@@ -72,8 +72,10 @@ export default function StatusDropdown({
 
       const localFromAni = aniToLocal(next);
       addToWatchlist(localAnimeId, localFromAni as any).catch(() => {});
+      try { window.dispatchEvent(new Event('anilist-ok')); } catch {}
     } catch {
       setStatus(prev ?? null);
+      try { window.dispatchEvent(new Event('anilist-error')); } catch {}
     }
   }
 

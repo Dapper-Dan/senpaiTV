@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/header/Header";
-import Footer from "@/components/Footer";
 import QueryProvider from "@/components/providers/QueryProvider";
 import AuthSessionProvider from "@/components/providers/SessionProvider";
+import AniListBanner from "@/components/aniList/AniListBanner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,6 +42,7 @@ export default function RootLayout({
         <QueryProvider>
           <AuthSessionProvider>
             <div className="mx-auto">
+              <AniListBanner />
               {children}
             </div>
           </AuthSessionProvider>

@@ -73,8 +73,10 @@ export default function ScoreInput({ aniListId }: { aniListId: number }) {
       setLoading(true);
       await setAniListScore(token, aniListId, n);
       setOpen(false);
+      try { window.dispatchEvent(new Event('anilist-ok')); } catch {}
     } catch (e: any) {
       setError('Failed to submit score');
+      try { window.dispatchEvent(new Event('anilist-error')); } catch {}
     } finally {
       setLoading(false);
     }

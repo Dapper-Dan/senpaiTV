@@ -24,9 +24,10 @@ export default function AutoSyncWatchlist() {
           .then(() => {
             localStorage.setItem(LAST_SYNC_KEY, String(now));
             router.refresh();
+            try { window.dispatchEvent(new Event('anilist-ok')); } catch {}
           })
           .catch(() => {
-            // ignore
+            try { window.dispatchEvent(new Event('anilist-error')); } catch {}
           });
       }
     } catch {

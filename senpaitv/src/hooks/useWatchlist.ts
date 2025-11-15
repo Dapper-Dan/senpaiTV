@@ -24,8 +24,10 @@ export function useWatchlist(animeId?: string) {
         if (token && animeId) {
           try {
             await setAniListStatus(token, parseInt(animeId), 'PLANNING');
+            try { window.dispatchEvent(new Event('anilist-ok')); } catch {}
           } catch (e) {
             console.warn('AniList set status failed');
+            try { window.dispatchEvent(new Event('anilist-error')); } catch {}
           }
         }
       }

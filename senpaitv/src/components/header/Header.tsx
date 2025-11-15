@@ -90,8 +90,10 @@ export default function Header() {
                   try {
                     await syncAniListWithWatchlist(token);
                     setAnilistConnected(true);
+                    try { window.dispatchEvent(new Event('anilist-ok')); } catch {}
                   } catch (e) {
                     console.error('Sync failed', e);
+                    try { window.dispatchEvent(new Event('anilist-error')); } catch {}
                   }
                 }}
                 className="hover:bg-gray-600 text-xl flex items-center gap-3 cursor-pointer"

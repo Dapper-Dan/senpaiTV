@@ -20,7 +20,9 @@
 .seriesBanner {
     background-repeat: no-repeat;
     background-size: cover;
-    height: 599px;
+    height: 100vh;
+    max-height: 654px;
+    background-position: center;
 }
 
 .seriesBannerOverlay {
