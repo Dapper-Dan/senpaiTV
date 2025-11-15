@@ -6,24 +6,27 @@ import { useState, useRef, useEffect } from "react";
 import { getAniListAuthUrl } from "@/lib/aniList/oauth/oauth";
 import { syncAniListWithWatchlist } from "@/app/actions/aniList";
 import styles from "./header.module.css";
+import { useSession } from "next-auth/react";
+import { buildUserKey, clearTokensForUser } from "@/lib/aniList/client/userToken";
+import { useAniListToken } from "@/lib/aniList/client/useAniListToken";
 
 export default function Header() {
   const { user, isAuthenticated, isLoading, signIn, signOut } = useAuth();
+  const { data: session } = useSession();
+  const { token, userKey, isConnected } = useAniListToken();
   const [isOpen, setIsOpen] = useState(false);
   const [anilistConnected, setAnilistConnected] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('anilist_access_token');
-      setAnilistConnected(!!token);
-      
+      setAnilistConnected(isConnected);
       const params = new URLSearchParams(window.location.search);
       if (params.get('anilist_connected')) {
         setAnilistConnected(true);
       }
     }
-  }, []);
+  }, [session?.user, isConnected]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -74,7 +77,15 @@ export default function Header() {
                 Watchlist
               </Link>
               <button
-                onClick={() => signOut()}
+                onClick={() => {
+                  try {
+                    const key = buildUserKey(session?.user as any);
+                    clearTokensForUser(key);
+                    localStorage.removeItem('anilist_watchlist_last_sync');
+                    setAnilistConnected(false);
+                  } catch {}
+                  signOut();
+                }}
                 className="hover:bg-gray-600 text-xl flex items-center gap-3 cursor-pointer"
               >
                 <img src={"/images/icons/logout.svg"} alt="Sign Out" className={styles.logoutIcon} width={40} height={40} />
@@ -82,7 +93,6 @@ export default function Header() {
               </button>
               <button
                 onClick={async () => {
-                  const token = typeof window !== 'undefined' ? localStorage.getItem('anilist_access_token') : null;
                   if (!token) {
                     window.location.href = getAniListAuthUrl();
                     return;
@@ -98,8 +108,8 @@ export default function Header() {
                 }}
                 className="hover:bg-gray-600 text-xl flex items-center gap-3 cursor-pointer"
               >
-               
-                {anilistConnected ? 'AniList Connected ✓ Sync Now?' : 'Connect AniList'}
+                <Image src={"/images/icons/antenna.svg"} alt="AniList" className="pl-[3px]" width={40} height={45} />
+                {anilistConnected ? 'Anilist: Connected ✓ Sync Now?' : 'Anilist: Not Connected'}
               </button>
             </>
           ) : (

@@ -3,10 +3,13 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { addToWatchlist, removeFromWatchlist, getWatchlistItem } from '@/app/actions/watchlist';
 import { setAniListStatus } from '@/app/actions/aniList';
+import { useAniListToken } from '@/lib/aniList/client/useAniListToken';
+import { emitAniListOk, emitAniListError } from '@/lib/aniList/client/events';
 import { WatchlistStatus } from '@/generated/prisma';
 
 export function useWatchlist(animeId?: string) {
   const queryClient = useQueryClient();
+  const { token } = useAniListToken();
 
   const { data: watchlistItem, isLoading: isLoadingItem } = useQuery({
     queryKey: ['watchlist', animeId],
@@ -20,14 +23,14 @@ export function useWatchlist(animeId?: string) {
       await addToWatchlist(animeId!, status);
 
       if (typeof window !== 'undefined') {
-        const token = localStorage.getItem('anilist_access_token');
-        if (token && animeId) {
+        const t = token;
+        if (t && animeId) {
           try {
-            await setAniListStatus(token, parseInt(animeId), 'PLANNING');
-            try { window.dispatchEvent(new Event('anilist-ok')); } catch {}
+            await setAniListStatus(t, parseInt(animeId), 'PLANNING');
+            emitAniListOk();
           } catch (e) {
             console.warn('AniList set status failed');
-            try { window.dispatchEvent(new Event('anilist-error')); } catch {}
+            emitAniListError();
           }
         }
       }

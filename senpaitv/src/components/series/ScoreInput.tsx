@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { gql, GraphQLClient } from 'graphql-request';
 import { setAniListScore } from '@/app/actions/aniList';
+import { useAniListToken } from '@/lib/aniList/client/useAniListToken';
+import { emitAniListOk, emitAniListError } from '@/lib/aniList/client/events';
 
 async function fetchAniListScore(accessToken: string, mediaId: number): Promise<number | null> {
   const endpoint = 'https://graphql.anilist.co';
@@ -39,6 +41,7 @@ export default function ScoreInput({ aniListId }: { aniListId: number }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement | null>(null);
+  const { token } = useAniListToken();
 
   useEffect(() => {
     function onClickOutside(e: MouseEvent) {
@@ -51,9 +54,9 @@ export default function ScoreInput({ aniListId }: { aniListId: number }) {
   async function openAndPrefill() {
     setOpen((v) => !v);
     if (open) return;
-    const token = localStorage.getItem('anilist_access_token');
-    if (!token) return;
-    const current = await fetchAniListScore(token, aniListId);
+    const t = token;
+    if (!t) return;
+    const current = await fetchAniListScore(t, aniListId);
     if (current !== null) setValue(String(current));
   }
 
@@ -64,19 +67,19 @@ export default function ScoreInput({ aniListId }: { aniListId: number }) {
       setError('Enter a score 0–10');
       return;
     }
-    const token = localStorage.getItem('anilist_access_token');
-    if (!token) {
+    const t = token;
+    if (!t) {
       setError('Connect AniList first');
       return;
     }
     try {
       setLoading(true);
-      await setAniListScore(token, aniListId, n);
+      await setAniListScore(t, aniListId, n);
       setOpen(false);
-      try { window.dispatchEvent(new Event('anilist-ok')); } catch {}
+      emitAniListOk();
     } catch (e: any) {
       setError('Failed to submit score');
-      try { window.dispatchEvent(new Event('anilist-error')); } catch {}
+      emitAniListError();
     } finally {
       setLoading(false);
     }

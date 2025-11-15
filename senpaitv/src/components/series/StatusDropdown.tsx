@@ -5,6 +5,8 @@ import { setAniListStatus } from '@/app/actions/aniList';
 import { addToWatchlist } from '@/app/actions/watchlist';
 import { getAniListEntryStatus, AniListStatus } from '@/lib/aniList/queries/getEntryStatus';
 import styles from './statusDropdown.module.css';
+import { useAniListToken } from '@/lib/aniList/client/useAniListToken';
+import { emitAniListOk, emitAniListError } from '@/lib/aniList/client/events';
 
 type LocalStatus = 'WANT_TO_WATCH' | 'WATCHING' | 'COMPLETED';
 
@@ -33,9 +35,10 @@ export default function StatusDropdown({
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState<AniListStatus | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
+  const { token } = useAniListToken();
 
   useEffect(() => {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('anilist_access_token') : null;
+    const token = typeof window !== 'undefined' ? (token as string | null) : null;
     if (!token) return;
     (async () => {
       const ani = await getAniListEntryStatus(token, aniListId);
@@ -48,7 +51,7 @@ export default function StatusDropdown({
         }
       }
     })();
-  }, [aniListId, initialLocalStatus, localAnimeId]);
+  }, [aniListId, initialLocalStatus, localAnimeId, token]);
 
   useEffect(() => {
     function onClickOutside(e: MouseEvent) {
@@ -64,18 +67,18 @@ export default function StatusDropdown({
     setOpen(false);
     const prev = status;
     setStatus(next);
-    const token = typeof window !== 'undefined' ? localStorage.getItem('anilist_access_token') : null;
+    const t = token;
     try {
-      if (token) {
-        await setAniListStatus(token, aniListId, next);
+      if (t) {
+        await setAniListStatus(t, aniListId, next);
       }
 
       const localFromAni = aniToLocal(next);
       addToWatchlist(localAnimeId, localFromAni as any).catch(() => {});
-      try { window.dispatchEvent(new Event('anilist-ok')); } catch {}
+      emitAniListOk();
     } catch {
       setStatus(prev ?? null);
-      try { window.dispatchEvent(new Event('anilist-error')); } catch {}
+      emitAniListError();
     }
   }
 

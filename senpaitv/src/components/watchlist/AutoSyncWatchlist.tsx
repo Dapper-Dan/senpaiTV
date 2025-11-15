@@ -3,15 +3,16 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { syncAniListWithWatchlist } from '@/app/actions/aniList';
+import { useAniListToken } from '@/lib/aniList/client/useAniListToken';
 
 const TWELVE_HOURS_MS = 12 * 60 * 60 * 1000;
 const LAST_SYNC_KEY = 'anilist_watchlist_last_sync';
 
 export default function AutoSyncWatchlist() {
   const router = useRouter();
+  const { token } = useAniListToken();
 
   useEffect(() => {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('anilist_access_token') : null;
     if (!token) return;
 
     try {
@@ -33,7 +34,7 @@ export default function AutoSyncWatchlist() {
     } catch {
       // ignore
     }
-  }, [router]);
+  }, [router, token]);
 
   return null;
 }
