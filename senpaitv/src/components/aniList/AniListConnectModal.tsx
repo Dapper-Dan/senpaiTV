@@ -32,21 +32,21 @@ export default function AniListConnectModal({
 				<div className="flex justify-end gap-3">
 					<button
 						onClick={onClose}
-						className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-gray-800"
+						className="px-4 py-2 rounded button-secondary"
 					>
 						Cancel
 					</button>
 					{isConnected ? (
 						<button
 							onClick={onSync}
-							className="px-4 py-2 rounded bg-[#171717] hover:bg-[#171717]/80"
+							className="px-4 py-8 rounded button-primary"
 						>
 							Sync Now
 						</button>
 					) : (
 						<button
 							onClick={onConnect}
-							className="px-4 py-2 rounded bg-[#171717] hover:bg-[#171717]/80"
+							className="px-4 py-8 rounded button-primary"
 						>
 							Connect
 						</button>

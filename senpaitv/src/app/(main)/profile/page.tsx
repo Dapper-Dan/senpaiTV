@@ -99,7 +99,7 @@ export default function ProfilePage() {
 						<button
 							type="submit"
 							disabled={loading}
-							className="rounded-lg border border-gray-500 px-6 py-3 uppercase tracking-wide disabled:opacity-50 hover:bg-gray-400/10 hover:shadow-lg hover:shadow-gray-400/20"
+							className="rounded-lg border border-gray-500 px-6 py-3 uppercase tracking-wide disabled:opacity-50 button-primary"
 						>
 							{loading ? 'Saving...' : 'Save Changes'}
 						</button>

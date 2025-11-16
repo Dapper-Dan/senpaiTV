@@ -103,10 +103,10 @@ export default function ScoreInput({ aniListId }: { aniListId: number }) {
           />
           {error && <div className="mt-1 text-xs text-red-600">{error}</div>}
           <div className="mt-2 flex gap-2">
-            <button onClick={submit} disabled={loading} className="px-2 py-1 rounded bg-[#171717] text-sm border border-[#fefefe]">
+            <button onClick={submit} disabled={loading} className="px-2 py-1 rounded text-sm button-primary">
               {loading ? 'Saving...' : 'Save'}
             </button>
-            <button onClick={() => setOpen(false)} className="px-2 py-1 rounded border border-[#171717] bg-[#fefefe] text-[#171717] text-sm">
+            <button onClick={() => setOpen(false)} className="px-2 py-1 rounded button-secondary text-sm">
               Cancel
             </button>
           </div>
