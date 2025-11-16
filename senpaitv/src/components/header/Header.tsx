@@ -19,6 +19,8 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [anilistConnected, setAnilistConnected] = useState(false);
   const [showAniListModal, setShowAniListModal] = useState(false);
+  const [profileName, setProfileName] = useState<string | null>(null);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -30,6 +32,32 @@ export default function Header() {
       }
     }
   }, [session?.user, isConnected]);
+
+  useEffect(() => {
+    let aborted = false;
+    async function fetchUser() {
+      try {
+        const res = await fetch('/api/user/me', { cache: 'no-store' });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (aborted) return;
+        setProfileName(data?.user?.name ?? null);
+        setProfileImage(data?.user?.image ?? null);
+      } catch {}
+    }
+    if (isAuthenticated) {
+      fetchUser();
+    } else {
+      setProfileName(null);
+      setProfileImage(null);
+    }
+    const onProfileUpdated = () => fetchUser();
+    window.addEventListener('profile-updated', onProfileUpdated);
+    return () => {
+      aborted = true;
+      window.removeEventListener('profile-updated', onProfileUpdated);
+    };
+  }, [isAuthenticated]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -62,7 +90,7 @@ export default function Header() {
           onClick={() => setIsOpen(!isOpen)}
           className="hover:bg-gray-100 cursor-pointer"
         >
-          <Image src={user?.image || "/images/senpai_logo.png"} className="profile-icon" alt="profile icon" width={50} height={50} />
+          <Image src={profileImage || user?.image || "/images/senpai_logo.png"} className="profile-icon" alt="profile icon" width={50} height={50} />
         </button>
         <div
           className={`dropdown ${styles.dropdown} ${isOpen ? "flex flex-col" : "hidden"}`}
@@ -70,11 +98,11 @@ export default function Header() {
         >
           {isAuthenticated ? (
             <>
-              <button className="text-3xl flex items-center gap-3 cursor-pointer">
-                <Image src={user?.image || "/images/senpai_logo.png"} className="profile-icon rounded-full" alt="profile icon" width={50} height={50} />
-                {user?.name || user?.email}
+              <Link href="/profile" className="text-3xl flex items-center gap-3 cursor-pointer">
+                <Image src={profileImage || user?.image || "/images/senpai_logo.png"} className="profile-icon rounded-full" alt="profile icon" width={50} height={50} />
+                {profileName || user?.name || user?.email}
                 <img src={"/images/icons/edit.svg"} alt="Edit" width={25} height={25} />
-              </button>
+              </Link>
               <Link href="/watchlist" className="hover:bg-gray-600 text-xl flex items-center gap-3 cursor-pointer">
                 <img src={"/images/icons/favorite.svg"} alt="Watchlist" width={40} height={40} />
                 Watchlist
