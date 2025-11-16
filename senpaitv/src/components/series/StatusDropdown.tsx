@@ -38,7 +38,6 @@ export default function StatusDropdown({
   const { token } = useAniListToken();
 
   useEffect(() => {
-    const token = typeof window !== 'undefined' ? (token as string | null) : null;
     if (!token) return;
     (async () => {
       const ani = await getAniListEntryStatus(token, aniListId);
