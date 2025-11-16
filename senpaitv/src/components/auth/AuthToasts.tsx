@@ -30,8 +30,8 @@ export default function AuthToasts() {
 	if (!msg) return null;
 
 	return (
-		<div className="fixed top-0 left-0 right-0 z-[60]">
-			<div className="mx-auto mt-2 w-fit rounded bg-zinc-800 text-white px-4 py-2 shadow-lg shadow-gray-400/20 border border-[#fefefe]">
+		<div className="fixed top-0 left-0 right-0 z-[60] pointer-events-none">
+			<div className="mx-auto mt-2 w-fit rounded bg-zinc-800 text-white px-4 py-2 shadow-lg shadow-gray-400/20 border border-[#fefefe] pointer-events-auto">
 				{msg}
 			</div>
 		</div>

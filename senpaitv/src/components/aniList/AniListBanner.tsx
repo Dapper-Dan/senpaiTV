@@ -23,7 +23,7 @@ export default function AniListBanner() {
   if (!visible) return null;
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-red-700 text-white text-sm">
+    <div className="fixed top-0 left-0 right-0 z-50 bg-red-700 text-white text-sm pointer-events-none">
       <div className="mx-auto max-w-screen-2xl px-4 py-2 flex items-center justify-center gap-2">
         <span className="opacity-80">The AniList API appears to be experiencing issues. Some features may be temporarily unavailable.</span>
       </div>
