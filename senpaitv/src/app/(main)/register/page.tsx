@@ -31,6 +31,7 @@ export default function RegisterPage() {
         setLoading(false);
         return;
       }
+      try { window.dispatchEvent(new CustomEvent('auth-pending', { detail: 'signin' })); } catch {}
       const signInRes = await signIn('credentials', {
         email,
         password,

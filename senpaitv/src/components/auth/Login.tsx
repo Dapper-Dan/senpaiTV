@@ -29,6 +29,7 @@ export default function Login() {
     setError(null);
     setLoading(true);
     try {
+      try { window.dispatchEvent(new CustomEvent('auth-pending', { detail: 'signin' })); } catch {}
       const res = await signIn('credentials', {
         email,
         password,
@@ -85,7 +86,10 @@ export default function Login() {
         </form>
         <div className="mt-2 space-y-6 justify-center flex">
           <button
-            onClick={() => signIn('google')}
+            onClick={() => {
+              try { window.dispatchEvent(new CustomEvent('auth-pending', { detail: 'signin' })); } catch {}
+              signIn('google');
+            }}
             className="hover:bg-gray-600 flex items-center justify-center p-4 border border-[#fefefe] rounded-lg"
           >
             <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">

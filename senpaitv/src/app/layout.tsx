@@ -4,6 +4,7 @@ import "./globals.css";
 import QueryProvider from "@/components/providers/QueryProvider";
 import AuthSessionProvider from "@/components/providers/SessionProvider";
 import AniListBanner from "@/components/aniList/AniListBanner";
+import AuthToasts from "@/components/auth/AuthToasts";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,6 +44,7 @@ export default function RootLayout({
           <AuthSessionProvider>
             <div className="mx-auto">
               <AniListBanner />
+              <AuthToasts />
               {children}
             </div>
           </AuthSessionProvider>
