@@ -3,9 +3,13 @@
     top: 65px;
     right: 0;
     background-color: #171717;
-    padding: 24px 32px;
+    padding: 24px 0;
     z-index: 9;
     gap: 24px;
+
+    button, a {
+        padding: 0 32px;
+    }
 }
 
 .logoutIcon {

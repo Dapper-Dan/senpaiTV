@@ -8,6 +8,10 @@ export default function Login() {
   const params = useSearchParams();
   const router = useRouter();
   const [showToast, setShowToast] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (status === 'authenticated') {
@@ -20,18 +24,66 @@ export default function Login() {
     }
   }, [status, params, router]);
 
+  async function handleCredentialsSignIn(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+    try {
+      const res = await signIn('credentials', {
+        email,
+        password,
+        redirect: true,
+        callbackUrl: '/',
+      });
+      if (!res) {
+        setLoading(false);
+      }
+    } catch {
+      setError('Sign in failed');
+      setLoading(false);
+    }
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="max-w-md w-full space-y-8">
+      <div className="w-full max-w-md space-y-10">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold">
+          <h2 className="mt-6 text-center text-4xl font-bold">
             Sign in to SenpaiTV
           </h2>
           <p className="mt-2 text-center text-sm text-gray-300">
             Access your personalized anime library
           </p>
         </div>
-        <div className="mt-8 space-y-6 justify-center flex">
+        <form onSubmit={handleCredentialsSignIn} className="flex flex-col gap-8">
+          <div className="flex flex-col gap-2">
+            <label className="text-2xl font-semibold">Email Address</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full bg-transparent border-b border-gray-600 focus:outline-none focus:border-white py-3 text-white placeholder-gray-500"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-2xl font-semibold">Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full bg-transparent border-b border-gray-600 focus:outline-none focus:border-white py-3 text-white placeholder-gray-500"
+            />
+          </div>
+          {error && <div className="text-red-500 text-sm">{error}</div>}
+          <button
+            type="submit"
+            disabled={loading || !email || !password}
+            className="w-full rounded-lg border border-gray-500 px-6 py-4 uppercase tracking-wide disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-400/10 hover:shadow-lg hover:shadow-gray-400/20"
+          >
+            {loading ? 'Signing in...' : 'Sign in'}
+          </button>
+        </form>
+        <div className="mt-2 space-y-6 justify-center flex">
           <button
             onClick={() => signIn('google')}
             className="hover:bg-gray-600 flex items-center justify-center p-4 border border-[#fefefe] rounded-lg"
