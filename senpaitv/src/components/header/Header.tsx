@@ -127,7 +127,7 @@ export default function Header() {
             </>
           ) : (
             <>
-              <Link href="/" className="hover:bg-gray-600 text-xl flex items-center gap-3 cursor-pointer">
+              <Link href="/register" className="hover:bg-gray-600 text-xl flex items-center gap-3 cursor-pointer">
                 <img src={"/images/icons/create-account.svg"} alt="Create Account" width={40} height={40} />
                 Create Account
               </Link>
