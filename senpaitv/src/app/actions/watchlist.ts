@@ -3,7 +3,7 @@
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth/options';
 import { prisma } from '@/lib/prisma';
-import { WatchlistStatus } from '@/generated/prisma';
+import { WatchlistStatus } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 import { getOrCreateUser } from './user';
 

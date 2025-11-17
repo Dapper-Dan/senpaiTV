@@ -5,7 +5,7 @@ import { addToWatchlist, removeFromWatchlist, getWatchlistItem } from '@/app/act
 import { setAniListStatus } from '@/app/actions/aniList';
 import { useAniListToken } from '@/lib/aniList/client/useAniListToken';
 import { emitAniListOk, emitAniListError } from '@/lib/aniList/client/events';
-import { WatchlistStatus } from '@/generated/prisma';
+import { WatchlistStatus } from '@prisma/client';
 
 export function useWatchlist(animeId?: string) {
   const queryClient = useQueryClient();

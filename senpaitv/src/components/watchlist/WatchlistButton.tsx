@@ -1,7 +1,7 @@
 'use client';
 
 import { useWatchlist } from '@/hooks/useWatchlist';
-import { WatchlistStatus } from '@/generated/prisma';
+import { WatchlistStatus } from '@prisma/client';
 import styles from '@/components/tile/tile.module.css';
 
 interface WatchlistButtonProps {
