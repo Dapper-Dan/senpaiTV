@@ -42,7 +42,7 @@ export default function RootLayout({
       >
         <QueryProvider>
           <AuthSessionProvider>
-            <div className="mx-auto">
+            <div className="mx-auto min-h-screen flex flex-col">
               <AniListBanner />
               <AuthToasts />
               {children}
