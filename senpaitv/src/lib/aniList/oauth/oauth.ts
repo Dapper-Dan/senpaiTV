@@ -8,6 +8,7 @@ const ANILIST_TOKEN_URL = 'https://anilist.co/api/v2/oauth/token';
 const CLIENT_ID = process.env.NEXT_PUBLIC_ANI_CLIENT_ID!;
 const CLIENT_SECRET = process.env.ANI_CLIENT_SECRET!;
 const REDIRECT_URI = process.env.NEXT_PUBLIC_ANI_REDIRECT_URI!;
+console.log("Redirect URI in prod:", REDIRECT_URI);
 
 export function getAniListAuthUrl() {
   const params = new URLSearchParams({
