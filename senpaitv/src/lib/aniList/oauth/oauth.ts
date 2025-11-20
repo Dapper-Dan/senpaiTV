@@ -8,7 +8,6 @@ const ANILIST_TOKEN_URL = 'https://anilist.co/api/v2/oauth/token';
 const CLIENT_ID = process.env.NEXT_PUBLIC_ANI_CLIENT_ID!;
 const CLIENT_SECRET = process.env.ANI_CLIENT_SECRET!;
 const REDIRECT_URI = process.env.NEXT_PUBLIC_ANI_REDIRECT_URI!;
-console.log("Redirect URI in prod:", REDIRECT_URI);
 
 export function getAniListAuthUrl() {
   const params = new URLSearchParams({
@@ -19,7 +18,7 @@ export function getAniListAuthUrl() {
   return `${ANILIST_AUTH_URL}?${params.toString()}`;
 }
 
-export async function exchangeCodeForToken(code: string) {  
+export async function exchangeCodeForToken(code: string) {
   const requestBody = {
     grant_type: 'authorization_code',
     client_id: CLIENT_ID,
@@ -27,11 +26,11 @@ export async function exchangeCodeForToken(code: string) {
     redirect_uri: REDIRECT_URI,
     code,
   };
-  
+
   const response = await fetch(ANILIST_TOKEN_URL, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
       'Accept': 'application/json'
     },
     body: JSON.stringify(requestBody)
