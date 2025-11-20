@@ -19,13 +19,13 @@ export function getAniListAuthUrl() {
 }
 
 export async function exchangeCodeForToken(code: string) {
-  const requestBody = {
+  const params = new URLSearchParams({
     grant_type: 'authorization_code',
     client_id: CLIENT_ID,
     client_secret: CLIENT_SECRET,
     redirect_uri: REDIRECT_URI,
     code,
-  };
+  });
 
   const response = await fetch(ANILIST_TOKEN_URL, {
     method: 'POST',
@@ -33,7 +33,7 @@ export async function exchangeCodeForToken(code: string) {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Accept': 'application/json'
     },
-    body: JSON.stringify(requestBody)
+    body: params.toString()
   });
 
   if (!response.ok) {
@@ -41,6 +41,6 @@ export async function exchangeCodeForToken(code: string) {
     console.error('Full error response:', errorText);
     throw new Error(`Token exchange failed: ${response.status} - ${errorText}`);
   }
-
+  
   return response.json();
 }
