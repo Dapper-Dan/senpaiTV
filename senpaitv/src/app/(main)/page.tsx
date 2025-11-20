@@ -41,9 +41,9 @@ export default async function Home() {
       <main className="flex flex-col">
         <div className={styles.homeBanner}>
           <Image className="" src={"/images/bleach2.jpeg"} alt="Solo Leveling Hero" width={5000} height={1000} style={{ width: "100%", height: "100%" }} />
-          <div className="absolute absolute top-[35%] left-[50px]">
-            <Image src={"/images/bleach-title.svg"} className="" alt="Bleach" width={500} height={500} />
-            <a href="series/116674" className="bg-[#171717] text-[#fefefe] px-6 py-4 rounded-md font-bold ml-4 mt-3 flex w-fit relative z-10">Go to Series</a>
+          <div className="absolute absolute top-[25%] xl:top-[35%] left-[21px] md:left-[21px]">
+            <Image src={"/images/bleach-title.svg"} className={styles.bleachTitle} alt="Bleach" width={500} height={500} />
+            <a href="series/116674" className="bg-[#171717] text-[#fefefe] px-6 py-4 rounded-md font-bold ml-3 mt-3 flex w-fit relative z-10">Go to Series</a>
           </div>
         </div>
         <TileCarousel anime={rankedMedia} title="Top Ranked" />
