@@ -89,7 +89,7 @@ export default function StatusDropdown({
         onClick={() => setOpen((v) => !v)}
         className={styles.dropdownButton + ' list-none cursor-pointer select-none flex items-center gap-2'}
       >
-        <div className="text-lg font-semibold">{toLabel((status ?? initialLocalStatus) ?? null)}</div>
+        <div className="text-sm md:text-lg font-semibold">{toLabel((status ?? initialLocalStatus) ?? null)}</div>
         <img
           src={"/images/icons/chevron-down.svg"}
           alt="Toggle"

@@ -53,7 +53,7 @@ export default function EpisodesList({ episodes, animeId, externalLinks, aniList
             }
           }}
         >
-          <span className="text-3xl text-gray-400 font-bold content-center">{index + 1}</span>
+          <span className="text-lg md:text-3xl text-gray-400 font-bold content-center">{index + 1}</span>
           <div className={styles.episodeThumbnailContainer}>
             <Image src={episode.thumbnail} className={styles.episodeThumbnail} alt={episode.title} width={200} height={150} />
             <button 
@@ -80,7 +80,7 @@ export default function EpisodesList({ episodes, animeId, externalLinks, aniList
               </div>
             )}
             {episodeDetails.get(index)?.synopsis ? (
-              <p className="text-gray-200 mt-2">
+              <p className="text-sm md:text-base text-gray-200 mt-2">
                 {episodeDetails.get(index)?.synopsis.replace(/\s*\(Source:.*?\)$/i, '')}
               </p>
             ) : !loadingEpisodes.has(index) && (

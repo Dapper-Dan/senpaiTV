@@ -58,7 +58,7 @@ export default async function SeriesPage({ params }: { params: Promise<{ id: str
         {!trailerLink && <div className={styles.seriesBanner} style={{ backgroundImage: `url(${bannerImage})` }}></div>}
         <div className={styles.seriesBannerOverlay}></div>
       </div>
-      <div className={styles.seriesContent + ' px-8'}>
+      <div className={styles.seriesContent + ' px-2 md:px-8'}>
         <div className="flex items-end">
           <div className="flex-1 mb-12">
             <h1 className="text-5xl font-bold mb-4">
@@ -74,27 +74,27 @@ export default async function SeriesPage({ params }: { params: Promise<{ id: str
                 </span>
               ))}
             </div>
-            <div className="flex items-center gap-6 mb-6">
+            <div className="flex items-center gap-6 mb-2 md:mb-6">
               <div className="flex items-center gap-2">
-                <span className="text-xl font-bold">
+                <span className="md:text-xl font-bold">
                   {formattedScore} ★
                 </span>
-                <span className="">
+                <span className="text-sm md:text-base">
                   ({usersSubmitted?.toLocaleString()} users)
                 </span>
                 <ScoreInput aniListId={anime.id} />
               </div>
               {episodes && (
-                <span className="text-lg">
+                <span className="text-sm md:text-lg">
                   {episodes} episodes
                 </span>
               )}
               {duration && (
-                <span className="text-lg">
+                <span className="text-sm md:text-lg">
                   {duration} min/ep
                 </span>
               )}
-              <div className="flex gap-3">
+              <div className="gap-3 flex">
                 {externalLinks.map((link: any) => {
                   if (streamingAppImages[link.site] && !seenSites.has(link.site)) {
                     seenSites.add(link.site);
@@ -104,17 +104,26 @@ export default async function SeriesPage({ params }: { params: Promise<{ id: str
                   }
                 })}
               </div>
+              <div className="hidden md:block">
+                <StatusDropdown
+                  aniListId={anime.id}
+                  localAnimeId={id}
+                  initialLocalStatus={watchlistItem?.status as any}
+                />
+              </div>
+            </div>
+            <div className="block md:hidden mt-2 mb-6">
               <StatusDropdown
                 aniListId={anime.id}
                 localAnimeId={id}
                 initialLocalStatus={watchlistItem?.status as any}
               />
             </div>
-            <div className="flex justify-between">
-              <p className="leading-relaxed max-w-4/7">
+            <div className="flex justify-between flex-col md:flex-row">
+              <p className="leading-relaxed md:max-w-4/7">
                 {cleanDescription.replace(/\s*\(Source:.*?\)$/i, '')}
               </p>
-              <div className={"grid grid-cols-2 gap-4 " + styles.seriesDetails}>
+              <div className={"grid mt-6 md:mt-0 grid-cols-2 gap-4 " + styles.seriesDetails}>
                 {status && (
                   <div>
                     <span className="text-gray-400">Status:</span>

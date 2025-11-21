@@ -1,5 +1,9 @@
 .dropdownButton {
     border: 1px solid #fefefe;
-    padding: 12px;
+    padding: 10px;
     border-radius: 5px;
+
+    @media (min-width: 768px) {
+        padding: 12px;
+    }
 }
