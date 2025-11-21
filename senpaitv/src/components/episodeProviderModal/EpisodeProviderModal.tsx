@@ -31,11 +31,16 @@ export default function EpisodeProviderModal({
   const [loginModalProvider, setLoginModalProvider] = useState<Provider | null>(null);
   const router = useRouter();
 
-  const availableProviders = useMemo(() => (
-    externalLinks
-      .filter(link => ['Netflix', 'Hulu', 'Crunchyroll'].includes(link.site))
-      .map(link => link.site)
-  ), [externalLinks]);
+  const availableProviders = useMemo(() => {
+    const allowed = new Set(['Netflix', 'Hulu', 'Crunchyroll']);
+    const unique = new Set<string>();
+  
+    for (const link of externalLinks ?? []) {
+      const site = link.site;
+      if (allowed.has(site)) unique.add(site);
+    }
+    return Array.from(unique);
+  }, [externalLinks]);
 
   const buildPlayerUrl = () => {
     if (typeof window !== 'undefined') {
