@@ -26,7 +26,7 @@ export default function Footer() {
               <Link className="text-gray-400 hover:text-foreground" href="https://www.linkedin.com/in/daniel-r-lancaster/" target="_blank">LinkedIn</Link>
             </li>
             <li>
-              <Link className="text-gray-400 hover:text-foreground" href="" target="_blank">Portfolio</Link>
+              <Link className="text-gray-400 hover:text-foreground" href="https://www.daniellancaster.dev/" target="_blank">Portfolio</Link>
             </li>
           </ul>
         </div>
