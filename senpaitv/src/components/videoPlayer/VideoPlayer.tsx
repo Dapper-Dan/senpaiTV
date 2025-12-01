@@ -97,7 +97,7 @@ export default function VideoPlayer({
       <div className="relative bg-black min-h-0">
         <video
           ref={videoRef}
-          className="w-full"
+          className="w-full h-screen"
           src={src}
           autoPlay
           playsInline

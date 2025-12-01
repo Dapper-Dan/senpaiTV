@@ -49,7 +49,7 @@ export default function EpisodeProviderModal({
 
     const params = new URLSearchParams({
       title: episodeTitle,
-      src: '/videos/rick-kun.mp4',
+      src: 'https://vz-d0631773-acd.b-cdn.net/cdf27bf6-0ed1-4f75-9b85-65ce63de7b32/playlist.m3u8',
       animeId: animeId.toString(),
       aniListId: aniListId.toString(),
       episodeNumber: episodeNumber.toString(),
