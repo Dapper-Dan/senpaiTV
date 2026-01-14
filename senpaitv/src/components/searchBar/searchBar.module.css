@@ -12,12 +12,16 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    width: 50%;
+    width: 90%;
     margin: auto;
     border-bottom: 1px solid white;
 
     &:focus-within {
         border-color: purple;
+    }
+
+    @media (min-width: 1024px) {
+        width: 50%;
     }
 }
 

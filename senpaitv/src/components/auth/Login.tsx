@@ -47,7 +47,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-md space-y-10">
+      <div className="w-full max-w-md space-y-10 px-6 md:px-0">
         <div>
           <h2 className="mt-6 text-center text-4xl font-bold">
             Sign in to SenpaiTV

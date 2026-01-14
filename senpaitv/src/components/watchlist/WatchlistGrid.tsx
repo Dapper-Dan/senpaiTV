@@ -66,6 +66,7 @@ export default function WatchlistGrid({ anime }: WatchlistGridProps) {
         <Tile
           key={item.id}
           anime={item}
+          watchlistGrid={true}
           isActive={activeTileId === item.id}
           onActivate={handleTileHover}
           onDeactivate={handleTileLeave}

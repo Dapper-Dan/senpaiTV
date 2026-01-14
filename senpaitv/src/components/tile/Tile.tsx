@@ -11,6 +11,7 @@ interface TileProps {
   onActivate: (id: string, rect: DOMRect) => void;
   onDeactivate: () => void;
   tileWidth: number;
+  watchlistGrid?: boolean;
 }
 
 const streamingAppImages: any = {
@@ -19,7 +20,7 @@ const streamingAppImages: any = {
   "Netflix": "/images/icons/netflix-logo.png",
 }
 
-export default function Tile({ anime, isActive, onActivate, onDeactivate, tileWidth }: TileProps) {
+export default function Tile({ anime, isActive, onActivate, onDeactivate, tileWidth, watchlistGrid }: TileProps) {
   const { coverImage, title, genres, averageScore, bannerImage, stats, description, trailer, externalLinks } = anime;
   const formattedScore = averageScore ? `${(averageScore / 10).toFixed(1)}` : "N/A";
   const usersSubmitted = stats?.scoreDistribution.reduce((acc: number, curr: { amount: number }) => acc + curr.amount, 0);
@@ -104,7 +105,7 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, tileWi
 
   return (
     <>
-      <div className={styles.tile} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <div className={styles.tile + ' ' + (watchlistGrid ? styles.watchlistGrid : '')} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
         <Link href={`/series/${anime.id}`}>
           <Image className={styles.image} src={coverImage.extraLarge} alt={title.english || 'anime image'} width={280} height={420} />
         </Link>
