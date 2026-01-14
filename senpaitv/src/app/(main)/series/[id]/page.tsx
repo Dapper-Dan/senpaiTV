@@ -94,7 +94,7 @@ export default async function SeriesPage({ params }: { params: Promise<{ id: str
                   {duration} min/ep
                 </span>
               )}
-              <div className="gap-3 flex">
+              <div className="gap-3 hidden md:flex">
                 {externalLinks.map((link: any) => {
                   if (streamingAppImages[link.site] && !seenSites.has(link.site)) {
                     seenSites.add(link.site);
