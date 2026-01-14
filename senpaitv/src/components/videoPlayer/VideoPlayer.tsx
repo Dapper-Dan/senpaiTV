@@ -185,7 +185,7 @@ export default function VideoPlayer({
               </button>
             </div>
             {title && (
-              <div className="absolute left-1/2 -translate-x-1/2 text-2xl font-bold whitespace-nowrap">
+              <div className="absolute left-1/2 -translate-x-1/2 text-2xl font-bold whitespace-nowrap hidden md:block">
                 {title}
               </div>
             )}

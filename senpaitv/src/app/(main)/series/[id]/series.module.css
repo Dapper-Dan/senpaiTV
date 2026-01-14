@@ -8,7 +8,7 @@
     width: 100%;
     margin: auto;
     aspect-ratio: 16/9;
-    max-width: 88%;
+    max-width: 100%;
     will-change: transform;
     pointer-events: none;
     bottom: 60px;
@@ -42,7 +42,10 @@
 .seriesContent {
     z-index: 9;
     position: relative;
-    top: -93px;
+
+    @media (min-width: 1024px) {
+        top: -93px;
+    }
 }
 
 .seriesDetails {
@@ -68,9 +71,11 @@
 .episodeThumbnail {
     height: unset;
     min-width: 175px;
+    width: 175px;
 
     @media (min-width: 768px) {
         min-width: 250px;
+        width: 250px;
     }
 }
 

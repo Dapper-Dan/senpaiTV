@@ -61,7 +61,7 @@ export default async function SeriesPage({ params }: { params: Promise<{ id: str
       <div className={styles.seriesContent + ' px-2 md:px-8'}>
         <div className="flex items-end">
           <div className="flex-1 mb-12">
-            <h1 className="text-5xl font-bold mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
               {title.english || title.romaji}
             </h1>
             <div className="flex flex-wrap gap-4 mb-6">

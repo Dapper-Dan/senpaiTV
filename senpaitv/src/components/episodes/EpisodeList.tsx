@@ -65,7 +65,7 @@ export default function EpisodesList({ episodes, animeId, externalLinks, aniList
           </div>
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-3">
-              <h2 className="text-2xl font-bold">{episode.title.replace(/^Episode \d+ - /, '')}</h2>
+              <h2 className="text-xl md:text-2xl font-bold">{episode.title.replace(/^Episode \d+ - /, '')}</h2>
               {watchedMap[String(index + 1)] && (
                 <span className="px-2 py-0.5 text-xs font-semibold rounded bg-green-600/20 text-green-400">
                   Watched
@@ -80,11 +80,11 @@ export default function EpisodesList({ episodes, animeId, externalLinks, aniList
               </div>
             )}
             {episodeDetails.get(index)?.synopsis ? (
-              <p className="text-sm md:text-base text-gray-200 mt-2">
+              <p className="text-sm md:text-base text-gray-200 mt-2 hidden md:block">
                 {episodeDetails.get(index)?.synopsis.replace(/\s*\(Source:.*?\)$/i, '')}
               </p>
             ) : !loadingEpisodes.has(index) && (
-              <p className="text-gray-400 italic mt-2">Synopsis not available</p>
+              <p className="text-gray-400 italic mt-2 hidden md:block">Synopsis not available</p>
             )}
           </div>
         </div>
