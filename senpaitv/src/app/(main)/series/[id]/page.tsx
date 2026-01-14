@@ -90,7 +90,7 @@ export default async function SeriesPage({ params }: { params: Promise<{ id: str
                 </span>
               )}
               {duration && (
-                <span className="text-sm md:text-lg">
+                <span className="text-sm md:text-lg hidden md:block">
                   {duration} min/ep
                 </span>
               )}

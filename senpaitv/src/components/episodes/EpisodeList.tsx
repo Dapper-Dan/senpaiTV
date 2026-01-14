@@ -64,10 +64,10 @@ export default function EpisodesList({ episodes, animeId, externalLinks, aniList
             </button>
           </div>
           <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-3">
+            <div className="flex md:items-center gap-3 flex-col md:flex-row">
               <h2 className="text-xl md:text-2xl font-bold">{episode.title.replace(/^Episode \d+ - /, '')}</h2>
               {watchedMap[String(index + 1)] && (
-                <span className="px-2 py-0.5 text-xs font-semibold rounded bg-green-600/20 text-green-400">
+                <span className="px-2 py-0.5 text-xs font-semibold rounded bg-green-600/20 text-green-400 text-center">
                   Watched
                 </span>
               )}
