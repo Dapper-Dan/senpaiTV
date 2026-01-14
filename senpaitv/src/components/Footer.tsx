@@ -3,8 +3,8 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-light-black pt-8 px-[100px] flex flex-col">
-      <div className="container flex gap-20">
+    <footer className="bg-light-black pt-8 px-[32px] lg:px-[100px] flex flex-col">
+      <div className="container flex flex-col lg:flex-row gap-8 lg:gap-20">
         <div className="container flex flex-col gap-4 max-w-sm">
           <div className="flex items-center gap-4">
             <Image src="/images/senpai_logo.png" alt="SenpaiTV" width={70} height={70} />
@@ -48,13 +48,6 @@ export default function Footer() {
               <Link className="text-gray-400 hover:text-foreground" href="mailto:daniel.ray.lancaster@gmail.com">Email</Link>
             </li>
           </ul>
-        </div>
-        <div className="ml-auto pt-4">
-          <div className="text-gray-400 text-lg flex items-center">
-            <span className="mr-2">Made with love</span>
-            <Image src="/images/love-japan.png" alt="Love Japan Image" width={40} height={40} />
-          </div>
-          <span className="text-gray-400 text-lg">I hope you enjoy using SenpaiTV!</span>
         </div>
       </div>
       <div className="text-center text-gray-400 text-sm pt-20">

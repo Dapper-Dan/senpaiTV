@@ -71,9 +71,9 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="flex items-center gap-6 px-8 py-2 bg-light-black">
-      <Image src={"/images/senpai_logo.png"} className="profile-icon" alt="senpaitv logo" width={50} height={50} />
-      <h1 className="text-2xl md:text-3xl font-bold">SenpaiTV</h1>
+    <header className="flex items-center gap-6 px-4 md:px-8 py-2 bg-light-black">
+      <Image src={"/images/senpai_logo.png"} className="profile-icon " alt="senpaitv logo" width={50} height={50} />
+      <h1 className="text-2xl md:text-3xl font-bold hidden md:block">SenpaiTV</h1>
       <ul className="flex gap-4">
         <li className="hover:text-gray-400">
           <Link href="/">Browse</Link>

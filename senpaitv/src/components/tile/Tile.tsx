@@ -26,8 +26,13 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, tileWi
 
   const [tileRect, setTileRect] = useState<DOMRect | null>(null);
   const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
+  const canHover =
+    typeof window !== 'undefined' &&
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   const handleMouseEnter = (e: React.MouseEvent) => {
+    if (!canHover) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
     const scrollY = window.pageYOffset || document.documentElement.scrollTop;
@@ -57,6 +62,7 @@ export default function Tile({ anime, isActive, onActivate, onDeactivate, tileWi
   };
 
   const handleMouseLeave = () => {
+    if (!canHover) return;
     if (hoverTimeout) {
       clearTimeout(hoverTimeout);
       setHoverTimeout(null);

@@ -65,15 +65,23 @@ export default function TileCarousel({ anime, title }: { anime: any, title: stri
     <Swiper
       className={styles.swiper}
       slidesPerView={'auto'}
+      slidesPerGroupAuto={true}
       allowTouchMove={true}
       spaceBetween={16}
       navigation
       onSwiper={handleSwiperInit}
       modules={[Navigation]}
-      centeredSlides={true}
-      centeredSlidesBounds={true}
+      centeredSlides={false}
+      centeredSlidesBounds={false}
       watchSlidesProgress={true}
       initialSlide={0}
+      breakpoints={{
+        764: {
+          slidesPerGroupAuto: false,
+          centeredSlides: true,
+          centeredSlidesBounds: true,
+        },
+      }}
     >
       {anime?.map((media: any) => (
         <SwiperSlide className={styles.swiperSlide} key={media.id}>

@@ -5,6 +5,10 @@
 
 .tile {
     aspect-ratio: 2/3;
+
+    @media (min-width: 768px) {
+        aspect-ratio: unset;
+    }
 }
 
 .image {
